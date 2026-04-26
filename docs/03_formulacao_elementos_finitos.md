@@ -81,19 +81,13 @@ Aqui, $x_k$ e $y_k$, com $k = 1, 2, 3$, são as coordenadas cartesianas dos pont
 As componentes transversais $\phi_x$, isto é, $E_x$ ou $H_x$, e $\phi_y$, isto é, $E_y$ ou $H_y$, são aproximadas por uma função linear de $y$ e de $x$, respectivamente:
 
 $$
-\phi_x =
-\{U(y)\}^T\{\phi_t\}_e
-=
-\{U\}^T\{\phi_t\}_e
+\phi_x = \{U(y)\}^T\{\phi_t\}_e = \{U\}^T\{\phi_t\}_e
 $$
 
 **Equação (13)**
 
 $$
-\phi_y =
-\{V(x)\}^T\{\phi_t\}_e
-=
-\{V\}^T\{\phi_t\}_e
+\phi_y = \{V(x)\}^T\{\phi_t\}_e = \{V\}^T\{\phi_t\}_e
 $$
 
 **Equação (14)**
@@ -101,9 +95,7 @@ $$
 com:
 
 $$
-\{U\}
-=
-\begin{bmatrix}
+\{U\} = \begin{bmatrix}
 \bar{a}_1 + \bar{c}_1 y \\
 \bar{a}_2 + \bar{c}_2 y \\
 \bar{a}_3 + \bar{c}_3 y
@@ -115,9 +107,7 @@ $$
 e:
 
 $$
-\{V\}
-=
-\begin{bmatrix}
+\{V\} = \begin{bmatrix}
 \bar{b}_1 - \bar{c}_1 x \\
 \bar{b}_2 - \bar{c}_2 x \\
 \bar{b}_3 - \bar{c}_3 x
@@ -129,19 +119,15 @@ $$
 em que $\{\phi_t\}_e$ representa as variáveis de aresta no plano transversal para cada elemento. Os vetores $\{U\}$ e $\{V\}$ são os vetores de funções de forma do elemento de aresta triangular, e os coeficientes $\bar{a}_k$, $\bar{b}_k$ e $\bar{c}_k$ são dados por:
 
 $$
-\bar{a}_k =
-\frac{
+\bar{a}_k = \frac{
 \left[
 \left(
-y_{m+3}\cos\theta_{m+3}
--
+y_{m+3}\cos\theta_{m+3} -
 x_{m+3}\sin\theta_{m+3}
 \right)
-\sin\theta_{l+3}
--
+\sin\theta_{l+3} -
 \left(
-y_{l+3}\cos\theta_{l+3}
--
+y_{l+3}\cos\theta_{l+3} -
 x_{l+3}\sin\theta_{l+3}
 \right)
 \sin\theta_{m+3}
@@ -156,15 +142,12 @@ $$
 \frac{
 \left[
 \left(
-y_{l+3}\cos\theta_{l+3}
--
+y_{l+3}\cos\theta_{l+3} -
 x_{l+3}\sin\theta_{l+3}
 \right)
-\cos\theta_{m+3}
--
+\cos\theta_{m+3} -
 \left(
-y_{m+3}\cos\theta_{m+3}
--
+y_{m+3}\cos\theta_{m+3} -
 x_{m+3}\sin\theta_{m+3}
 \right)
 \cos\theta_{l+3}
@@ -175,10 +158,8 @@ $$
 **Equação (18)**
 
 $$
-\bar{c}_k =
-\frac{
-\cos\theta_{l+3}\sin\theta_{m+3}
--
+\bar{c}_k = \frac{
+\cos\theta_{l+3}\sin\theta_{m+3} -
 \cos\theta_{m+3}\sin\theta_{l+3}
 }{\Delta}
 $$
@@ -188,13 +169,11 @@ $$
 com:
 
 $$
-0 \leq \theta_{k+3}
-=
+0 \leq \theta_{k+3} =
 \tan^{-1}
 \left\{
 \frac{y_k - y_l}{x_k - x_l}
-\right\}
-< \pi
+\right\} < \pi
 $$
 
 **Equação (20)**
@@ -202,17 +181,14 @@ $$
 e:
 
 $$
-\Delta
-=
+\Delta =
 \sum_{k=1}^{3}
 \left(
-y_{k+3}\cos\theta_{k+3}
--
+y_{k+3}\cos\theta_{k+3} -
 x_{k+3}\sin\theta_{k+3}
 \right)
 \left(
-\cos\theta_{l+3}\sin\theta_{m+3}
--
+\cos\theta_{l+3}\sin\theta_{m+3} -
 \cos\theta_{m+3}\sin\theta_{l+3}
 \right)
 $$
@@ -224,10 +200,8 @@ Aqui, $x_{k+3}$ e $y_{k+3}$, com $k = 1, 2, 3$, são as coordenadas cartesianas 
 Observe que a componente tangencial,
 
 $$
-\phi_t
-=
-\phi_x \cos\theta
-+
+\phi_t = 
+\phi_x \cos\theta +
 \phi_y \sin\theta
 $$
 
@@ -238,9 +212,7 @@ $$
 Dividindo-se a seção transversal do guia de onda em um número de elementos de aresta, expandem-se as componentes transversais $\phi_x$, $\phi_y$ e a componente axial $\phi_z$ em cada elemento como:
 
 $$
-\phi
-=
-[N]^T\{\phi\}_e
+\phi = [N]^T\{\phi\}_e
 $$
 
 **Equação (22)**
@@ -248,9 +220,7 @@ $$
 com:
 
 $$
-\{\phi\}_e
-=
-\begin{bmatrix}
+\{\phi\}_e = \begin{bmatrix}
 \{\phi_t\}_e \\
 \{\phi_z\}_e
 \end{bmatrix}
@@ -261,9 +231,7 @@ $$
 e:
 
 $$
-[N]
-=
-\begin{bmatrix}
+[N] = \begin{bmatrix}
 \{U\} & \{V\} & \{0\} \\
 \{0\} & \{0\} & j\{N\}
 \end{bmatrix}
@@ -276,11 +244,7 @@ em que $\{0\}$ é um vetor nulo.
 Substituindo a Equação (22) na Equação (6), a partir do princípio variacional obtém-se o seguinte problema de autovalores:
 
 $$
-[K]\{\phi\}
--
-k_0^2[M]\{\phi\}
-=
-\{0\}
+[K]\{\phi\} - k_0^2[M]\{\phi\} = \{0\}
 $$
 
 **Equação (25)**
@@ -288,17 +252,14 @@ $$
 com:
 
 $$
-[K]
-=
-\begin{bmatrix}
+[K] = \begin{bmatrix}
 [K_{tt}] & [K_{tz}] \\
 [K_{zt}] & [K_{zz}]
-\end{bmatrix}
-=
+\end{bmatrix} =
 \sum_e
 \iint_e
 [B]^{*}[p][B]^T
-\,dx\,dy
+dxdy
 $$
 
 **Equação (26)**
@@ -306,17 +267,15 @@ $$
 e:
 
 $$
-[M]
-=
+[M] =
 \begin{bmatrix}
 [M_{tt}] & [0] \\
 [0] & [M_{zz}]
-\end{bmatrix}
-=
+\end{bmatrix} =
 \sum_e
 \iint_e
 [N]^{*}[q][N]^T
-\,dx\,dy
+dxdy
 $$
 
 **Equação (27)**
@@ -324,8 +283,7 @@ $$
 A matriz $[B]$ é dada por:
 
 $$
-[B]
-=
+[B] =
 \begin{bmatrix}
 j\beta\{V\} & -j\beta\{U\} & -\{U_y\}+\{V_x\} \\
 j\{N_x\} & j\{N_y\} & \{0\}
@@ -337,47 +295,37 @@ $$
 em que $\{\phi\}$ é o vetor global de campo e as submatrizes de $[K]$ e $[M]$ são dadas por:
 
 $$
-[K_{tt}]
-=
+[K_{tt}] =
 \sum_e
 \iint_e
 \left[
-p_x\beta^2\{V\}\{V\}^T
-+
-p_y\beta^2\{U\}\{U\}^T
-+
+p_x\beta^2\{V\}\{V\}^T + p_y\beta^2\{U\}\{U\}^T +
 4p_z\{U_y\}\{U_y\}^T
 \right]
-dx\,dy
+dxdy
 $$
 
 **Equação (29a)**
 
 $$
 [K_{tz}]
-=
-[K_{zt}]^T
-=
+= [K_{zt}]^T =
 \sum_e
 \iint_e
 \left[
-p_x\beta\{V\}\{N_x\}^T
-+
-p_y\beta\{U\}\{N_y\}^T
-\right]
-dx\,dy
+p_x\beta\{V\}\{N_x\}^T +
+p_y\beta\{U\}\{N_y\}^T \right]
+dxdy
 $$
 
 **Equação (29b)**
 
 $$
-[K_{zz}]
-=
+[K_{zz}] =
 \sum_e
 \iint_e
 \left[
-p_x\{N_x\}\{N_x\}^T
-+
+p_x\{N_x\}\{N_x\}^T +
 p_y\{N_y\}\{N_y\}^T
 \right]
 dx\,dy
@@ -386,13 +334,11 @@ $$
 **Equação (29c)**
 
 $$
-[M_{tt}]
-=
+[M_{tt}] =
 \sum_e
 \iint_e
 \left[
-q_x\{U\}\{U\}^T
-+
+q_x\{U\}\{U\}^T +
 q_y\{V\}\{V\}^T
 \right]
 dx\,dy
@@ -401,8 +347,7 @@ $$
 **Equação (30a)**
 
 $$
-[M_{zz}]
-=
+[M_{zz}] =
 \sum_e
 \iint_e
 q_z\{N\}\{N\}^T
@@ -426,23 +371,17 @@ $$
 A Equação (25) pode ser reescrita como:
 
 $$
-[K_{tt}]\{\phi_t\}
--
-\beta[K_{tz}]\{\phi_z\}
--
-\beta^2[M_{tt}]\{\phi_t\}
-=
+[K_{tt}]\{\phi_t\} -
+\beta[K_{tz}]\{\phi_z\} -
+\beta^2[M_{tt}]\{\phi_t\} =
 \{0\}
 $$
 
 **Equação (31a)**
 
 $$
--\beta[K_{zt}]\{\phi_t\}
-+
-[K_{zz}]\{\phi_z\}
-=
-\{0\}
+-\beta[K_{zt}]\{\phi_t\} +
+[K_{zz}]\{\phi_z\} = \{0\}
 $$
 
 **Equação (31b)**
@@ -450,15 +389,12 @@ $$
 com:
 
 $$
-[K_{tt}]
-=
+[K_{tt}] =
 \sum_e
 \iint_e
 \left[
-q_xk_0^2\{U\}\{U\}^T
-+
-q_yk_0^2\{V\}\{V\}^T
--
+q_xk_0^2\{U\}\{U\}^T +
+q_yk_0^2\{V\}\{V\}^T -
 4p_z\{U_y\}\{U_y\}^T
 \right]
 dx\,dy
@@ -467,15 +403,12 @@ $$
 **Equação (32a)**
 
 $$
-[K_{tz}]
-=
-[K_{zt}]^T
-=
+[K_{tz}] =
+[K_{zt}]^T =
 \sum_e
 \iint_e
 \left[
-p_x\{V\}\{N_x\}^T
-+
+p_x\{V\}\{N_x\}^T +
 p_y\{U\}\{N_y\}^T
 \right]
 dx\,dy
@@ -484,15 +417,11 @@ $$
 **Equação (32b)**
 
 $$
-[K_{zz}]
-=
-\sum_e
+[K_{zz}] = \sum_e
 \iint_e
 \left[
-q_zk_0^2\{N\}\{N\}^T
--
-p_x\{N_x\}\{N_x\}^T
--
+q_zk_0^2\{N\}\{N\}^T -
+p_x\{N_x\}\{N_x\}^T -
 p_y\{N_y\}\{N_y\}^T
 \right]
 dx\,dy
@@ -501,13 +430,11 @@ $$
 **Equação (32c)**
 
 $$
-[M_{tt}]
-=
+[M_{tt}] =
 \sum_e
 \iint_e
 \left[
-p_x\{V\}\{V\}^T
-+
+p_x\{V\}\{V\}^T +
 p_y\{U\}\{U\}^T
 \right]
 dx\,dy
@@ -520,10 +447,8 @@ Observe que as submatrizes nas Equações (32) e (33) são diferentes daquelas n
 Substituindo a Equação (31b) na Equação (31a), obtém-se o seguinte problema final de autovalores:
 
 $$
-[K_{tt}]\{\phi_t\}
--
-\beta^2[\hat{M}_{tt}]\{\phi_t\}
-=
+[K_{tt}]\{\phi_t\} -
+\beta^2[\hat{M}_{tt}]\{\phi_t\} =
 \{0\}
 $$
 
@@ -532,10 +457,7 @@ $$
 com:
 
 $$
-[\hat{M}_{tt}]
-=
-[M_{tt}]
-+
+[\hat{M}_{tt}] = [M_{tt}] +
 [K_{tz}][K_{zz}]^{-1}[K_{zt}]
 $$
 
