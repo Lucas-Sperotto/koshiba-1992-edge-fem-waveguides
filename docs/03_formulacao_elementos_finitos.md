@@ -19,10 +19,7 @@ Os pontos de vértice 1 a 3 são usados para a componente axial $\phi_z$, isto �
 A componente axial $\phi_z$ é aproximada por um polinômio completo de primeira ordem:
 
 $$
-\phi_z =
-j\{N(x,y)\}^T\{\phi_z\}_e
-=
-j\{N\}^T\{\phi_z\}_e
+\phi_z = j\{N(x,y)\}^T\{\phi_z\}_e = j\{N\}^T\{\phi_z\}_e
 $$
 
 **Equação (7)**
@@ -30,16 +27,11 @@ $$
 com:
 
 $$
-\{N\}
-=
-\begin{bmatrix}
+\{N\} = \begin{bmatrix}
 L_1 \\
 L_2 \\
 L_3
-\end{bmatrix}
-=
-\frac{1}{2A_e}
-\begin{bmatrix}
+\end{bmatrix} = \frac{1}{2A_e} \begin{bmatrix}
 a_1 & b_1 & c_1 \\
 a_2 & b_2 & c_2 \\
 a_3 & b_3 & c_3
