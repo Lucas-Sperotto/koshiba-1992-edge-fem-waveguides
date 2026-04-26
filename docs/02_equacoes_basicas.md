@@ -89,16 +89,7 @@ Aqui, $\varepsilon_{rx}$, $\varepsilon_{ry}$ e $\varepsilon_{rz}$ são as permis
 O funcional associado à Equação (1) é dado por:
 
 $$
-F =
-\iint_{\Omega}
-\left[
-\left(\nabla \times \phi\right)^{*}
-\cdot
-\left([p]\nabla \times \phi\right)
--
-k_0^2 [q]\phi^{*}\cdot \phi
-\right]
-dx\,dy
+F =  \iint_{\Omega} \left[ \left(\nabla \times \phi\right)^{\*} \cdot \left([p]\nabla \times \phi\right) - k_0^2 [q]\phi^{\*}\cdot \phi \right] dx dy
 $$
 
 **Equação (6)**
