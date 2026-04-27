@@ -43,7 +43,7 @@ A variável $\phi$ representa genericamente o campo elétrico $\mathbf{E}$ ou o 
 Para $\phi=E$:
 
 $$
-[p] = I,
+[p] = [I],
 \qquad
 [q] =
 \begin{bmatrix}
@@ -63,7 +63,7 @@ $$
 0 & 0 & 1/\varepsilon_{rz}
 \end{bmatrix},
 \qquad
-[q] = I.
+[q] = [I].
 $$
 
 O escopo inicial assume a forma diagonal usada no artigo para $[p]$ e $[q]$. Extensões para tensores não diagonais devem permanecer documentadas, mas não devem entrar na primeira implementação.

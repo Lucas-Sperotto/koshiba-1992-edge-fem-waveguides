@@ -474,6 +474,8 @@ $$
 Esses coeficientes são a solução explícita do sistema de interpolação tangencial. Eles garantem que as funções $\{U\}$ e $\{V\}$ reproduzam os graus de liberdade tangenciais definidos nos pontos laterais das arestas.
 
 > **Nota de verificação:** a expressão de $\Delta$ usa índices cíclicos dentro de um somatório. Para cada termo do somatório em $k$, os índices $l$ e $m$ devem ser atualizados pela mesma tabela cíclica usada nas funções nodais. A implementação deve testar essa fórmula com triângulos simples, pois erros de permutação de $k,l,m$ podem produzir funções de aresta com orientação incorreta.
+>
+> **Valor de referência para testes:** para o triângulo de referência $P_1=(0,0)$, $P_2=(1,0)$, $P_3=(0,1)$ com a convenção $\theta_4=0$ (arctan para aresta horizontal), $\theta_5=3\pi/4$, $\theta_6=\pi/2$, o determinante vale $\Delta=\sqrt{2}/2\approx0{,}707$. Esse valor **positivo** é esperado e correto — não indica erro. O sinal de $\Delta$ depende da convenção de $\theta$ e da orientação do triângulo; o que deve ser rejeitado é $|\Delta|\approx0$.
 
 Também é necessário rejeitar elementos para os quais $\Delta=0$ ou $|\Delta|$ seja numericamente pequeno. Nesses casos, o sistema de interpolação tangencial fica singular ou mal condicionado e os coeficientes $\bar{a}_k$, $\bar{b}_k$ e $\bar{c}_k$ deixam de ser confiáveis.
 

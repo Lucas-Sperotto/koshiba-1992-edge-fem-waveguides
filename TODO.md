@@ -103,46 +103,38 @@ Este arquivo é o roteiro mestre para a conclusão do projeto. Ele substitui a l
 
 Os itens abaixo corrigem ou completam `docs/15` antes da implementação dos testes em C++.
 
-- [ ] **(CRÍTICO) Resolver a ambiguidade de θ₄ para a aresta horizontal do triângulo de referência** (`docs/15`, Teste 9):
-  O artigo define $0 \le \theta < \pi$, mas para k=1, l=2 no triângulo P1=(0,0), P2=(1,0), P3=(0,1): o vetor $(x_k-x_l, y_k-y_l) = (-1,0)$ dá $\text{atan2}(0,-1)=\pi$, que está **excluído** pelo intervalo estrito. Com arctan simples, $\theta_4=0$, produzindo $\bar{a}_1=+1$, $\bar{c}_1=-1$. Com atan2, $\theta_4=\pi$, produzindo $\bar{a}_1=-1$, $\bar{c}_1=+1$. Ambos satisfazem as condições tangenciais, mas com sinais opostos. **Ação:** definir a convenção usada pelo projeto (`atan2` mapeado para $[0,\pi)$), documentar em `docs/15`, e adicionar teste explícito dos ângulos $\theta_4=\pi$, $\theta_5=3\pi/4$, $\theta_6=\pi/2$ antes de qualquer teste de $\bar{a}_k$, $\bar{b}_k$, $\bar{c}_k$.
+- [x] **(Concluído) Resolver a ambiguidade de θ₄ e documentar a convenção** (`docs/15`, Seção do Teste 9):
+  Convenção adotada: usar `atan2(y_k-y_l, x_k-x_l)`, somar π se resultado < 0, tratar π como 0 (limite estrito). Isso dá θ₄=0, produzindo ā₁=+1, c̄₁=−1. Valores completos documentados no Teste 9 com verificação numérica.
 
-- [ ] **(CRÍTICO) Adicionar valores esperados explícitos ao Teste 9 de `docs/15`** (funções de aresta):
-  O Teste 9 descreve a propriedade $\phi_t^{(r)}|_s = \delta_{rs}$ mas não fornece os coeficientes do triângulo de referência. Os valores corretos (usando atan2, $\theta_4=\pi$) são:
-  - $\bar{a}_1=-1$, $\bar{b}_1=0$, $\bar{c}_1=1$ → $U_1(y)=-1+y$, $V_1(x)=-x$
-  - $\bar{a}_2=0$, $\bar{b}_2=0$, $\bar{c}_2=-\sqrt{2}$ → $U_2(y)=-\sqrt{2}\,y$, $V_2(x)=\sqrt{2}\,x$
-  - $\bar{a}_3=0$, $\bar{b}_3=1$, $\bar{c}_3=1$ → $U_3(y)=y$, $V_3(x)=1-x$
+- [x] **(Concluído) Adicionar valores esperados explícitos ao Teste 9 de `docs/15`** (funções de aresta):
+  Valores adicionados: ā=(1,0,0), b̄=(0,0,1), c̄=(−1,−√2,1); θ₄=0, θ₅=3π/4, θ₆=π/2; Δ=√2/2>0. Verificação numérica da condição tangencial incluída.
 
-  Nota: $\bar{c}_2=-\sqrt{2}$ é irracional (comprimento da hipotenusa). $\Delta=-\sqrt{2}/2<0$ para este triângulo — isso é correto e não indica erro. Adicionar estes valores ao documento e à checklist da Seção 19.
+- [x] **(Concluído) Adicionar segundo triângulo de teste** (`docs/15`, Seção 22 — Teste 18):
+  Triângulo P1=(0,0), P2=(2,1), P3=(1,3) adicionado com A_e=5/2 e todos b_k, c_k não-nulos. Matrizes A7 e A8 explícitas calculadas.
 
-- [ ] **(GRAVE) Adicionar segundo triângulo de teste sem zeros em $b_k$ e $c_k$** (`docs/15`, Seções 12 e 13):
-  No triângulo de referência, $b_3=0$ e $c_2=0$, zerando linha/coluna 3 de A7 e linha/coluna 2 de A8. Bugs nessas entradas passam silenciosamente. **Ação:** adicionar um segundo triângulo geral a `docs/15`, por exemplo P1=(0,0), P2=(3,0), P3=(1,2) ($A_e=3$, todos $b_k,c_k$ não-nulos), com os valores esperados de A7 e A8 calculados explicitamente.
+- [x] **(Concluído) Adicionar testes para integrais A3, A4, A5** (`docs/15`, Seções 20 e 21 — Testes 16 e 17):
+  A3 com fator 4 no rotacional documentado. A4 e A5 com matrizes numéricas completas para o triângulo de referência.
 
-- [ ] **(GRAVE) Adicionar testes para integrais de aresta A1, A2, A3, A4, A5 em `docs/15`**:
-  Os Testes 12–13 cobrem apenas A6, A7, A8 (funções nodais). As integrais de aresta — A1 e A2 com termos em $y_c$, $\sum y_k^2$ e fator 1/12; A3 com o fator-4 no rotacional; A4 e A5 de acoplamento aresta–nó — são mais complexas e mais sujeitas a erro. **Ação:** acrescentar pelo menos 3 testes a `docs/15`:
-  - A3: verificar que $A_e\bar{c}_k\bar{c}_l$ vale $(1/2)[[1,-\sqrt{2},1],[-\sqrt{2},2,-\sqrt{2}],[1,-\sqrt{2},1]]$ para o triângulo de referência;
-  - A4/A5: verificar os valores escalares $(1/2)(\bar{a}_k+\bar{c}_ky_c)b_l$ e $(1/2)(\bar{b}_k-\bar{c}_kx_c)c_l$;
-  - A1 ou A2: verificar a matriz $3\times3$ completa (requer $\sum y_k^2$ e $y_c$).
+- [x] **(Concluído) Adicionar valores esperados concretos aos Testes 10 e 11 de `docs/15`**:
+  Teste 10: sinal s_e=+1, ambos elementos dão θ=3π/4. Teste 11: φ_t=1 em P_m e P_q calculados explicitamente para T1 e T2.
 
-- [ ] **(GRAVE) Adicionar valores esperados concretos aos Testes 10 e 11 de `docs/15`**:
-  O Teste 10 (orientação de aresta) e o Teste 11 (continuidade tangencial) descrevem o comportamento sem fornecer resultados numéricos específicos. Para o par de triângulos T1=(0,0),(1,0),(0,1) e T2=(1,0),(1,1),(0,1) com aresta compartilhada (1,0)↔(0,1): calcular explicitamente o sinal de aresta local de cada elemento e o valor de $\phi_t$ em pelo menos dois pontos da aresta.
+- [x] **(Concluído) Adicionar teste de {U_y} e {V_x}** (`docs/15`, Seção 19 — Teste 15):
+  {U_y}=(−1,−√2,1) e {V_x}=(1,√2,−1) documentados com relação {V_x}=−{U_y}.
 
-- [ ] **(GRAVE) Adicionar teste de $U_{y,k}=\bar{c}_k$ e $V_{x,k}=-\bar{c}_k$ em `docs/15`**:
-  Para o triângulo de referência: $\{U_y\}=(1,-\sqrt{2},1)$ e $\{V_x\}=(-1,\sqrt{2},-1)$. Esses valores são críticos para a montagem de $[B]$ e para a integral A3. Acrescentar teste explícito na Seção 14 de `docs/15` com esses resultados como contrato numérico.
+- [x] **(Concluído) Adicionar matrizes numéricas explícitas aos Testes 12 e 13 de `docs/15`**:
+  A7=(1/2)\[[1,−1,0],[−1,1,0],[0,0,0]\], A8=(1/2)\[[1,0,−1],[0,0,0],[−1,0,1]\], A6=(1/24)\[[2,1,1],[1,2,1],[1,1,2]\] adicionados.
 
-- [ ] **(MODERADO) Adicionar matrizes numéricas explícitas aos Testes 12 e 13 de `docs/15`**:
-  O documento apresenta as fórmulas mas não as matrizes do triângulo de referência. Completar com:
-  - A7 = $(1/2)[[1,-1,0],[-1,1,0],[0,0,0]]$ (linha 3 nula pois $b_3=0$)
-  - A8 = $(1/2)[[1,0,-1],[0,0,0],[-1,0,1]]$ (linha 2 nula pois $c_2=0$)
-  - A6 = $(1/24)[[2,1,1],[1,2,1],[1,1,2]]$
+- [x] **(Concluído) Corrigir notação do Teste 8 em `docs/15`**:
+  Reescrito mostrando ∂L_k/∂x = b_k/(2A_e) com substituição explícita e nota de atenção para o implementador.
 
-- [ ] **(MODERADO) Corrigir notação do Teste 8 em `docs/15`**:
-  O documento escreve $\partial L_1/\partial x = b_1 = -1$, o que é verdadeiro apenas porque $2A_e=1$ para o triângulo de referência. A fórmula geral é $\partial L_k/\partial x = b_k/(2A_e)$. Reescrever mostrando a substituição explícita para evitar que o implementador ache que $\partial L_k/\partial x = b_k$ sem o denominador.
+- [x] **(Concluído) Adicionar teste de orientação horária** (`docs/15`, Seção 23 — Teste 19):
+  Diagnóstico completo: b_k^CW = −b_k^CCW, diagonal de A7 negativa com A_e < 0, correção com |A_e|.
 
-- [ ] **(MODERADO) Adicionar teste de $b_k$ e $c_k$ sob inversão de orientação em `docs/15`**:
-  Para o triângulo (0,0),(0,1),(1,0) (ordem horária do mesmo triângulo de referência), verificar explicitamente que $b_k^{\text{CW}} = -b_k^{\text{CCW}}$, $c_k^{\text{CW}} = -c_k^{\text{CCW}}$, e que A7/A8 calculadas com $A_e^{\text{CW}}<0$ dão sinal errado. Este teste documenta por que a implementação deve usar $|A_e|$.
+- [x] **(Concluído) Documentar Δ para o triângulo de referência** (`docs/12`, Seção 9):
+  Nota adicionada: Δ=√2/2 > 0 para o triângulo de referência com θ₄=0. Sinal de Δ depende da convenção; o que invalida o elemento é |Δ|≈0.
 
-- [ ] **(MODERADO) Documentar que $\Delta<0$ é válido para o triângulo de referência em `docs/15`**:
-  $\Delta = -\sqrt{2}/2 \approx -0.707$ para o triângulo P1=(0,0), P2=(1,0), P3=(0,1). O sinal negativo é correto e não indica erro. Adicionar nota na Seção 9 de `docs/12` e na Seção 13 de `docs/15` alertando que $\Delta < 0$ é possível e não invalida o elemento.
+- [x] **(Concluído) Adicionar testes para integrais A1 e A2** (`docs/15`, Seções 24 e 25 — Testes 20 e 21):
+  A1 (massa {U}{U}^T) e A2 (massa {V}{V}^T) com matrizes numéricas completas para o triângulo de referência. Propriedades de verificação: simetria e tr(A1)=tr(A2)=A_e. Simetria estrutural A1↔A2 documentada.
 
 - [ ] **(MÉDIO) Refatorar código duplicado**: Após a implementação inicial, identificar e refatorar código repetido entre os diferentes exemplos.
 
