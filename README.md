@@ -57,34 +57,27 @@ koshiba-1992-edge-fem-waveguides/
 │   └── img/
 ├── include/
 │   └── koshiba/
+│       ├── algebra/
+│       ├── fem/
+│       ├── io/
+│       └── mesh/
 ├── src/
 │   ├── mesh/
 │   ├── fem/
-│   ├── physics/
 │   ├── algebra/
 │   └── io/
-├── examples/
-│   ├── microstrip/
-│   ├── rectangular_dielectric_waveguide/
-│   └── triangular_core_waveguide/
-├── scripts/
-│   ├── run/
-│   └── plot/
-├── data/
-│   ├── input/
-│   └── output/
 ├── tests/
 └── out/
 ```
 
-## Compilação inicial
+## Compilação e testes
 
-A Fase 3 começa com um núcleo C++17 mínimo para geometria triangular.
+O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global parcial e um problema reduzido denso pequeno.
 
 ```bash
 cmake -S . -B build
 cmake --build build
-ctest --test-dir build
+/usr/bin/ctest --test-dir build --output-on-failure
 ```
 
 Se o `ctest` do `PATH` apontar para um wrapper Python local sem o módulo `cmake`, use o binário do sistema diretamente, por exemplo `/usr/bin/ctest --test-dir build --output-on-failure`.
@@ -144,10 +137,11 @@ Dependências inicialmente previstas:
 
 Dependências futuras possíveis:
 
-* Gmsh;
 * LAPACK;
 * ARPACK-NG;
 * VTK ou ParaView para visualização dos campos.
+
+O leitor atual aceita arquivos Gmsh MSH 4.1 ASCII sem depender da biblioteca do Gmsh em tempo de compilação.
 
 ### 4. Casos de validação
 
@@ -183,16 +177,20 @@ A validação deverá comparar:
 
 ## Status do projeto
 
-Fase documental fechada e implementação C++17 iniciada.
+Fase documental fechada e implementação C++17 em andamento.
 
 * [x] Criar estrutura documental do repositório
 * [x] Traduzir e organizar o artigo em Markdown
 * [x] Documentar a formulação física e matemática
 * [x] Documentar o elemento de aresta triangular
 * [x] Iniciar núcleo C++17 com geometria triangular
-* [ ] Implementar montagem local
-* [ ] Implementar montagem global
-* [ ] Resolver o problema de autovalores
+* [x] Implementar `Edge`, `Mesh` e leitura Gmsh MSH 4.1 ASCII inicial
+* [x] Implementar funções de forma nodais e de aresta
+* [x] Implementar integrais locais A1-A8
+* [x] Implementar montagem global geométrica parcial
+* [x] Implementar redução densa mínima sem inversão explícita de `K_zz`
+* [ ] Implementar combinação física completa dos blocos do artigo
+* [ ] Definir e aplicar PEC/PMC por caso de validação
 * [ ] Reproduzir os exemplos numéricos
 * [ ] Comparar resultados com as figuras do artigo
 
