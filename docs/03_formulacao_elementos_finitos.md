@@ -10,11 +10,11 @@ Nesta seção, aplica-se o elemento de aresta triangular [16], que é diferente 
 
 Os seis nós descritos no elemento de aresta triangular consistem nos três pontos de vértice e nos três pontos laterais, conforme mostrado na Figura 1.
 
-Os pontos de vértice 1 a 3 são usados para a componente axial $\phi_z$, isto é, $E_z$ ou $H_z$, enquanto os pontos laterais 4 a 6 são usados para a componente tangencial $\phi_t$, isto é, $E_t$ ou $H_t$.
-
-![Elemento de aresta triangular](img/fig1.png)
+![Elemento de aresta triangular](img/fig_01.png)
 
 **Figura 1 — Elemento de aresta triangular.**
+
+Os pontos de vértice 1 a 3 são usados para a componente axial $\phi_z$, isto é, $E_z$ ou $H_z$, enquanto os pontos laterais 4 a 6 são usados para a componente tangencial $\phi_t$, isto é, $E_t$ ou $H_t$.
 
 A componente axial $\phi_z$ é aproximada por um polinômio completo de primeira ordem:
 

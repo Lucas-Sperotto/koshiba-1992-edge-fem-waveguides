@@ -22,7 +22,7 @@ $$
 Y = 12{,}7 \ \text{mm}
 $$
 
-![Linha de transmissão microstrip blindada](img/fig2.png)
+![Linha de transmissão microstrip blindada](img/fig_02.png)
 
 **Figura 2 — Linha de transmissão microstrip blindada.**
 
@@ -44,6 +44,14 @@ $$
 
 respectivamente.
 
+![Características de propagação de uma linha de transmissão microstrip](img/fig_03_a.png)
+
+**Figura 3 **(a)** — Características de propagação de uma linha de transmissão microstrip em **Substrato isotrópico**.
+
+![Características de propagação de uma linha de transmissão microstrip](img/fig_03_b.png)
+
+**Figura 3 **(b)** — Características de propagação de uma linha de transmissão microstrip em **Substrato anisotrópico**.
+
 Nesses cálculos, o número de elementos, o número de pontos de vértice e o número de pontos laterais foram:
 
 $$
@@ -60,23 +68,17 @@ $$
 
 Os resultados obtidos concordam bem com aqueles previamente relatados tanto para o caso isotrópico [21]–[23] quanto para o caso anisotrópico [23], [24].
 
-![Características de propagação de uma linha de transmissão microstrip](img/fig3.png)
-
-**Figura 3 — Características de propagação de uma linha de transmissão microstrip.**  
-**(a)** Substrato isotrópico.  
-**(b)** Substrato anisotrópico.
-
 Em seguida, considera-se um guia de onda retangular dielétrico, mostrado na Figura 4, em que $n_1$ e $n_2$ são os índices de refração das regiões do núcleo e do revestimento, respectivamente.
+
+![Guia de onda retangular dielétrico](img/fig_04.png)
+
+**Figura 4 — Guia de onda retangular dielétrico.**
 
 Devido à simetria dupla do sistema, subdivide-se apenas um quarto da seção transversal do guia de onda em elementos de aresta.
 
 Para simplificar, assumindo que as fronteiras artificiais $x = \pm X/2$ e $y = \pm Y/2$ estão suficientemente afastadas da região do núcleo, a estrutura original não limitada é substituída por uma estrutura limitada correspondente.
 
 Nessas fronteiras artificiais, as condições de condutor elétrico perfeito ou condutor magnético perfeito são impostas de forma adequada, de modo a não restringir a componente eletromagnética dominante do campo nessas regiões.
-
-![Guia de onda retangular dielétrico](img/fig4.png)
-
-**Figura 4 — Guia de onda retangular dielétrico.**
 
 A Figura 5 mostra as características de propagação desse guia de onda. Foram utilizados os seguintes parâmetros:
 
@@ -104,6 +106,24 @@ $$
 N_S = 506
 $$
 
+![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_a.png)
+
+**Figura 5 **(a)** — Características de propagação de um guia de onda retangular dielétrico.**  
+ Modos $E^x_{11}$ e $E^x_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
+**(b)** Modos $E^y_{11}$ e $E^y_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
+**(c)** Modos $E^x_{11}$ e $E^y_{11}$, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
+
+![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_b.png)
+
+**Figura 5 **(b)** — Características de propagação de um guia de onda retangular dielétrico.**  
+**(a)** Modos $E^x_{11}$ e $E^x_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
+ Modos $E^y_{11}$ e $E^y_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
+**(c)** Modos $E^x_{11}$ e $E^y_{11}$, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
+
+![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_c.png)
+
+**Figura 5 **(c)** — Características de propagação de um guia de onda retangular dielétrico **Modos $E^x_{11}$ e $E^y_{11}$, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$**.
+
 A frequência normalizada $v$ e a constante de propagação normalizada $b$ são definidas como:
 
 $$
@@ -130,16 +150,9 @@ Os resultados obtidos concordam bem com os resultados do método de casamento de
 
 Os resultados obtidos pelo método de Marcatili [26] desviam-se daqueles do método de casamento de pontos em frequências mais baixas.
 
-![Características de propagação de um guia de onda retangular dielétrico](img/fig5.png)
-
-**Figura 5 — Características de propagação de um guia de onda retangular dielétrico.**  
-**(a)** Modos $E^x_{11}$ e $E^x_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
-**(b)** Modos $E^y_{11}$ e $E^y_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
-**(c)** Modos $E^x_{11}$ e $E^y_{11}$, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
-
 Por fim, considera-se um guia de onda com núcleo triangular equilátero, mostrado na Figura 6, e subdivide-se metade da seção transversal do guia de onda em elementos de aresta.
 
-![Guia de onda com núcleo triangular equilátero](img/fig6.png)
+![Guia de onda com núcleo triangular equilátero](img/fig_06.png)
 
 **Figura 6 — Guia de onda com núcleo triangular equilátero.**
 
@@ -165,13 +178,15 @@ $$
 N_S = 567
 $$
 
+![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07.png)
+
+**Figura 7 **(a)** — Características de propagação do modo $E^y_{11}$ em um guia de onda com núcleo triangular equilátero $n_1 = 1{,}5085$ e $n_2 = 1{,}50$**.
+
+![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07.png)
+
+**Figura 7 **(b)** — Características de propagação do modo $E^y_{11}$ em um guia de onda com núcleo triangular equilátero $n_1 = 1{,}5$ e $n_2 = 1{,}0$**.
+
 As soluções pelo método dos elementos finitos com formulação por elementos de aresta concordam bem com aquelas da formulação por campo axial, isto é, usando $E_z$ e $H_z$ [27], e também com aquelas da formulação vetorial completa em termos do campo $\mathbf{H}$, usando coeficiente de penalidade $s = 1$ [28].
-
-![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig7.png)
-
-**Figura 7 — Características de propagação do modo $E^y_{11}$ em um guia de onda com núcleo triangular equilátero.**  
-**(a)** $n_1 = 1{,}5085$ e $n_2 = 1{,}50$.  
-**(b)** $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
 
 Observe que soluções espúrias estão incluídas nas soluções por elementos finitos da formulação baseada em campo axial. Para evitar confusão, tais soluções espúrias não são mostradas na Figura 7(a).
 

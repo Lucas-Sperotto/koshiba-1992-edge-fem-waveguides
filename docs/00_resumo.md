@@ -38,6 +38,8 @@ Os autores estavam vinculados ao **Departamento de Engenharia Eletrônica da Uni
 
 ### Masanori Koshiba
 
+![Masanori Koshiba](img/koshiba.png)
+
 **Masanori Koshiba** (*Senior Member, IEEE*) nasceu em Sapporo, Japão, em 23 de novembro de 1948. Recebeu os graus de B.S., M.S. e Ph.D. em Engenharia Eletrônica pela Universidade de Hokkaido, em Sapporo, Japão, nos anos de 1971, 1973 e 1976, respectivamente.
 
 Em 1976, ingressou no Departamento de Engenharia Eletrônica do Instituto de Tecnologia de Kitami, em Kitami, Japão. De 1979 a 1987, foi professor associado de Engenharia Eletrônica na Universidade de Hokkaido e, em 1987, tornou-se professor nessa mesma instituição.
@@ -47,6 +49,8 @@ Sua atuação em pesquisa envolve tecnologia de ondas luminosas, ondas acústica
 O Dr. Koshiba é membro do Institute of Electronics, Information and Communication Engineers (IEICE), do Institute of Television Engineers of Japan, do Institute of Electrical Engineers of Japan, da Japan Society for Simulation Technology e da Japan Society for Computational Methods in Engineering. Em 1987, recebeu o prêmio de melhor artigo de 1986 concedido pelo IEICE.
 
 ### Kazuhiro Inoue
+
+![Kazuhiro Inoue](img/inoue.png)
 
 **Kazuhiro Inoue** nasceu em Chitose, Hokkaido, Japão, em 10 de janeiro de 1965. Recebeu os graus de B.S. e M.S. em Engenharia Eletrônica pela Universidade de Hokkaido, em Sapporo, Japão, em 1987 e 1989, respectivamente.
 
