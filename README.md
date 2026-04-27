@@ -38,49 +38,44 @@ O artigo apresenta aplicações para:
 4. substratos isotrópicos e anisotrópicos;
 5. comparação com métodos clássicos da literatura.
 
-## Estrutura do repositório
-
+## Estrutura inicial do repositório
 ```text
 koshiba-1992-edge-fem-waveguides/
 ├── README.md
-├── LICENSE
-├── CITATION.cff
 ├── AGENTS.md
 ├── TODO.md
+├── LICENSE
+├── CITATION.cff
 ├── CMakeLists.txt
 ├── docs/
 │   ├── README.md
 │   ├── 00_resumo.md
-│   ├── 01_introducao.md
-│   ├── ...
-│   ├── 16_contrato_para_implementacao_cpp.md
+│   ├── ... (documentos de 01 a 16)
 │   └── img/
 ├── include/
 │   └── koshiba/
 │       ├── algebra/
 │       ├── fem/
-│       ├── io/
-│       └── mesh/
+│       ├── mesh/
+│       └── io/
 ├── src/
-│   ├── mesh/
-│   ├── fem/
 │   ├── algebra/
+│   ├── fem/
+│   ├── mesh/
 │   └── io/
+├── app/
+│   └── main.cpp
+├── scripts/
+│   ├── run/
+│   └── plot/
+├── data/
+│   ├── input/
+│   └── output/
 ├── tests/
+│   ├── fixtures/
+│   └── ... (arquivos de teste)
 └── out/
-```
-
-## Compilação e testes
-
-O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global parcial e um problema reduzido denso pequeno.
-
-```bash
-cmake -S . -B build
-cmake --build build
-/usr/bin/ctest --test-dir build --output-on-failure
-```
-
-Se o `ctest` do `PATH` apontar para um wrapper Python local sem o módulo `cmake`, use o binário do sistema diretamente, por exemplo `/usr/bin/ctest --test-dir build --output-on-failure`.
+````
 
 ## Etapas previstas
 
@@ -137,11 +132,10 @@ Dependências inicialmente previstas:
 
 Dependências futuras possíveis:
 
+* Gmsh;
 * LAPACK;
 * ARPACK-NG;
 * VTK ou ParaView para visualização dos campos.
-
-O leitor atual aceita arquivos Gmsh MSH 4.1 ASCII sem depender da biblioteca do Gmsh em tempo de compilação.
 
 ### 4. Casos de validação
 
@@ -177,20 +171,15 @@ A validação deverá comparar:
 
 ## Status do projeto
 
-Fase documental fechada e implementação C++17 em andamento.
+Projeto em fase inicial.
 
-* [x] Criar estrutura documental do repositório
-* [x] Traduzir e organizar o artigo em Markdown
-* [x] Documentar a formulação física e matemática
-* [x] Documentar o elemento de aresta triangular
-* [x] Iniciar núcleo C++17 com geometria triangular
-* [x] Implementar `Edge`, `Mesh` e leitura Gmsh MSH 4.1 ASCII inicial
-* [x] Implementar funções de forma nodais e de aresta
-* [x] Implementar integrais locais A1-A8
-* [x] Implementar montagem global geométrica parcial
-* [x] Implementar redução densa mínima sem inversão explícita de `K_zz`
-* [ ] Implementar combinação física completa dos blocos do artigo
-* [ ] Definir e aplicar PEC/PMC por caso de validação
+* [ ] Criar estrutura do repositório
+* [ ] Traduzir o artigo para Markdown
+* [ ] Documentar a formulação física
+* [ ] Documentar o elemento de aresta triangular
+* [ ] Implementar montagem local
+* [ ] Implementar montagem global
+* [ ] Resolver o problema de autovalores
 * [ ] Reproduzir os exemplos numéricos
 * [ ] Comparar resultados com as figuras do artigo
 

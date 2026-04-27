@@ -70,14 +70,10 @@ A estrutura recomendada do repositório é:
 ├── CITATION.cff
 ├── CMakeLists.txt
 ├── docs/
-│   ├── 01_artigo_traduzido.md
-│   ├── 02_introducao.md
-│   ├── 03_equacoes_basicas.md
-│   ├── 04_formulacao_elementos_finitos.md
-│   ├── 05_exemplos_numericos.md
-│   ├── 06_conclusao.md
-│   ├── 07_apendice.md
-│   ├── 08_referencias.md
+│   ├── README.md
+│   ├── 00_resumo.md
+│   ├── ... (documentos de 01 a 08 para a Fase 1)
+│   ├── ... (documentos de 09 a 16 para a Fase 2)
 │   └── img/
 ├── include/
 │   └── koshiba/
