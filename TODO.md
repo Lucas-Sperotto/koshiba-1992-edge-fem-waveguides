@@ -9,7 +9,7 @@ Este arquivo é o roteiro mestre para a conclusão do projeto. Ele substitui a l
 - [x] **Fase 1 documental fechada**: tradução, notas editoriais e baseline científica registradas em `docs/00` a `docs/08`.
 - [x] **Fase 2 documental complementar fechada**: pontes matemáticas para implementação registradas em `docs/09` a `docs/16`.
 - [x] **Índice de documentação criado**: `docs/README.md` consolida a navegação entre os capítulos.
-- [ ] **Fase 3 em andamento**: iniciar a codificação C++17 por geometria triangular, orientação e testes matemáticos mínimos.
+- [x] **Fase 3 iniciada**: núcleo C++17 de geometria triangular criado com CMake e teste mínimo.
 
 ---
 
@@ -20,6 +20,8 @@ Este arquivo é o roteiro mestre para a conclusão do projeto. Ele substitui a l
 - [x] **(Concluído) Derivar integrais complementares da família aresta–nó**: As integrais $\{V\}\{N_x\}^T$ e $\{U\}\{N_y\}^T$ foram derivadas analiticamente e registradas como Equações (A11) e (A12) em `docs/06_apendice.md`, com nota editorial explicando seu escopo.
   - **Correção científica:** As Eqs. (29b) e (32b) usam $\{V\}\{N_y\}^T$ (A5) e $\{U\}\{N_x\}^T$ (A4), que já constavam no apêndice. As novas (A11)–(A12) completam a família, mas só são necessárias para extensões com tensor $[p]$ não diagonal. A montagem de `[K_tz]` para o caso do artigo (diagonal) não estava bloqueada.
   - **Pendência restante:** Criar teste unitário em `tests/` que verifique numericamente (A11) e (A12) para um triângulo de geometria conhecida.
+
+- [x] **(Concluído) Criar núcleo geométrico inicial**: `CMakeLists.txt`, `include/koshiba/mesh/`, `src/mesh/` e `tests/triangle_geometry_tests.cpp` foram criados para validar área, orientação, centroide, coeficientes nodais, funções nodais e gradientes no triângulo de referência.
 
 - [ ] **(CRÍTICO) Implementar o núcleo do solver FEM**: Estruturas de dados e rotinas essenciais para a montagem das matrizes globais.
   - **Impacto:** Sem o solver, nenhuma simulação pode ser executada.

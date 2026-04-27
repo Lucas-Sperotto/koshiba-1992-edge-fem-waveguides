@@ -38,7 +38,7 @@ O artigo apresenta aplicações para:
 4. substratos isotrópicos e anisotrópicos;
 5. comparação com métodos clássicos da literatura.
 
-## Estrutura inicial do repositório
+## Estrutura do repositório
 
 ```text
 koshiba-1992-edge-fem-waveguides/
@@ -49,18 +49,15 @@ koshiba-1992-edge-fem-waveguides/
 ├── TODO.md
 ├── CMakeLists.txt
 ├── docs/
-│   ├── 01_artigo_traduzido.md
-│   ├── 02_contexto_fisico.md
-│   ├── 03_equacoes_basicas.md
-│   ├── 04_elemento_de_aresta_triangular.md
-│   ├── 05_formulacao_fem.md
-│   ├── 06_problema_de_autovalores.md
-│   ├── 07_exemplos_numericos.md
+│   ├── README.md
+│   ├── 00_resumo.md
+│   ├── 01_introducao.md
+│   ├── ...
+│   ├── 16_contrato_para_implementacao_cpp.md
 │   └── img/
 ├── include/
 │   └── koshiba/
 ├── src/
-│   ├── main.cpp
 │   ├── mesh/
 │   ├── fem/
 │   ├── physics/
@@ -78,7 +75,19 @@ koshiba-1992-edge-fem-waveguides/
 │   └── output/
 ├── tests/
 └── out/
-````
+```
+
+## Compilação inicial
+
+A Fase 3 começa com um núcleo C++17 mínimo para geometria triangular.
+
+```bash
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build
+```
+
+Se o `ctest` do `PATH` apontar para um wrapper Python local sem o módulo `cmake`, use o binário do sistema diretamente, por exemplo `/usr/bin/ctest --test-dir build --output-on-failure`.
 
 ## Etapas previstas
 
@@ -174,12 +183,13 @@ A validação deverá comparar:
 
 ## Status do projeto
 
-Projeto em fase inicial.
+Fase documental fechada e implementação C++17 iniciada.
 
-* [ ] Criar estrutura do repositório
-* [ ] Traduzir o artigo para Markdown
-* [ ] Documentar a formulação física
-* [ ] Documentar o elemento de aresta triangular
+* [x] Criar estrutura documental do repositório
+* [x] Traduzir e organizar o artigo em Markdown
+* [x] Documentar a formulação física e matemática
+* [x] Documentar o elemento de aresta triangular
+* [x] Iniciar núcleo C++17 com geometria triangular
 * [ ] Implementar montagem local
 * [ ] Implementar montagem global
 * [ ] Resolver o problema de autovalores
