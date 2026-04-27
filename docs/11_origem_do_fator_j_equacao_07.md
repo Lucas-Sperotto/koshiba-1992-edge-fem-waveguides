@@ -483,32 +483,14 @@ Mas essa decisão deve ser única. O fator $j$ não pode ser espalhado em vário
 
 ## 13. Pendências científicas
 
-Antes da implementação definitiva, as seguintes pendências devem ser resolvidas:
+Antes da implementação definitiva da matriz $[B]$ e dos blocos de acoplamento, as seguintes pendências devem permanecer visíveis:
 
-1.  **Expansão do rotacional:** Refazer a expansão completa de $\nabla\times\phi$ usando a convenção $\exp[j(\omega t-\beta z)]$ e a Equação (7).
-2.  **Validação da matriz `[B]`:** Comparar termo a termo a expansão obtida com a matriz $[B]$ da Equação (28), verificando todos os sinais.
-3.  **Sinal do termo `{N_x}`:** Verificar o sinal associado ao termo com $\{N_x\}$ na segunda componente do rotacional, pois esse sinal depende da convenção de escrita do operador e da organização matricial adotada.
-4.  **Matrizes reais vs. complexas:** Confirmar se, para meios reais e sem perdas, a escolha do fator $j$ permite montar as matrizes finais como reais, ou se a implementação deve preservar matrizes complexas até uma etapa posterior.
-5.  **Consistência com referências:** Conferir se as referências anteriores de Hano, Kikuchi e Koshiba usam a mesma convenção de fase para a componente axial.
-6.  **Tabela de convenções:** Definir uma tabela de convenções para o repositório, incluindo sinais de $\omega$, $\beta$, operador rotacional, orientação de arestas e armazenamento de graus de liberdade.
-7.  **Teste unitário para o fator `j`:** Registrar, nos testes matemáticos, um caso mínimo que falhe quando o fator $j$ for removido ou aplicado duas vezes.
-
-- [ ] **(ALTO) Verificar sinal de j{N_x} na matriz [B] (Eq. 28)**:
-  A derivação direta de (curl φ)_y com φ_z = j{N}^T{φ_z}_e dá contribuição
-  -j{N_x} para o bloco {φ_z}. O [B] em docs/03 mostra +j{N_x}. Verificar
-  se há erro de sinal ou diferença de convenção na organização dos blocos.
-  Impacto: afeta o sinal do acoplamento em [K_tz] e [K_zt].
-
-- [ ] **(MÉDIO) Adicionar risco de cancelamento em β² em docs/11, Seção 10**:
-  Um erro de sinal consistente em β em [K_tz] e [K_zt] simultaneamente
-  não afeta os autovalores β² finais, mas corrompe a recuperação de {φ_z}
-  via Eq. (31b). Esse risco é invisível nas curvas de dispersão.
-
-- [ ] **(BAIXO) Converter afirmação sobre quadratura de fase em nota de verificação**:
-  Seção 8 de docs/11 apresenta como fato a quadratura de fase entre
-  componentes transversais e longitudinais. Isso não é geral — depende
-  do tipo de modo. Converter para "Nota de verificação".
-
-- [ ] **(BAIXO) Substituir notação φ_z^(r) em docs/11, Seção 6**:
-  O superscript (r) é ambíguo com "parte real". Substituir por φ̃_z ou
-  referenciar diretamente {N}^T{φ_z}_e.
+1. **Expansão do rotacional:** refazer a expansão completa de $\nabla\times\phi$ usando a convenção $\exp[j(\omega t-\beta z)]$ e a Equação (7).
+2. **Validação da matriz $[B]$:** comparar termo a termo a expansão obtida com a matriz $[B]$ da Equação (28), verificando todos os sinais.
+3. **Sinal do termo $\{N_x\}$:** verificar o sinal associado ao termo com $\{N_x\}$ na segunda componente do rotacional, pois esse sinal depende da convenção de escrita do operador e da organização matricial adotada.
+4. **Matrizes reais vs. complexas:** confirmar se, para meios reais e sem perdas, a escolha do fator $j$ permite montar as matrizes finais como reais, ou se a implementação deve preservar matrizes complexas até uma etapa posterior.
+5. **Consistência com referências:** conferir se as referências anteriores de Hano, Kikuchi e Koshiba usam a mesma convenção de fase para a componente axial.
+6. **Tabela de convenções:** definir uma tabela de convenções para o repositório, incluindo sinais de $\omega$, $\beta$, operador rotacional, orientação de arestas e armazenamento de graus de liberdade.
+7. **Teste unitário para o fator $j$:** registrar nos testes matemáticos um caso mínimo que falhe quando o fator $j$ for removido ou aplicado duas vezes.
+8. **Risco de cancelamento em $\beta^2$:** um erro de sinal consistente em $[K_{tz}]$ e $[K_{zt}]$ pode não alterar imediatamente autovalores em $\beta^2$, mas pode corromper a recuperação de $\{\phi_z\}$ pela Equação (31b).
+9. **Notação da componente axial:** evitar sobrescritos ambíguos em $\phi_z$ que possam ser confundidos com parte real; preferir a forma direta $\{N\}^T\{\phi_z\}_e$ quando a intenção for apenas a amplitude discreta.

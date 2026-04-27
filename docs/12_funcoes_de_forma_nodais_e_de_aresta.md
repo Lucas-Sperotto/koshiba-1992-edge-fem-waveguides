@@ -31,7 +31,7 @@ Além dos três vértices, o elemento de aresta triangular do artigo também pos
 | Tipo de ponto local | Pontos | Campo associado | Tipo de grau de liberdade |
 | --- | --- | --- | --- |
 | Vértices | $1$, $2$, $3$ | $\phi_z$ | nodal axial |
-| Pontos laterais | $4$, $5$, $6$ | $\phi_t$ | tangencial de aresta |
+| Pontos laterais | $4$, $5$, $6$ | $\phi_t$ | tangencial de aresta ($\phi_{t1}, \phi_{t2}, \phi_{t3}$) |
 
 Essa separação é essencial: o campo axial é interpolado como uma grandeza nodal escalar, enquanto o campo transversal é interpolado por funções que controlam diretamente a componente tangencial nas arestas.
 
