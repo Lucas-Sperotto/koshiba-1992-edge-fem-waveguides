@@ -1,6 +1,6 @@
 # 11. Origem do fator $j$ na Equação (7)
 
-> **Navegação dos docs:** [Índice](README.md) | [00](00_resumo.md) | [01](01_introducao.md) | [02](02_equacoes_basicas.md) | [03](03_formulacao_elementos_finitos.md) | [04](04_exemplos_numericos.md) | [05](05_conclusao.md) | [06](06_apendice.md) | [07](07_referencias.md) | [08](08_notas_editoriais_e_cientificas.md) | [09](09_maxwell_para_equacao_01.md) | [10](10_equacao_01_para_funcional_06.md) | [11](11_origem_do_fator_j_equacao_07.md) | [12](12_funcoes_de_forma_nodais_e_de_aresta.md) | [13](13_revisao_das_integrais_do_apendice.md) | [14](14_integrais_cruzadas_e_termos_ausentes.md) | [15](15_testes_matematicos_minimos.md) | [16](16_contrato_para_implementacao_cpp.md)
+> **Navegação:** [Índice](../README.md) | [Fase 1](08_notas_editoriais_e_cientificas.md) | [09](09_maxwell_para_equacao_01.md) | [10](10_equacao_01_para_funcional_06.md) | [11](11_origem_do_fator_j_equacao_07.md) | [12](12_funcoes_de_forma_nodais_e_de_aresta.md) | [13](13_revisao_das_integrais_do_apendice.md) | [14](14_integrais_cruzadas_e_termos_ausentes.md) | [15](15_testes_matematicos_minimos.md) | [16](16_contrato_para_implementacao_cpp.md)
 
 Este arquivo complementa a documentação da Fase 2 do projeto de reprodução do artigo de Koshiba e Inoue. O objetivo é explicar, com cuidado matemático, a presença do fator $j$ na aproximação da componente axial apresentada na Equação (7):
 
@@ -480,17 +480,3 @@ A implementação futura deverá decidir explicitamente onde esse fator será re
 Mas essa decisão deve ser única. O fator $j$ não pode ser espalhado em vários pontos do código sem uma regra clara.
 
 ---
-
-## 13. Pendências científicas
-
-Antes da implementação definitiva da matriz $[B]$ e dos blocos de acoplamento, as seguintes pendências devem permanecer visíveis:
-
-1. **Expansão do rotacional:** refazer a expansão completa de $\nabla\times\phi$ usando a convenção $\exp[j(\omega t-\beta z)]$ e a Equação (7).
-2. **Validação da matriz $[B]$:** comparar termo a termo a expansão obtida com a matriz $[B]$ da Equação (28), verificando todos os sinais.
-3. **Sinal do termo $\{N_x\}$:** verificar o sinal associado ao termo com $\{N_x\}$ na segunda componente do rotacional, pois esse sinal depende da convenção de escrita do operador e da organização matricial adotada.
-4. **Matrizes reais vs. complexas:** confirmar se, para meios reais e sem perdas, a escolha do fator $j$ permite montar as matrizes finais como reais, ou se a implementação deve preservar matrizes complexas até uma etapa posterior.
-5. **Consistência com referências:** conferir se as referências anteriores de Hano, Kikuchi e Koshiba usam a mesma convenção de fase para a componente axial.
-6. **Tabela de convenções:** definir uma tabela de convenções para o repositório, incluindo sinais de $\omega$, $\beta$, operador rotacional, orientação de arestas e armazenamento de graus de liberdade.
-7. **Teste unitário para o fator $j$:** registrar nos testes matemáticos um caso mínimo que falhe quando o fator $j$ for removido ou aplicado duas vezes.
-8. **Risco de cancelamento em $\beta^2$:** um erro de sinal consistente em $[K_{tz}]$ e $[K_{zt}]$ pode não alterar imediatamente autovalores em $\beta^2$, mas pode corromper a recuperação de $\{\phi_z\}$ pela Equação (31b).
-9. **Notação da componente axial:** evitar sobrescritos ambíguos em $\phi_z$ que possam ser confundidos com parte real; preferir a forma direta $\{N\}^T\{\phi_z\}_e$ quando a intenção for apenas a amplitude discreta.

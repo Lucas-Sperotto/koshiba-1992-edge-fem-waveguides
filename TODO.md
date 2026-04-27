@@ -172,3 +172,136 @@ O projeto será considerado **"fechado"** quando todos os itens a seguir forem c
 ### Histórico (Fase 1 - Concluída)
 
 *A Fase 1 (baseline documental) foi fechada. Suas pendências foram migradas para as seções acima.*
+
+
+
+# TODO — Fase 2: Derivação matemática e contrato numérico
+
+## 1. Derivar a Equação (1) a partir de Maxwell
+
+**Tipo:** documentação científica  
+**Arquivo previsto:** `docs/10_maxwell_para_equacao_01.md`  
+**Base:** Equações de Maxwell e Equação (1) do artigo
+
+**Critério de conclusão:**
+- [ ] convenção temporal explicitada;
+- [ ] equação curl-curl derivada;
+- [ ] uso de `phi` explicado;
+- [ ] papel de `[p]`, `[q]`, `k0`, `epsilon` e `mu` contextualizado;
+- [ ] ambiguidades marcadas como nota de verificação;
+- [ ] revisão por Claude concluída.
+
+---
+
+## 2. Explicar a passagem da Equação (1) para o funcional da Equação (6)
+
+**Tipo:** documentação matemática / formulação variacional  
+**Arquivo previsto:** `docs/11_equacao_01_para_funcional_06.md`  
+**Base:** Equações (1) e (6)
+
+**Critério de conclusão:**
+- [ ] formulação fraca explicada;
+- [ ] funcional interpretado física e numericamente;
+- [ ] papel do operador curl-curl explicado;
+- [ ] condições de contorno discutidas com cautela;
+- [ ] riscos para implementação listados;
+- [ ] revisão por Claude concluída.
+
+---
+
+## 3. Explicar a origem do fator `j` na Equação (7)
+
+**Tipo:** documentação matemática / convenção modal  
+**Arquivo previsto:** `docs/12_origem_do_fator_j_equacao_07.md`  
+**Base:** Equação (7)
+
+**Critério de conclusão:**
+- [ ] convenção harmônica explicitada;
+- [ ] propagação em `z` discutida;
+- [ ] origem do fator `j` explicada;
+- [ ] riscos de erro de sinal documentados;
+- [ ] testes futuros sugeridos;
+- [ ] revisão por Claude concluída.
+
+---
+
+## 4. Documentar funções nodais e funções de aresta
+
+**Tipo:** documentação matemática / elementos finitos  
+**Arquivo previsto:** `docs/13_funcoes_de_forma_nodais_e_de_aresta.md`  
+**Base:** Equações (8) a (19)
+
+**Critério de conclusão:**
+- [ ] coeficientes `a_k`, `b_k`, `c_k` explicados;
+- [ ] convenção cíclica `k`, `l`, `m` descrita;
+- [ ] área do triângulo definida;
+- [ ] funções nodais explicadas;
+- [ ] funções de aresta explicadas;
+- [ ] orientação de aresta discutida;
+- [ ] continuidade tangencial explicada;
+- [ ] revisão por Claude concluída;
+- [ ] revisão de renderização por Gemini concluída.
+
+---
+
+## 5. Revisar integrais do Apêndice
+
+**Tipo:** documentação matemática / matrizes locais  
+**Arquivo previsto:** `docs/14_revisao_das_integrais_do_apendice.md`  
+**Base:** Equações (A1) a (A10)
+
+**Critério de conclusão:**
+- [ ] todas as integrais do Apêndice listadas;
+- [ ] significado de cada termo explicado;
+- [ ] fatores geométricos conferidos;
+- [ ] riscos de implementação listados;
+- [ ] tabela equação → uso futuro criada;
+- [ ] revisão por Claude concluída.
+
+---
+
+## 6. Mapear integrais cruzadas e termos ausentes
+
+**Tipo:** auditoria matemática  
+**Arquivo previsto:** `docs/15_integrais_cruzadas_e_termos_ausentes.md`
+
+**Critério de conclusão:**
+- [ ] termos presentes no artigo separados;
+- [ ] termos por simetria identificados;
+- [ ] termos derivados classificados;
+- [ ] termos ambíguos marcados;
+- [ ] critérios de aceitação definidos;
+- [ ] revisão por Claude concluída.
+
+---
+
+## 7. Definir testes matemáticos mínimos
+
+**Tipo:** documentação de testes  
+**Arquivo previsto:** `docs/16_testes_matematicos_minimos.md`
+
+**Critério de conclusão:**
+- [ ] teste de área definido;
+- [ ] teste de centroide definido;
+- [ ] teste dos coeficientes `a_k`, `b_k`, `c_k` definido;
+- [ ] testes das funções nodais definidos;
+- [ ] testes das funções de aresta definidos;
+- [ ] teste de orientação de aresta definido;
+- [ ] teste de continuidade tangencial definido;
+- [ ] tolerâncias sugeridas;
+- [ ] revisão por Claude concluída.
+
+---
+
+## 8. Consolidar contrato para implementação C++ futura
+
+**Tipo:** ponte documentação-código  
+**Arquivo previsto:** `docs/17_contrato_para_implementacao_cpp.md`
+
+**Critério de conclusão:**
+- [ ] entidades matemáticas futuras listadas;
+- [ ] equações associadas a cada entidade;
+- [ ] entradas e saídas esperadas;
+- [ ] riscos de implementação;
+- [ ] testes mínimos obrigatórios;
+- [ ] critérios para abrir a Fase 3 definidos.

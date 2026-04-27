@@ -1,6 +1,6 @@
 # 12. Funções de forma nodais e de aresta
 
-> **Navegação dos docs:** [Índice](README.md) | [00](00_resumo.md) | [01](01_introducao.md) | [02](02_equacoes_basicas.md) | [03](03_formulacao_elementos_finitos.md) | [04](04_exemplos_numericos.md) | [05](05_conclusao.md) | [06](06_apendice.md) | [07](07_referencias.md) | [08](08_notas_editoriais_e_cientificas.md) | [09](09_maxwell_para_equacao_01.md) | [10](10_equacao_01_para_funcional_06.md) | [11](11_origem_do_fator_j_equacao_07.md) | [12](12_funcoes_de_forma_nodais_e_de_aresta.md) | [13](13_revisao_das_integrais_do_apendice.md) | [14](14_integrais_cruzadas_e_termos_ausentes.md) | [15](15_testes_matematicos_minimos.md) | [16](16_contrato_para_implementacao_cpp.md)
+> **Navegação:** [Índice](../README.md) | [Fase 1](08_notas_editoriais_e_cientificas.md) | [09](09_maxwell_para_equacao_01.md) | [10](10_equacao_01_para_funcional_06.md) | [11](11_origem_do_fator_j_equacao_07.md) | [12](12_funcoes_de_forma_nodais_e_de_aresta.md) | [13](13_revisao_das_integrais_do_apendice.md) | [14](14_integrais_cruzadas_e_termos_ausentes.md) | [15](15_testes_matematicos_minimos.md) | [16](16_contrato_para_implementacao_cpp.md)
 
 Este documento complementa a Fase 2 do projeto de reprodução do artigo de Koshiba e Inoue. O objetivo é explicar, de forma didática e tecnicamente cuidadosa, as funções de forma usadas no elemento triangular do artigo: as funções nodais lineares usadas para a componente axial $\phi_z$ e as funções de forma de aresta usadas para as componentes transversais $\phi_x$ e $\phi_y$.
 
@@ -31,7 +31,7 @@ Além dos três vértices, o elemento de aresta triangular do artigo também pos
 | Tipo de ponto local | Pontos | Campo associado | Tipo de grau de liberdade |
 | --- | --- | --- | --- |
 | Vértices | $1$, $2$, $3$ | $\phi_z$ | nodal axial |
-| Pontos laterais | $4$, $5$, $6$ | $\phi_t$ | tangencial de aresta ($\phi_{t1}, \phi_{t2}, \phi_{t3}$) |
+| Pontos laterais | $4$, $5$, $6$ | $\phi_t$ | tangencial de aresta |
 
 Essa separação é essencial: o campo axial é interpolado como uma grandeza nodal escalar, enquanto o campo transversal é interpolado por funções que controlam diretamente a componente tangencial nas arestas.
 
