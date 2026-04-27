@@ -108,17 +108,11 @@ $$
 
 ![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_a.png)
 
-**Figura 5 **(a)** — Características de propagação de um guia de onda retangular dielétrico.**  
- Modos $E^x_{11}$ e $E^x_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
-**(b)** Modos $E^y_{11}$ e $E^y_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
-**(c)** Modos $E^x_{11}$ e $E^y_{11}$, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
+**Figura 5 **(a)** — Características de propagação de um guia de onda retangular dielétrico **Modos $E^x_{11}$ e $E^x_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$**.  
 
 ![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_b.png)
 
-**Figura 5 **(b)** — Características de propagação de um guia de onda retangular dielétrico.**  
-**(a)** Modos $E^x_{11}$ e $E^x_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
- Modos $E^y_{11}$ e $E^y_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.  
-**(c)** Modos $E^x_{11}$ e $E^y_{11}$, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
+**Figura 5 **(b)** — Características de propagação de um guia de onda retangular dielétrico **Modos $E^y_{11}$ e $E^y_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$**.  
 
 ![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_c.png)
 
@@ -178,11 +172,11 @@ $$
 N_S = 567
 $$
 
-![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07.png)
+![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07_a.png)
 
 **Figura 7 **(a)** — Características de propagação do modo $E^y_{11}$ em um guia de onda com núcleo triangular equilátero $n_1 = 1{,}5085$ e $n_2 = 1{,}50$**.
 
-![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07.png)
+![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07_b.png)
 
 **Figura 7 **(b)** — Características de propagação do modo $E^y_{11}$ em um guia de onda com núcleo triangular equilátero $n_1 = 1{,}5$ e $n_2 = 1{,}0$**.
 
