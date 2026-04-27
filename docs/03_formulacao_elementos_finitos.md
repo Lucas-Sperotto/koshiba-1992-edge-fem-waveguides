@@ -255,10 +255,10 @@ $$
 [K] = \begin{bmatrix}
 [K_{tt}] & [K_{tz}] \\
 [K_{zt}] & [K_{zz}]
-\end{bmatrix} =
+\end{bmatrix}
 \sum_e
 \iint_e
-[B]^{*}[p][B]^T
+[B]^*[p][B]^T
 dxdy
 $$
 
@@ -274,8 +274,7 @@ $$
 \end{bmatrix} =
 \sum_e
 \iint_e
-[N]^{*}[q][N]^T
-dxdy
+[N]^*[q][N]^T dxdy
 $$
 
 **Equação (27)**
@@ -286,7 +285,7 @@ $$
 [B] =
 \begin{bmatrix}
 j\beta\{V\} & -j\beta\{U\} & -\{U_y\}+\{V_x\} \\
-j\{N_x\} & j\{N_y\} & \{0\}
+j\{N_y\} & j\{N_x\} & \{0\}
 \end{bmatrix}
 $$
 
@@ -313,8 +312,8 @@ $$
 \sum_e
 \iint_e
 \left[
-p_x\beta\{V\}\{N_x\}^T +
-p_y\beta\{U\}\{N_y\}^T \right]
+p_x\beta\{V\}\{N_y\}^T +
+p_y\beta\{U\}\{N_x\}^T \right]
 dxdy
 $$
 
@@ -325,10 +324,10 @@ $$
 \sum_e
 \iint_e
 \left[
-p_x\{N_x\}\{N_x\}^T +
-p_y\{N_y\}\{N_y\}^T
+p_x\{N_y\}\{N_y\}^T +
+p_y\{N_x\}\{N_x\}^T
 \right]
-dx\,dy
+dxdy
 $$
 
 **Equação (29c)**
@@ -397,7 +396,7 @@ q_xk_0^2\{U\}\{U\}^T +
 q_yk_0^2\{V\}\{V\}^T -
 4p_z\{U_y\}\{U_y\}^T
 \right]
-dx\,dy
+dxdy
 $$
 
 **Equação (32a)**
@@ -408,10 +407,10 @@ $$
 \sum_e
 \iint_e
 \left[
-p_x\{V\}\{N_x\}^T +
-p_y\{U\}\{N_y\}^T
+p_x\{V\}\{N_y\}^T +
+p_y\{U\}\{N_x\}^T
 \right]
-dx\,dy
+dxdy
 $$
 
 **Equação (32b)**
@@ -421,10 +420,10 @@ $$
 \iint_e
 \left[
 q_zk_0^2\{N\}\{N\}^T -
-p_x\{N_x\}\{N_x\}^T -
-p_y\{N_y\}\{N_y\}^T
+p_x\{N_y\}\{N_y\}^T -
+p_y\{N_x\}\{N_x\}^T
 \right]
-dx\,dy
+dxdy
 $$
 
 **Equação (32c)**
@@ -437,7 +436,7 @@ $$
 p_x\{V\}\{V\}^T +
 p_y\{U\}\{U\}^T
 \right]
-dx\,dy
+dxdy
 $$
 
 **Equação (33)**
