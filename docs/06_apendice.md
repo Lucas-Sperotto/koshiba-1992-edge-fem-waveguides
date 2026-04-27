@@ -1,6 +1,6 @@
 # Apêndice
 
-> **Navegação dos docs:** [Resumo](00_resumo.md) | [Introdução](01_introducao.md) | [Equações básicas](02_equacoes_basicas.md) | [Formulação FEM](03_formulacao_elementos_finitos.md) | [Exemplos numéricos](04_exemplos_numericos.md) | [Conclusão](05_conclusao.md) | [Apêndice](06_apendice.md) | [Referências](07_referencias.md) | [Notas editoriais](08_notas_editoriais_e_cientificas.md) | [Baseline Fase 1](09_notas_editoriais_e_cientificas.md)
+> **Navegação dos docs:** [Índice](README.md) | [00](00_resumo.md) | [01](01_introducao.md) | [02](02_equacoes_basicas.md) | [03](03_formulacao_elementos_finitos.md) | [04](04_exemplos_numericos.md) | [05](05_conclusao.md) | [06](06_apendice.md) | [07](07_referencias.md) | [08](08_notas_editoriais_e_cientificas.md) | [09](09_maxwell_para_equacao_01.md) | [10](10_equacao_01_para_funcional_06.md) | [11](11_origem_do_fator_j_equacao_07.md) | [12](12_funcoes_de_forma_nodais_e_de_aresta.md) | [13](13_revisao_das_integrais_do_apendice.md) | [14](14_integrais_cruzadas_e_termos_ausentes.md) | [15](15_testes_matematicos_minimos.md) | [16](16_contrato_para_implementacao_cpp.md)
 
 As integrais necessárias para construir as matrizes elementares são calculadas da seguinte forma:
 
@@ -155,3 +155,28 @@ $$
 **Equação (A10)**
 
 onde $\left[\cdot\right]_{kl}$, com $kl = 11, 12, \cdots, 33$, indica o componente $(k,l)$ da matriz $\left[\cdot\right]$.
+
+---
+
+> **Nota editorial — Integrais complementares (não constam no artigo original):** As duas equações a seguir completam a família das integrais aresta–nó. Elas **não são necessárias** para a formulação do artigo, pois $[p]$ é sempre diagonal e $[K_{tz}]$ (Eqs. 29b e 32b) usa apenas $\{V\}\{N_y\}^T$ (A5) e $\{U\}\{N_x\}^T$ (A4). Tornam-se necessárias se o tensor $[p]$ possuir termos fora da diagonal (meios com acoplamento $xy$). As expressões são derivadas diretamente das Equações (8), (15) e (16) por integração exata, usando $\iint_e dxdy = A_e$, $\iint_e x\,dxdy = A_e x_c$ e $\iint_e y\,dxdy = A_e y_c$.
+
+$$
+\left[ \iint_e \{V\}\{N_x\}^T dxdy \right]_{kl} = \frac{1}{2} \left( \bar{b}_k - \bar{c}_k x_c \right) b_l
+$$
+
+**Equação (A11)**
+
+$$
+\left[ \iint_e \{U\}\{N_y\}^T dxdy \right]_{kl} = \frac{1}{2} \left( \bar{a}_k + \bar{c}_k y_c \right) c_l
+$$
+
+**Equação (A12)**
+
+As quatro integrais aresta–nó seguem um padrão regular: o fator de linha depende apenas da função de forma de aresta avaliada no centróide, e o fator de coluna depende apenas da direção da derivada nodal ($x \to b_l$, $y \to c_l$):
+
+| Integral | Fator de linha $(k)$ | Fator de coluna $(l)$ | Onde aparece |
+| --- | --- | --- | --- |
+| $\{U\}\{N_x\}^T$ (A4) | $\bar{a}_k + \bar{c}_k y_c$ | $b_l/2$ | $[K_{tz}]$, Eqs. (29b), (32b) |
+| $\{V\}\{N_y\}^T$ (A5) | $\bar{b}_k - \bar{c}_k x_c$ | $c_l/2$ | $[K_{tz}]$, Eqs. (29b), (32b) |
+| $\{V\}\{N_x\}^T$ (A11) | $\bar{b}_k - \bar{c}_k x_c$ | $b_l/2$ | extensões com $[p]$ não diagonal |
+| $\{U\}\{N_y\}^T$ (A12) | $\bar{a}_k + \bar{c}_k y_c$ | $c_l/2$ | extensões com $[p]$ não diagonal |

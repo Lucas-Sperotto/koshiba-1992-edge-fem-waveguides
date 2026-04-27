@@ -1,274 +1,180 @@
-# TODO — Koshiba & Inoue (1992) — Pendências editoriais e científicas
+# TODO — Roteiro para Fechamento do Projeto
 
-Este arquivo registra pendências identificadas na revisão editorial e científica dos arquivos em `docs/`.
-Organizado por status: **baseline documental concluída**, **equações sem transição**, **comentários didáticos**, **imagens**, **implementação** e **validação**.
-
----
-
-## Fase 1 — concluída como baseline documental
-
-A Fase 1 documental foi fechada como baseline editorial e científica inicial. O objetivo desta fase foi corrigir problemas de renderização, registrar convenções de leitura, preservar incertezas científicas e preparar a documentação para as próximas fases sem implementar código C++.
-
-**Arquivos relacionados:**
-- `docs/03_formulacao_elementos_finitos.md`
-- `docs/04_exemplos_numericos.md`
-- `docs/09_notas_editoriais_e_cientificas.md`
-
-**Concluído nesta fase:**
-- [x] **N1** — Convenção de leitura de `$\phi$` como campo vetorial registrada em `docs/09_notas_editoriais_e_cientificas.md`.
-- [x] **N2** — Reutilização de `$[K_{tt}]$`, `$[K_{tz}]$` e `$[K_{zz}]$` registrada como ambiguidade do artigo, com orientação para nomes internos distintos na implementação futura.
-- [x] **N3** — Uso ambíguo de `$t$` registrado como nota editorial, preservando a notação original.
-- [x] **N4** — Uso de `$[N]$` antes de sua definição registrado como nota de leitura, sem alterar a ordem das equações.
-- [x] **L1** — Equação (20) corrigida de `\left{ ... \right}` para `\left( ... \right)`.
-- [x] **L2** — Equação (26) separada entre definição em blocos de `$[K]$` e forma integral.
-- [x] **L3** — Legendas das Figuras 3, 5 e 7 corrigidas para evitar negrito Markdown quebrado.
-- [x] Menu de navegação entre os arquivos Markdown de `docs/` criado no topo de cada arquivo documental.
-
-**Pendências preservadas para fases futuras:**
-- **E1–E5** permanecem abertas como pendências científicas/didáticas.
-- **D1–D6** permanecem abertas como comentários didáticos a desenvolver.
-- **I1–I2** permanecem abertas como pendências editoriais/legais de imagens.
-- **P1–P2** permanecem abertas para antes da implementação C++.
+Este arquivo é o roteiro mestre para a conclusão do projeto. Ele substitui a lista de pendências da Fase 1 e organiza todas as tarefas restantes para que o projeto seja considerado **fechado**: implementado, validado, documentado e reprodutível.
 
 ---
 
-## Equações sem transição explicada
+## 0. Status Atual
 
-### E1 — Maxwell → Equação (1): derivação omitida
-
-A Seção 2 apresenta a equação vetorial de onda (Eq. 1) diretamente, sem mostrar como ela é obtida a partir das equações de Maxwell. O leitor não vê as substituições `$\nabla \times \mathbf{E} = -j\omega\mu_0\mathbf{H}$` e `$\nabla \times \mathbf{H} = j\omega\varepsilon_0[\varepsilon_r]\mathbf{E}$` combinadas em uma única equação.
-
-A hipótese de meio **não magnético** (`$\mu = \mu_0$`, implícita em `$[p] = I$` para `$\phi = E$`) nunca é declarada.
-
-**Tipo:** científica / didática
-**Origem:** artigo
-**Arquivos relacionados:**
-- `docs/02_equacoes_basicas.md` (antes da Eq. 1)
-
-**Critério de conclusão:**
-- [ ] Adicionar comentário didático com os dois passos de substituição, ou ao menos a hipótese de meio não magnético
-- [ ] Indicar explicitamente a hipótese `$\mu = \mu_0$`
+- [x] **Fase 1 documental fechada**: tradução, notas editoriais e baseline científica registradas em `docs/00` a `docs/08`.
+- [x] **Fase 2 documental complementar fechada**: pontes matemáticas para implementação registradas em `docs/09` a `docs/16`.
+- [x] **Índice de documentação criado**: `docs/README.md` consolida a navegação entre os capítulos.
+- [ ] **Fase 3 em andamento**: iniciar a codificação C++17 por geometria triangular, orientação e testes matemáticos mínimos.
 
 ---
 
-### E2 — Equação (1) → Funcional (6): sem justificativa variacional
+## 1. Bloqueios Críticos
 
-O funcional `$F$` da Equação (6) é apresentado sem qualquer explicação de que é o funcional de Rayleigh-Ritz associado ao operador hermitiano da Equação (1), nem de que sua estacionaridade (`$\delta F = 0$`) equivale à equação de onda.
+*Estas tarefas impedem o início da validação numérica. Devem ser resolvidas primeiro.*
 
-**Tipo:** científica / didática
-**Origem:** artigo
-**Arquivos relacionados:**
-- `docs/02_equacoes_basicas.md` (Eq. 6)
+- [x] **(Concluído) Derivar integrais complementares da família aresta–nó**: As integrais $\{V\}\{N_x\}^T$ e $\{U\}\{N_y\}^T$ foram derivadas analiticamente e registradas como Equações (A11) e (A12) em `docs/06_apendice.md`, com nota editorial explicando seu escopo.
+  - **Correção científica:** As Eqs. (29b) e (32b) usam $\{V\}\{N_y\}^T$ (A5) e $\{U\}\{N_x\}^T$ (A4), que já constavam no apêndice. As novas (A11)–(A12) completam a família, mas só são necessárias para extensões com tensor $[p]$ não diagonal. A montagem de `[K_tz]` para o caso do artigo (diagonal) não estava bloqueada.
+  - **Pendência restante:** Criar teste unitário em `tests/` que verifique numericamente (A11) e (A12) para um triângulo de geometria conhecida.
 
-**Critério de conclusão:**
-- [ ] Adicionar comentário didático explicando que `$\delta F = 0$` recupera a Eq. (1) via integração por partes, e que a simetria hermitiana garante autovalores reais `$k_0^2$`
-
----
-
-### E3 — Fator `$j$` na Equação (7) sem explicação
-
-`$\phi_z = j\{N\}^T\{\phi_z\}_e$` — o fator `$j = \sqrt{-1}$` multiplica a componente axial mas nunca é justificado no texto. Ele surge da convenção de fase `$e^{j(\omega t - \beta z)}$` e da necessidade de compatibilidade com as componentes transversais após a derivação em `$z$`, mas isso não é dito.
-
-**Tipo:** científica / didática
-**Origem:** artigo
-**Arquivos relacionados:**
-- `docs/03_formulacao_elementos_finitos.md` (Eq. 7)
-
-**Critério de conclusão:**
-- [ ] Adicionar nota explicando a origem do fator `$j$` em relação à convenção de fase e à estrutura do operador rotacional
+- [ ] **(CRÍTICO) Implementar o núcleo do solver FEM**: Estruturas de dados e rotinas essenciais para a montagem das matrizes globais.
+  - **Impacto:** Sem o solver, nenhuma simulação pode ser executada.
+  - **Validação:**
+    - [ ] Criar classes para malha (nós, elementos, arestas) em `src/mesh/`.
+    - [ ] Implementar o cálculo das matrizes elementares (Eqs. A1-A8 e as derivadas acima) em `src/fem/`.
+    - [ ] Implementar a montagem das matrizes globais `[K]` e `[M]` (Eqs. 26, 27).
+    - [ ] Implementar a redução do sistema (Eq. 35), incluindo uma estratégia para a inversão de `[K_zz]`.
+    - [ ] Integrar um solver de autovalores (ex: Eigen) para resolver a Eq. (34).
 
 ---
 
-### E4 — Coeficientes `$\bar{a}_k$`, `$\bar{b}_k$`, `$\bar{c}_k$` (Eqs. 17–19) sem derivação ou contexto geométrico
+## 2. Pendências Científicas e de Implementação
 
-Os coeficientes das funções de forma de aresta aparecem como resultado de um sistema não apresentado. O leitor não vê:
-- qual sistema de equações foi imposto (três condições de continuidade tangencial, uma por aresta);
-- o que `$\theta_{k+3}$` representa geometricamente (ângulo da aresta `$k+3$` com o eixo `$x$`);
-- a relação entre esses coeficientes e os `$a_k, b_k, c_k$` das funções de forma nodais.
+*Tradução da física do artigo para código funcional e validado.*
 
-A Figura 1 não mostra os ângulos `$\theta_{k+3}$`, o que tornaria a Equação (20) autoexplicativa.
+- [ ] **(ALTO) Implementar os 3 casos de validação do artigo**:
+  - [ ] **Microstrip (Fig. 3)**: Criar executável em `examples/microstrip/` que receba os parâmetros da geometria (Fig. 2) e do material (isotrópico e anisotrópico) e gere um arquivo `.csv` com a curva de dispersão (`β/k0` vs. frequência).
+  - [ ] **Guia Retangular (Fig. 5)**: Criar executável em `examples/rectangular_dielectric_waveguide/` que reproduza as curvas de dispersão (`b` vs. `v`) para os modos `E^x` e `E^y`.
+  - [ ] **Guia Triangular (Fig. 7)**: Criar executável em `examples/triangular_core_waveguide/` que reproduza as curvas de dispersão para o modo `E^y_11`.
 
-**Tipo:** científica / didática
-**Origem:** artigo
-**Arquivos relacionados:**
-- `docs/03_formulacao_elementos_finitos.md` (Eqs. 15–21, Figura 1)
+- [ ] **(ALTO) Definir e implementar estratégia para a inversão de `[K_zz]`**: A Eq. (35) requer `[K_zz]⁻¹`. A implementação deve ser robusta a matrizes mal-condicionadas ou singulares (ver E5 da Fase 1).
+  - **Ação:** Em `src/algebra/`, implementar a solução de `[K_zz] * X = [K_zt]` em vez da inversão explícita, usando uma fatoração estável (ex: LU com pivoteamento ou SVD). Adicionar tratamento de exceção para matrizes singulares.
 
-**Critério de conclusão:**
-- [ ] Adicionar comentário didático descrevendo o sistema linear que determina `$\bar{a}_k, \bar{b}_k, \bar{c}_k$`
-- [ ] Indicar que `$\theta_{k+3}$` é o ângulo da aresta com o eixo horizontal
-- [ ] Avaliar se a Figura 1 precisa ser complementada com anotação dos ângulos (ou adicionar figura auxiliar)
+- [ ] **(MÉDIO) Implementar estrutura para leitura de malha**: O código precisa ler malhas triangulares de um formato padrão (ex: Gmsh `.msh`).
+  - **Ação:** Criar um parser em `src/io/` que leia nós, elementos e *physical groups* (para identificar materiais e contornos).
 
----
-
-### E5 — Eliminação de `$\{\phi_z\}$` (Eq. 31b → Eq. 34): invertibilidade de `$[K_{zz}]$` não discutida
-
-A passagem da Eq. (31b) para a Eq. (35) requer que `$[K_{zz}]$` seja invertível. Nenhuma condição sobre isso é mencionada. Na prática, `$[K_{zz}]$` pode ser singular em casos especiais (e.g., em ou próximo da frequência de corte de modos axiais).
-
-**Tipo:** científica
-**Origem:** artigo
-**Arquivos relacionados:**
-- `docs/03_formulacao_elementos_finitos.md` (Eqs. 31b, 34, 35)
-
-**Critério de conclusão:**
-- [ ] Adicionar nota sobre as condições em que `$[K_{zz}]$` é regular
-- [ ] Registrar o custo computacional da inversão e a perda de esparsidade como trade-off documentado (o texto menciona isso, mas merece mais destaque)
+- [ ] **(MÉDIO) Implementar aplicação de Condições de Contorno**: O artigo usa condutores elétricos e magnéticos perfeitos.
+  - **Ação:** Implementar em `src/fem/` a modificação das matrizes globais para impor `Dirichlet` (zerar linhas/colunas) ou `Neumann` (naturalmente satisfeitas) nas fronteiras externas.
 
 ---
 
-## Comentários didáticos faltantes
+## 3. Reprodutibilidade e Automação
 
-### D1 — Dualidade `$\phi = E$` vs. `$\phi = H$`: motivação não explicada
+*Garantir que qualquer pessoa possa clonar o repositório e reproduzir os resultados.*
 
-O artigo apresenta as duas formulações em paralelo mas não explica por que as duas existem, nem qual é preferida em prática. A formulação em `$\mathbf{H}$` é mais comum na literatura (refs. [1]–[10]) e a formulação em `$\mathbf{E}$` tem restrições de continuidade diferentes. Isso não é discutido.
+- [ ] **(ALTO) Criar scripts de plotagem para validação**: Para cada caso de validação, deve haver um script Python que lê o `.csv` gerado pelo solver e plota o gráfico correspondente, sobrepondo os pontos do artigo original (digitalizados) para comparação quantitativa.
+  - **Arquivos:** `scripts/plot/plot_fig3.py`, `scripts/plot/plot_fig5.py`, `scripts/plot/plot_fig7.py`.
 
-**Tipo:** didática
-**Arquivos relacionados:**
-- `docs/02_equacoes_basicas.md` (Eqs. 4–5)
+- [ ] **(MÉDIO) Criar scripts de execução (`run`)**: Automatizar a execução dos exemplos.
+  - **Arquivos:** `scripts/run/run_microstrip.sh`, `scripts/run/run_all.sh`, etc. Esses scripts devem chamar os executáveis C++ com os parâmetros corretos e garantir que os outputs sejam salvos em `data/output/`.
 
-**Critério de conclusão:**
-- [ ] Adicionar nota comparando as duas formulações: grau de liberdade dos parâmetros nodais, compatibilidade com condições de contorno elétrico/magnético
+- [ ] **(MÉDIO) Padronizar entrada e saída dos executáveis**: Todos os executáveis em `examples/` devem seguir um padrão de linha de comando (ex: `--input <config.json> --output <results.csv>`).
+  - **Ação:** Implementar um parser de argumentos em C++ e definir um formato de arquivo de configuração (ex: JSON) em `data/input/` para cada exemplo.
 
----
-
-### D2 — Por que elementos de aresta eliminam espúrios: nunca explicado na Seção 3
-
-A Seção 3 implementa os elementos de aresta mas não explica o mecanismo pelo qual eles eliminam soluções espúrias. A explicação (espaço de funções de forma que satisfaz automaticamente `$\nabla \cdot \mathbf{B} = 0$` no sentido fraco) é central para a contribuição do artigo, mas fica apenas implícita.
-
-**Tipo:** didática / científica
-**Arquivos relacionados:**
-- `docs/03_formulacao_elementos_finitos.md` (introdução da Seção 3)
-- `docs/01_introducao.md`
-
-**Critério de conclusão:**
-- [ ] Adicionar parágrafo de comentário didático (fora do texto original) conectando a continuidade tangencial dos elementos de aresta à ausência de espúrios
+- [ ] **(BAIXO) Configurar pipeline de CI (GitHub Actions)**:
+  - **Ação:** Criar um workflow `.github/workflows/build_and_test.yml` que compile o código e execute os testes (`tests/`) a cada push.
 
 ---
 
-### D3 — Apêndice, Equação (A3): identidade não óbvia sem derivação
+## 4. Documentação e Clareza Didática
 
-A Equação (A3) mostra que quatro integrais distintas são todas iguais a `$A_e \bar{c}_k \bar{c}_l$`:
+*Melhorar a documentação para que ela sirva como material de estudo.*
 
-$$
-\left[\iint_e \{U_y\}\{U_y\}^T\right]_{kl} =
-\left[\iint_e \{V_x\}\{V_x\}^T\right]_{kl} =
--\left[\iint_e \{U_y\}\{V_x\}^T\right]_{kl} =
--\left[\iint_e \{V_x\}\{U_y\}^T\right]_{kl} =
-A_e \bar{c}_k \bar{c}_l
-$$
+- [ ] **(MÉDIO) Conectar equações ao código**: Adicionar comentários no código-fonte C++ referenciando as equações do artigo (ex: `// Implements Eq. (A1) from the Appendix`).
 
-Esta identidade tem consequência direta na simplificação do termo `$4p_z\{U_y\}\{U_y\}^T$` em Eq. (29a), mas a ligação não é traçada explicitamente.
+- [x] **(Concluído) Adicionar notas didáticas sobre a física**: Os pontos levantados na Fase 1 foram consolidados nos complementos `docs/09` a `docs/16`, incluindo Maxwell → Eq. (1), Eq. (1) → funcional, fator `j`, funções de forma, integrais do apêndice, testes mínimos e contrato C++17.
 
-**Tipo:** didática / científica
-**Arquivos relacionados:**
-- `docs/06_apendice.md` (Eq. A3)
-- `docs/03_formulacao_elementos_finitos.md` (Eq. 29a)
+- [ ] **(BAIXO) Melhorar a Figura 1**: A Figura 1 não mostra os ângulos `θ` da Eq. (20).
+  - **Ação:** Criar uma nova versão de `docs/img/fig_01.png` (ou uma `fig_01_annotated.svg`) que inclua os ângulos `θ_4, θ_5, θ_6`, facilitando o entendimento.
 
-**Critério de conclusão:**
-- [ ] Adicionar derivação esquemática de (A3) a partir das definições de `$\{U\}$ e `$\{V\}$`
-- [ ] Traçar a ligação entre (A3) e o coeficiente 4 em (29a)
+- [ ] **(BAIXO) Verificar direitos das imagens dos autores**: As fotos em `docs/00_resumo.md` precisam ter a licença verificada.
+  - **Ação:** Se a licença não puder ser confirmada, remover as imagens.
 
 ---
 
-### D4 — Apêndice: integrais cruzadas `$\{V\}\{N_x\}^T$` e `$\{U\}\{N_y\}^T$` ausentes
+## 5. Testes e Qualidade de Código
 
-As Eqs. (A4) e (A5) fornecem `$\{U\}\{N_x\}^T$` e `$\{V\}\{N_y\}^T$`, mas **não** as integrais `$\{V\}\{N_x\}^T$` e `$\{U\}\{N_y\}^T$`. Estas aparecem em `$[K_{tz}]$` (Eq. 29b / 32b) e serão necessárias na implementação.
+*Garantir a correção e robustez da implementação.*
 
-**Tipo:** científica / técnica
-**Arquivos relacionados:**
-- `docs/06_apendice.md`
-- `docs/03_formulacao_elementos_finitos.md` (Eqs. 29b, 32b)
+- [ ] **(ALTO) Criar conjunto de testes unitários e de integração**:
+  - **Ação:** Usando um framework como Google Test, criar testes em `tests/` para:
+    - **Geometria:** Cálculo de área e coeficientes `a, b, c` de um triângulo.
+    - **Funções de Forma:** Valores das funções de forma nodais e de aresta em pontos conhecidos.
+    - **Matrizes Elementares:** Comparar a saída das funções de matrizes locais com resultados calculados à mão para um elemento simples (ex: triângulo retângulo unitário).
+    - **Simetria:** Verificar se as matrizes que devem ser simétricas (`[K_zz]`, `[M_tt]`, etc.) de fato o são.
 
-**Critério de conclusão:**
-- [ ] Verificar no artigo original se as integrais cruzadas estão presentes
-- [ ] Se ausentes, derivá-las e registrá-las como complemento ao apêndice com nota editorial
+### Pendências identificadas pela auditoria de `docs/15_testes_matematicos_minimos.md`
 
----
+Os itens abaixo corrigem ou completam `docs/15` antes da implementação dos testes em C++.
 
-### D5 — Definição de `$v$` e `$b$` (Eqs. 36–37): faixa física não explicada
+- [ ] **(CRÍTICO) Resolver a ambiguidade de θ₄ para a aresta horizontal do triângulo de referência** (`docs/15`, Teste 9):
+  O artigo define $0 \le \theta < \pi$, mas para k=1, l=2 no triângulo P1=(0,0), P2=(1,0), P3=(0,1): o vetor $(x_k-x_l, y_k-y_l) = (-1,0)$ dá $\text{atan2}(0,-1)=\pi$, que está **excluído** pelo intervalo estrito. Com arctan simples, $\theta_4=0$, produzindo $\bar{a}_1=+1$, $\bar{c}_1=-1$. Com atan2, $\theta_4=\pi$, produzindo $\bar{a}_1=-1$, $\bar{c}_1=+1$. Ambos satisfazem as condições tangenciais, mas com sinais opostos. **Ação:** definir a convenção usada pelo projeto (`atan2` mapeado para $[0,\pi)$), documentar em `docs/15`, e adicionar teste explícito dos ângulos $\theta_4=\pi$, $\theta_5=3\pi/4$, $\theta_6=\pi/2$ antes de qualquer teste de $\bar{a}_k$, $\bar{b}_k$, $\bar{c}_k$.
 
-As equações (36–37) definem frequência normalizada `$v$` e constante de propagação normalizada `$b$` sem:
-- indicar a origem da normalização (Goell, 1969 — ref. [25]);
-- explicitar o intervalo físico `$0 \leq b \leq 1$` para modos guiados;
-- explicar o significado dos limites `$b \to 0$` (corte) e `$b \to 1$` (confinamento total).
+- [ ] **(CRÍTICO) Adicionar valores esperados explícitos ao Teste 9 de `docs/15`** (funções de aresta):
+  O Teste 9 descreve a propriedade $\phi_t^{(r)}|_s = \delta_{rs}$ mas não fornece os coeficientes do triângulo de referência. Os valores corretos (usando atan2, $\theta_4=\pi$) são:
+  - $\bar{a}_1=-1$, $\bar{b}_1=0$, $\bar{c}_1=1$ → $U_1(y)=-1+y$, $V_1(x)=-x$
+  - $\bar{a}_2=0$, $\bar{b}_2=0$, $\bar{c}_2=-\sqrt{2}$ → $U_2(y)=-\sqrt{2}\,y$, $V_2(x)=\sqrt{2}\,x$
+  - $\bar{a}_3=0$, $\bar{b}_3=1$, $\bar{c}_3=1$ → $U_3(y)=y$, $V_3(x)=1-x$
 
-**Tipo:** didática
-**Arquivos relacionados:**
-- `docs/04_exemplos_numericos.md` (Eqs. 36–37)
+  Nota: $\bar{c}_2=-\sqrt{2}$ é irracional (comprimento da hipotenusa). $\Delta=-\sqrt{2}/2<0$ para este triângulo — isso é correto e não indica erro. Adicionar estes valores ao documento e à checklist da Seção 19.
 
-**Critério de conclusão:**
-- [ ] Adicionar nota didática sobre o intervalo de `$b$` e o significado físico dos extremos
+- [ ] **(GRAVE) Adicionar segundo triângulo de teste sem zeros em $b_k$ e $c_k$** (`docs/15`, Seções 12 e 13):
+  No triângulo de referência, $b_3=0$ e $c_2=0$, zerando linha/coluna 3 de A7 e linha/coluna 2 de A8. Bugs nessas entradas passam silenciosamente. **Ação:** adicionar um segundo triângulo geral a `docs/15`, por exemplo P1=(0,0), P2=(3,0), P3=(1,2) ($A_e=3$, todos $b_k,c_k$ não-nulos), com os valores esperados de A7 e A8 calculados explicitamente.
 
----
+- [ ] **(GRAVE) Adicionar testes para integrais de aresta A1, A2, A3, A4, A5 em `docs/15`**:
+  Os Testes 12–13 cobrem apenas A6, A7, A8 (funções nodais). As integrais de aresta — A1 e A2 com termos em $y_c$, $\sum y_k^2$ e fator 1/12; A3 com o fator-4 no rotacional; A4 e A5 de acoplamento aresta–nó — são mais complexas e mais sujeitas a erro. **Ação:** acrescentar pelo menos 3 testes a `docs/15`:
+  - A3: verificar que $A_e\bar{c}_k\bar{c}_l$ vale $(1/2)[[1,-\sqrt{2},1],[-\sqrt{2},2,-\sqrt{2}],[1,-\sqrt{2},1]]$ para o triângulo de referência;
+  - A4/A5: verificar os valores escalares $(1/2)(\bar{a}_k+\bar{c}_ky_c)b_l$ e $(1/2)(\bar{b}_k-\bar{c}_kx_c)c_l$;
+  - A1 ou A2: verificar a matriz $3\times3$ completa (requer $\sum y_k^2$ e $y_c$).
 
-### D6 — Conclusão cita referências [14] e [15] sem contexto no corpo do texto
+- [ ] **(GRAVE) Adicionar valores esperados concretos aos Testes 10 e 11 de `docs/15`**:
+  O Teste 10 (orientação de aresta) e o Teste 11 (continuidade tangencial) descrevem o comportamento sem fornecer resultados numéricos específicos. Para o par de triângulos T1=(0,0),(1,0),(0,1) e T2=(1,0),(1,1),(0,1) com aresta compartilhada (1,0)↔(0,1): calcular explicitamente o sinal de aresta local de cada elemento e o valor de $\phi_t$ em pelo menos dois pontos da aresta.
 
-A Seção 5 menciona que a abordagem pode ser estendida a "guias de onda anisotrópicos com simetria de reflexão [14], [15]", mas [14] e [15] não são discutidas no corpo do artigo. Para o leitor, a citação surge sem contexto.
+- [ ] **(GRAVE) Adicionar teste de $U_{y,k}=\bar{c}_k$ e $V_{x,k}=-\bar{c}_k$ em `docs/15`**:
+  Para o triângulo de referência: $\{U_y\}=(1,-\sqrt{2},1)$ e $\{V_x\}=(-1,\sqrt{2},-1)$. Esses valores são críticos para a montagem de $[B]$ e para a integral A3. Acrescentar teste explícito na Seção 14 de `docs/15` com esses resultados como contrato numérico.
 
-**Tipo:** editorial
-**Arquivos relacionados:**
-- `docs/05_conclusao.md`
+- [ ] **(MODERADO) Adicionar matrizes numéricas explícitas aos Testes 12 e 13 de `docs/15`**:
+  O documento apresenta as fórmulas mas não as matrizes do triângulo de referência. Completar com:
+  - A7 = $(1/2)[[1,-1,0],[-1,1,0],[0,0,0]]$ (linha 3 nula pois $b_3=0$)
+  - A8 = $(1/2)[[1,0,-1],[0,0,0],[-1,0,1]]$ (linha 2 nula pois $c_2=0$)
+  - A6 = $(1/24)[[2,1,1],[1,2,1],[1,1,2]]$
 
-**Critério de conclusão:**
-- [ ] Adicionar nota editorial identificando [14] (Chew & Nasir, 1989) e [15] (Fernandez & Lu, 1990) e descrevendo brevemente o tipo de extensão sugerida
+- [ ] **(MODERADO) Corrigir notação do Teste 8 em `docs/15`**:
+  O documento escreve $\partial L_1/\partial x = b_1 = -1$, o que é verdadeiro apenas porque $2A_e=1$ para o triângulo de referência. A fórmula geral é $\partial L_k/\partial x = b_k/(2A_e)$. Reescrever mostrando a substituição explícita para evitar que o implementador ache que $\partial L_k/\partial x = b_k$ sem o denominador.
 
----
+- [ ] **(MODERADO) Adicionar teste de $b_k$ e $c_k$ sob inversão de orientação em `docs/15`**:
+  Para o triângulo (0,0),(0,1),(1,0) (ordem horária do mesmo triângulo de referência), verificar explicitamente que $b_k^{\text{CW}} = -b_k^{\text{CCW}}$, $c_k^{\text{CW}} = -c_k^{\text{CCW}}$, e que A7/A8 calculadas com $A_e^{\text{CW}}<0$ dão sinal errado. Este teste documenta por que a implementação deve usar $|A_e|$.
 
-## Imagens
+- [ ] **(MODERADO) Documentar que $\Delta<0$ é válido para o triângulo de referência em `docs/15`**:
+  $\Delta = -\sqrt{2}/2 \approx -0.707$ para o triângulo P1=(0,0), P2=(1,0), P3=(0,1). O sinal negativo é correto e não indica erro. Adicionar nota na Seção 9 de `docs/12` e na Seção 13 de `docs/15` alertando que $\Delta < 0$ é possível e não invalida o elemento.
 
-Todas as 13 imagens referenciadas nos docs existem em `docs/img/`. Nenhuma imagem está faltando.
-
-Pendências relacionadas a imagens são de **conteúdo**, não de arquivo:
-
-### I1 — Figura 1 não mostra ângulos `$\theta_{k+3}$`
-
-A Figura 1 (elemento triangular de aresta) não exibe os ângulos `$\theta_{k+3}$` das arestas, que são centrais na definição dos coeficientes das Eqs. (17–20).
-
-**Tipo:** editorial / didática
-**Arquivos relacionados:**
-- `docs/03_formulacao_elementos_finitos.md` (Figura 1, Eq. 20)
-
-**Critério de conclusão:**
-- [ ] Complementar ou substituir `img/fig_01.png` por versão anotada com os ângulos `$\theta_4$`, `$\theta_5$`, `$\theta_6$`
+- [ ] **(MÉDIO) Refatorar código duplicado**: Após a implementação inicial, identificar e refatorar código repetido entre os diferentes exemplos.
 
 ---
 
-### I2 — Fotos dos autores (`koshiba.png`, `inoue.png`) precisam de verificação de direitos
+## 6. Melhorias (Não Bloqueantes)
 
-As fotos dos autores são exibidas no arquivo `00_resumo.md`. Devem ter origem verificada quanto a direitos de uso.
+*Tarefas para melhorar a qualidade do projeto, mas que não impedem seu fechamento.*
 
-**Tipo:** editorial / legal
-**Arquivos relacionados:**
-- `docs/00_resumo.md` (linhas 41, 53)
-
-**Critério de conclusão:**
-- [ ] Confirmar origem e licença das fotos ou substituir por texto descritivo
+- [ ] **(BAIXO) Otimização de performance**: Analisar gargalos de performance (ex: montagem de matrizes, solução de autovalores) e otimizar se necessário.
+- [ ] **(BAIXO) Visualização de campos**: Criar scripts para exportar os autovetores (campos `E` ou `H`) para um formato legível por Paraview/VTK.
 
 ---
 
-## Implementação (pendências derivadas da revisão)
+## 7. Critério de Conclusão do Projeto
 
-### P1 — Derivar e documentar as integrais cruzadas do apêndice antes de implementar `$[K_{tz}]$`
+O projeto será considerado **"fechado"** quando todos os itens a seguir forem concluídos:
 
-Ver pendência **D4**. A montagem de `$[K_{tz}]$` requer integrais não documentadas no artigo.
+1. **Validação Completa**:
+    - [ ] Todas as curvas das Figuras 3, 5 e 7 do artigo foram reproduzidas com desvio quantitativo documentado e inferior a um limiar aceitável (ex: 5%).
+    - [ ] Os scripts em `scripts/plot/` geram gráficos que sobrepõem os resultados do código aos do artigo.
 
-**Tipo:** técnica
-**Critério de conclusão:**
-- [ ] Equações derivadas e registradas em `docs/06_apendice.md`
-- [ ] Implementação de `$[K_{tz}]$` verificada contra resultado analítico para elemento unitário
+2. **Reprodutibilidade Total**:
+    - [ ] O comando `git clone ... && cd ... && cmake . && make` compila o projeto sem erros.
+    - [ ] O script `scripts/run/run_all.sh` executa todas as simulações e gera todos os arquivos de dados em `data/output/`.
+    - [ ] O script `scripts/plot/plot_all.sh` (ou similar) gera todos os gráficos de validação em `out/`.
 
----
-
-### P2 — Documentar tratamento de `$[K_{zz}]$` singular ou mal condicionado
-
-Ver pendência **E5**. A inversão de `$[K_{zz}]$` deve ser implementada com tratamento de casos singulares.
-
-**Tipo:** técnica
-**Critério de conclusão:**
-- [ ] Estratégia de inversão definida (fatoração LU, pseudo-inversa, ou regularização)
-- [ ] Teste com guia próximo à frequência de corte
+3. **Qualidade e Documentação**:
+    - [ ] Todos os itens de prioridade **Crítica** e **Alta** deste `TODO.md` foram resolvidos.
+    - [ ] O `README.md` foi atualizado com instruções claras de compilação, execução e reprodução dos resultados.
+    - [ ] Não há mais pendências marcadas como `TODO` ou `FIXME` no código-fonte sem um item correspondente neste arquivo.
 
 ---
 
-## Concluído
+### Histórico (Fase 1 - Concluída)
 
-Ver a seção **Fase 1 — concluída como baseline documental**, que registra os itens N1–N4 e L1–L3 como concluídos nesta etapa.
+*A Fase 1 (baseline documental) foi fechada. Suas pendências foram migradas para as seções acima.*
