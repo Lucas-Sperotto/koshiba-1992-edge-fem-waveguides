@@ -1,307 +1,224 @@
-# TODO — Roteiro para Fechamento do Projeto
+# TODO — Roteiro de desenvolvimento pós-baseline documental
 
-Este arquivo é o roteiro mestre para a conclusão do projeto. Ele substitui a lista de pendências da Fase 1 e organiza todas as tarefas restantes para que o projeto seja considerado **fechado**: implementado, validado, documentado e reprodutível.
-
----
-
-## 0. Status Atual
-
-- [x] **Fase 1 documental fechada**: tradução, notas editoriais e baseline científica registradas em `docs/00` a `docs/08`.
-- [x] **Fase 2 documental complementar fechada**: pontes matemáticas para implementação registradas em `docs/09` a `docs/16`.
-- [x] **Índice de documentação criado**: `docs/README.md` consolida a navegação entre os capítulos.
-- [x] **Fase 3 iniciada**: núcleo C++17 de geometria triangular criado com CMake e teste mínimo.
+Este arquivo é o roteiro mestre do projeto após o fechamento documental das Fases 1 e 2. Ele deve funcionar como mapa de pendências científicas, técnicas e de validação, sem apagar dúvidas que ainda precisam ser auditadas contra o artigo original.
 
 ---
 
-## 1. Bloqueios Críticos
+## Status atual
 
-*Estas tarefas impedem o início da validação numérica. Devem ser resolvidas primeiro.*
-
-- [x] **(Concluído) Derivar integrais complementares da família aresta–nó**: As integrais $\{V\}\{N_x\}^T$ e $\{U\}\{N_y\}^T$ foram derivadas analiticamente e registradas como Equações (A11) e (A12) em `docs/06_apendice.md`, com nota editorial explicando seu escopo.
-  - **Correção científica:** As Eqs. (29b) e (32b) usam $\{V\}\{N_y\}^T$ (A5) e $\{U\}\{N_x\}^T$ (A4), que já constavam no apêndice. As novas (A11)–(A12) completam a família, mas só são necessárias para extensões com tensor $[p]$ não diagonal. A montagem de `[K_tz]` para o caso do artigo (diagonal) não estava bloqueada.
-  - **Pendência restante:** Criar teste unitário em `tests/` que verifique numericamente (A11) e (A12) para um triângulo de geometria conhecida.
-
-- [x] **(Concluído) Criar núcleo geométrico inicial**: `CMakeLists.txt`, `include/koshiba/mesh/`, `src/mesh/` e `tests/triangle_geometry_tests.cpp` foram criados para validar área, orientação, centroide, coeficientes nodais, funções nodais e gradientes no triângulo de referência.
-
-- [ ] **(CRÍTICO) Implementar o núcleo do solver FEM**: Estruturas de dados e rotinas essenciais para a montagem das matrizes globais.
-  - **Impacto:** Sem o solver, nenhuma simulação pode ser executada.
-  - **Validação:**
-    - [ ] Criar classes para malha (nós, elementos, arestas) em `src/mesh/`.
-    - [ ] Implementar o cálculo das matrizes elementares (Eqs. A1-A8 e as derivadas acima) em `src/fem/`.
-    - [ ] Implementar a montagem das matrizes globais `[K]` e `[M]` (Eqs. 26, 27).
-    - [ ] Implementar a redução do sistema (Eq. 35), incluindo uma estratégia para a inversão de `[K_zz]`.
-    - [ ] Integrar um solver de autovalores (ex: Eigen) para resolver a Eq. (34).
+- [x] **Fase 1 — Tradução e documentação científica básica:** baseline documental fechada em `docs/00` a `docs/08`.
+- [x] **Fase 2 — Derivação matemática e contrato numérico:** complementos matemáticos fechados em `docs/09` a `docs/16`.
+- [x] **Fase 3A — Estrutura C++17 mínima com CMake:** biblioteca inicial, `Node`, `Triangle` e teste geométrico criados.
+- [x] **Fase 3B — Geometria, malha e Gmsh:** núcleo implementado e testado.
+- [x] **Fase 4 — Funções de forma nodais e de aresta:** núcleo implementado e testado.
+- [x] **Fase 5 — Matrizes locais do Apêndice:** A1-A8 implementadas e testadas contra valores documentados.
+- [x] **Fase 6 — Montagem global parcial:** blocos geométricos esparsos implementados e testados.
+- [ ] **Fase 7 — Autovalores e validação contra exemplos do artigo:** redução densa mínima implementada; validação científica das figuras segue pendente.
 
 ---
 
-## 2. Pendências Científicas e de Implementação
+## Histórico documental
 
-*Tradução da física do artigo para código funcional e validado.*
+### Fase 1 — concluída como baseline documental
 
-- [ ] **(ALTO) Implementar os 3 casos de validação do artigo**:
-  - [ ] **Microstrip (Fig. 3)**: Criar executável em `examples/microstrip/` que receba os parâmetros da geometria (Fig. 2) e do material (isotrópico e anisotrópico) e gere um arquivo `.csv` com a curva de dispersão (`β/k0` vs. frequência).
-  - [ ] **Guia Retangular (Fig. 5)**: Criar executável em `examples/rectangular_dielectric_waveguide/` que reproduza as curvas de dispersão (`b` vs. `v`) para os modos `E^x` e `E^y`.
-  - [ ] **Guia Triangular (Fig. 7)**: Criar executável em `examples/triangular_core_waveguide/` que reproduza as curvas de dispersão para o modo `E^y_11`.
+**Entregas concluídas**
 
-- [ ] **(ALTO) Definir e implementar estratégia para a inversão de `[K_zz]`**: A Eq. (35) requer `[K_zz]⁻¹`. A implementação deve ser robusta a matrizes mal-condicionadas ou singulares (ver E5 da Fase 1).
-  - **Ação:** Em `src/algebra/`, implementar a solução de `[K_zz] * X = [K_zt]` em vez da inversão explícita, usando uma fatoração estável (ex: LU com pivoteamento ou SVD). Adicionar tratamento de exceção para matrizes singulares.
+- Tradução técnica organizada em `docs/00_resumo.md` a `docs/07_referencias.md`.
+- Notas editoriais e científicas consolidadas em `docs/08_notas_editoriais_e_cientificas.md`.
+- Navegação entre arquivos da documentação criada em `docs/README.md` e nos capítulos complementares.
+- Problemas de renderização das equações e legendas revisados durante o fechamento documental.
 
-- [ ] **(MÉDIO) Implementar estrutura para leitura de malha**: O código precisa ler malhas triangulares de um formato padrão (ex: Gmsh `.msh`).
-  - **Ação:** Criar um parser em `src/io/` que leia nós, elementos e *physical groups* (para identificar materiais e contornos).
+**Observação**
 
-- [ ] **(MÉDIO) Implementar aplicação de Condições de Contorno**: O artigo usa condutores elétricos e magnéticos perfeitos.
-  - **Ação:** Implementar em `src/fem/` a modificação das matrizes globais para impor `Dirichlet` (zerar linhas/colunas) ou `Neumann` (naturalmente satisfeitas) nas fronteiras externas.
+O fechamento da Fase 1 não significa ausência de dúvidas científicas. Ele define apenas o baseline documental mínimo para iniciar a ponte matemática e a implementação.
 
----
+### Fase 2 — concluída como contrato matemático
 
-## 3. Reprodutibilidade e Automação
+**Entregas concluídas**
 
-*Garantir que qualquer pessoa possa clonar o repositório e reproduzir os resultados.*
+- Maxwell para a Equação (1): `docs/09_maxwell_para_equacao_01.md`.
+- Equação (1) para o funcional variacional: `docs/10_equacao_01_para_funcional_06.md`.
+- Origem do fator `j` na Equação (7): `docs/11_origem_do_fator_j_equacao_07.md`.
+- Funções nodais e de aresta: `docs/12_funcoes_de_forma_nodais_e_de_aresta.md`.
+- Revisão das integrais do Apêndice: `docs/13_revisao_das_integrais_do_apendice.md`.
+- Integrais cruzadas, termos ausentes e escopo de extensões: `docs/14_integrais_cruzadas_e_termos_ausentes.md`.
+- Testes matemáticos mínimos: `docs/15_testes_matematicos_minimos.md`.
+- Contrato para implementação C++17: `docs/16_contrato_para_implementacao_cpp.md`.
 
-- [ ] **(ALTO) Criar scripts de plotagem para validação**: Para cada caso de validação, deve haver um script Python que lê o `.csv` gerado pelo solver e plota o gráfico correspondente, sobrepondo os pontos do artigo original (digitalizados) para comparação quantitativa.
-  - **Arquivos:** `scripts/plot/plot_fig3.py`, `scripts/plot/plot_fig5.py`, `scripts/plot/plot_fig7.py`.
+**Justificativa de limpeza**
 
-- [ ] **(MÉDIO) Criar scripts de execução (`run`)**: Automatizar a execução dos exemplos.
-  - **Arquivos:** `scripts/run/run_microstrip.sh`, `scripts/run/run_all.sh`, etc. Esses scripts devem chamar os executáveis C++ com os parâmetros corretos e garantir que os outputs sejam salvos em `data/output/`.
-
-- [ ] **(MÉDIO) Padronizar entrada e saída dos executáveis**: Todos os executáveis em `examples/` devem seguir um padrão de linha de comando (ex: `--input <config.json> --output <results.csv>`).
-  - **Ação:** Implementar um parser de argumentos em C++ e definir um formato de arquivo de configuração (ex: JSON) em `data/input/` para cada exemplo.
-
-- [ ] **(BAIXO) Configurar pipeline de CI (GitHub Actions)**:
-  - **Ação:** Criar um workflow `.github/workflows/build_and_test.yml` que compile o código e execute os testes (`tests/`) a cada push.
+O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` foi removido deste arquivo porque apontava para nomes de arquivos obsoletos e suas entregas foram absorvidas pelos documentos atuais `docs/09` a `docs/16`. As pendências científicas relevantes permanecem listadas abaixo.
 
 ---
 
-## 4. Documentação e Clareza Didática
+## Fase 3A — Estrutura C++17 mínima com CMake
 
-*Melhorar a documentação para que ela sirva como material de estudo.*
+**Status:** concluída.
 
-- [ ] **(MÉDIO) Conectar equações ao código**: Adicionar comentários no código-fonte C++ referenciando as equações do artigo (ex: `// Implements Eq. (A1) from the Appendix`).
+**Entregas**
 
-- [x] **(Concluído) Adicionar notas didáticas sobre a física**: Os pontos levantados na Fase 1 foram consolidados nos complementos `docs/09` a `docs/16`, incluindo Maxwell → Eq. (1), Eq. (1) → funcional, fator `j`, funções de forma, integrais do apêndice, testes mínimos e contrato C++17.
+- [x] `CMakeLists.txt` com biblioteca C++17.
+- [x] `include/koshiba/mesh/node.hpp`.
+- [x] `include/koshiba/mesh/triangle.hpp`.
+- [x] `src/mesh/triangle.cpp`.
+- [x] `tests/triangle_geometry_tests.cpp`.
 
-- [ ] **(BAIXO) Melhorar a Figura 1**: A Figura 1 não mostra os ângulos `θ` da Eq. (20).
-  - **Ação:** Criar uma nova versão de `docs/img/fig_01.png` (ou uma `fig_01_annotated.svg`) que inclua os ângulos `θ_4, θ_5, θ_6`, facilitando o entendimento.
+**Evidência**
 
-- [ ] **(BAIXO) Verificar direitos das imagens dos autores**: As fotos em `docs/00_resumo.md` precisam ter a licença verificada.
-  - **Ação:** Se a licença não puder ser confirmada, remover as imagens.
-
----
-
-## 5. Testes e Qualidade de Código
-
-*Garantir a correção e robustez da implementação.*
-
-- [ ] **(ALTO) Criar conjunto de testes unitários e de integração**:
-  - **Ação:** Usando um framework como Google Test, criar testes em `tests/` para:
-    - **Geometria:** Cálculo de área e coeficientes `a, b, c` de um triângulo.
-    - **Funções de Forma:** Valores das funções de forma nodais e de aresta em pontos conhecidos.
-    - **Matrizes Elementares:** Comparar a saída das funções de matrizes locais com resultados calculados à mão para um elemento simples (ex: triângulo retângulo unitário).
-    - **Simetria:** Verificar se as matrizes que devem ser simétricas (`[K_zz]`, `[M_tt]`, etc.) de fato o são.
-
-### Pendências identificadas pela auditoria de `docs/15_testes_matematicos_minimos.md`
-
-Os itens abaixo corrigem ou completam `docs/15` antes da implementação dos testes em C++.
-
-- [x] **(Concluído) Resolver a ambiguidade de θ₄ e documentar a convenção** (`docs/15`, Seção do Teste 9):
-  Convenção adotada: usar `atan2(y_k-y_l, x_k-x_l)`, somar π se resultado < 0, tratar π como 0 (limite estrito). Isso dá θ₄=0, produzindo ā₁=+1, c̄₁=−1. Valores completos documentados no Teste 9 com verificação numérica.
-
-- [x] **(Concluído) Adicionar valores esperados explícitos ao Teste 9 de `docs/15`** (funções de aresta):
-  Valores adicionados: ā=(1,0,0), b̄=(0,0,1), c̄=(−1,−√2,1); θ₄=0, θ₅=3π/4, θ₆=π/2; Δ=√2/2>0. Verificação numérica da condição tangencial incluída.
-
-- [x] **(Concluído) Adicionar segundo triângulo de teste** (`docs/15`, Seção 22 — Teste 18):
-  Triângulo P1=(0,0), P2=(2,1), P3=(1,3) adicionado com A_e=5/2 e todos b_k, c_k não-nulos. Matrizes A7 e A8 explícitas calculadas.
-
-- [x] **(Concluído) Adicionar testes para integrais A3, A4, A5** (`docs/15`, Seções 20 e 21 — Testes 16 e 17):
-  A3 com fator 4 no rotacional documentado. A4 e A5 com matrizes numéricas completas para o triângulo de referência.
-
-- [x] **(Concluído) Adicionar valores esperados concretos aos Testes 10 e 11 de `docs/15`**:
-  Teste 10: sinal s_e=+1, ambos elementos dão θ=3π/4. Teste 11: φ_t=1 em P_m e P_q calculados explicitamente para T1 e T2.
-
-- [x] **(Concluído) Adicionar teste de {U_y} e {V_x}** (`docs/15`, Seção 19 — Teste 15):
-  {U_y}=(−1,−√2,1) e {V_x}=(1,√2,−1) documentados com relação {V_x}=−{U_y}.
-
-- [x] **(Concluído) Adicionar matrizes numéricas explícitas aos Testes 12 e 13 de `docs/15`**:
-  A7=(1/2)\[[1,−1,0],[−1,1,0],[0,0,0]\], A8=(1/2)\[[1,0,−1],[0,0,0],[−1,0,1]\], A6=(1/24)\[[2,1,1],[1,2,1],[1,1,2]\] adicionados.
-
-- [x] **(Concluído) Corrigir notação do Teste 8 em `docs/15`**:
-  Reescrito mostrando ∂L_k/∂x = b_k/(2A_e) com substituição explícita e nota de atenção para o implementador.
-
-- [x] **(Concluído) Adicionar teste de orientação horária** (`docs/15`, Seção 23 — Teste 19):
-  Diagnóstico completo: b_k^CW = −b_k^CCW, diagonal de A7 negativa com A_e < 0, correção com |A_e|.
-
-- [x] **(Concluído) Documentar Δ para o triângulo de referência** (`docs/12`, Seção 9):
-  Nota adicionada: Δ=√2/2 > 0 para o triângulo de referência com θ₄=0. Sinal de Δ depende da convenção; o que invalida o elemento é |Δ|≈0.
-
-- [x] **(Concluído) Adicionar testes para integrais A1 e A2** (`docs/15`, Seções 24 e 25 — Testes 20 e 21):
-  A1 (massa {U}{U}^T) e A2 (massa {V}{V}^T) com matrizes numéricas completas para o triângulo de referência. Propriedades de verificação: simetria e tr(A1)=tr(A2)=A_e. Simetria estrutural A1↔A2 documentada.
-
-- [ ] **(MÉDIO) Refatorar código duplicado**: Após a implementação inicial, identificar e refatorar código repetido entre os diferentes exemplos.
+- Teste `triangle_geometry` executável por `/usr/bin/ctest --test-dir build --output-on-failure`.
 
 ---
 
-## 6. Melhorias (Não Bloqueantes)
+## Fase 3B — Geometria, malha e Gmsh
 
-*Tarefas para melhorar a qualidade do projeto, mas que não impedem seu fechamento.*
+**Status:** núcleo concluído.
 
-- [ ] **(BAIXO) Otimização de performance**: Analisar gargalos de performance (ex: montagem de matrizes, solução de autovalores) e otimizar se necessário.
-- [ ] **(BAIXO) Visualização de campos**: Criar scripts para exportar os autovetores (campos `E` ou `H`) para um formato legível por Paraview/VTK.
+**Decisões**
 
----
+- Eigen deve ser introduzido já nesta fase.
+- A orientação global de aresta deve usar o par canônico `(min(node_id), max(node_id))`.
+- O sinal local-global deve ser armazenado separadamente para cada elemento.
+- Arestas locais seguem a convenção do artigo: ponto 4 = aresta `(1,2)`, ponto 5 = `(2,3)`, ponto 6 = `(3,1)`.
+- `Mesh` deve rejeitar triângulos degenerados e triângulos horários na primeira versão.
+- Parser Gmsh inicial deve aceitar apenas MSH 4.1 ASCII.
 
-## 7. Critério de Conclusão do Projeto
+**Tarefas**
 
-O projeto será considerado **"fechado"** quando todos os itens a seguir forem concluídos:
+- [x] Adicionar `find_package(Eigen3 REQUIRED)` ao CMake.
+- [x] Criar `mesh::Edge`.
+- [x] Criar `mesh::Mesh` com nós, triângulos, arestas globais, conectividade local-global e sinais de orientação.
+- [x] Implementar identificação de arestas de fronteira.
+- [x] Implementar leitura Gmsh MSH 4.1 ASCII com nós, triângulos lineares, linhas de fronteira e physical tags via `$Entities`.
+- [x] Rejeitar explicitamente formatos binários, elementos de alta ordem e elementos 2D não triangulares.
 
-1. **Validação Completa**:
-    - [ ] Todas as curvas das Figuras 3, 5 e 7 do artigo foram reproduzidas com desvio quantitativo documentado e inferior a um limiar aceitável (ex: 5%).
-    - [ ] Os scripts em `scripts/plot/` geram gráficos que sobrepõem os resultados do código aos do artigo.
+**Critério de conclusão**
 
-2. **Reprodutibilidade Total**:
-    - [ ] O comando `git clone ... && cd ... && cmake . && make` compila o projeto sem erros.
-    - [ ] O script `scripts/run/run_all.sh` executa todas as simulações e gera todos os arquivos de dados em `data/output/`.
-    - [ ] O script `scripts/plot/plot_all.sh` (ou similar) gera todos os gráficos de validação em `out/`.
-
-3. **Qualidade e Documentação**:
-    - [ ] Todos os itens de prioridade **Crítica** e **Alta** deste `TODO.md` foram resolvidos.
-    - [ ] O `README.md` foi atualizado com instruções claras de compilação, execução e reprodução dos resultados.
-    - [ ] Não há mais pendências marcadas como `TODO` ou `FIXME` no código-fonte sem um item correspondente neste arquivo.
-
----
-
-### Histórico (Fase 1 - Concluída)
-
-*A Fase 1 (baseline documental) foi fechada. Suas pendências foram migradas para as seções acima.*
-
-
-
-# TODO — Fase 2: Derivação matemática e contrato numérico
-
-## 1. Derivar a Equação (1) a partir de Maxwell
-
-**Tipo:** documentação científica  
-**Arquivo previsto:** `docs/10_maxwell_para_equacao_01.md`  
-**Base:** Equações de Maxwell e Equação (1) do artigo
-
-**Critério de conclusão:**
-- [ ] convenção temporal explicitada;
-- [ ] equação curl-curl derivada;
-- [ ] uso de `phi` explicado;
-- [ ] papel de `[p]`, `[q]`, `k0`, `epsilon` e `mu` contextualizado;
-- [ ] ambiguidades marcadas como nota de verificação;
-- [ ] revisão por Claude concluída.
+- [x] Teste de malha com um triângulo.
+- [x] Teste de malha com dois triângulos compartilhando uma aresta.
+- [x] Teste de contagem de nós, arestas, elementos e fronteiras.
+- [x] Teste de sinais local-global.
+- [x] Teste de rejeição de triângulo horário.
+- [x] Teste de rejeição de triângulo degenerado.
+- [x] Fixture Gmsh 4.1 ASCII mínimo com dois triângulos e tags físicas.
 
 ---
 
-## 2. Explicar a passagem da Equação (1) para o funcional da Equação (6)
+## Fase 4 — Funções de forma nodais e de aresta
 
-**Tipo:** documentação matemática / formulação variacional  
-**Arquivo previsto:** `docs/11_equacao_01_para_funcional_06.md`  
-**Base:** Equações (1) e (6)
+**Status:** núcleo concluído.
 
-**Critério de conclusão:**
-- [ ] formulação fraca explicada;
-- [ ] funcional interpretado física e numericamente;
-- [ ] papel do operador curl-curl explicado;
-- [ ] condições de contorno discutidas com cautela;
-- [ ] riscos para implementação listados;
-- [ ] revisão por Claude concluída.
+**Tarefas**
 
----
+- [x] Reusar as funções nodais já implementadas em `Triangle`.
+- [x] Implementar coeficientes de aresta das Equações (17)–(21).
+- [x] Implementar ângulos de aresta com `atan2` normalizado para `[0, pi)`.
+- [x] Implementar avaliação de `{U}` e `{V}`.
+- [x] Implementar derivadas constantes `{U_y}` e `{V_x}`.
+- [x] Preservar a formulação de elementos de aresta; não introduzir formulação nodal alternativa.
 
-## 3. Explicar a origem do fator `j` na Equação (7)
+**Critério de conclusão**
 
-**Tipo:** documentação matemática / convenção modal  
-**Arquivo previsto:** `docs/12_origem_do_fator_j_equacao_07.md`  
-**Base:** Equação (7)
-
-**Critério de conclusão:**
-- [ ] convenção harmônica explicitada;
-- [ ] propagação em `z` discutida;
-- [ ] origem do fator `j` explicada;
-- [ ] riscos de erro de sinal documentados;
-- [ ] testes futuros sugeridos;
-- [ ] revisão por Claude concluída.
+- [x] Teste 9 de `docs/15`: funções de forma de aresta no triângulo de referência.
+- [x] Teste 10 de `docs/15`: orientação de aresta via sinais local-global.
+- [ ] Teste 11 de `docs/15`: continuidade tangencial ao longo de mais de um ponto em aresta compartilhada.
+- [x] Teste 15 de `docs/15`: `{U_y}` e `{V_x}`.
 
 ---
 
-## 4. Documentar funções nodais e funções de aresta
+## Fase 5 — Matrizes locais do Apêndice
 
-**Tipo:** documentação matemática / elementos finitos  
-**Arquivo previsto:** `docs/13_funcoes_de_forma_nodais_e_de_aresta.md`  
-**Base:** Equações (8) a (19)
+**Status:** núcleo concluído; quadratura independente ainda pendente.
 
-**Critério de conclusão:**
-- [ ] coeficientes `a_k`, `b_k`, `c_k` explicados;
-- [ ] convenção cíclica `k`, `l`, `m` descrita;
-- [ ] área do triângulo definida;
-- [ ] funções nodais explicadas;
-- [ ] funções de aresta explicadas;
-- [ ] orientação de aresta discutida;
-- [ ] continuidade tangencial explicada;
-- [ ] revisão por Claude concluída;
-- [ ] revisão de renderização por Gemini concluída.
+**Tarefas**
 
----
+- [x] Implementar A1-A8 como núcleo de produção fiel ao artigo.
+- [x] Usar Eigen para matrizes locais pequenas.
+- [ ] Comparar fórmulas fechadas com quadratura independente em testes.
+- [x] Manter A11 e A12 como pendência/teste auxiliar, sem uso na montagem principal diagonal.
 
-## 5. Revisar integrais do Apêndice
+**Critério de conclusão**
 
-**Tipo:** documentação matemática / matrizes locais  
-**Arquivo previsto:** `docs/14_revisao_das_integrais_do_apendice.md`  
-**Base:** Equações (A1) a (A10)
-
-**Critério de conclusão:**
-- [ ] todas as integrais do Apêndice listadas;
-- [ ] significado de cada termo explicado;
-- [ ] fatores geométricos conferidos;
-- [ ] riscos de implementação listados;
-- [ ] tabela equação → uso futuro criada;
-- [ ] revisão por Claude concluída.
+- [x] Testes A1-A8 no triângulo de referência.
+- [x] Testes A7-A8 no triângulo geral de `docs/15`.
+- [ ] Verificação de simetria onde aplicável em testes dedicados.
+- [x] Verificação do fator 4 associado à expansão do termo de rotacional na montagem geométrica.
 
 ---
 
-## 6. Mapear integrais cruzadas e termos ausentes
+## Fase 6 — Montagem global parcial
 
-**Tipo:** auditoria matemática  
-**Arquivo previsto:** `docs/15_integrais_cruzadas_e_termos_ausentes.md`
+**Status:** núcleo parcial concluído.
 
-**Critério de conclusão:**
-- [ ] termos presentes no artigo separados;
-- [ ] termos por simetria identificados;
-- [ ] termos derivados classificados;
-- [ ] termos ambíguos marcados;
-- [ ] critérios de aceitação definidos;
-- [ ] revisão por Claude concluída.
+**Tarefas**
 
----
+- [x] Montar blocos globais com graus de liberdade de aresta para o campo transversal.
+- [x] Montar blocos globais com graus de liberdade nodais para a componente axial.
+- [x] Usar matrizes esparsas Eigen.
+- [x] Preservar a separação conceitual dos blocos geométricos: `Ktt`, `Ktz`, `Kzz`, `Mtt` e `Mzz`.
+- [x] Manter PEC/PMC como marcadores até a política matemática estar testada.
 
-## 7. Definir testes matemáticos mínimos
+**Critério de conclusão**
 
-**Tipo:** documentação de testes  
-**Arquivo previsto:** `docs/16_testes_matematicos_minimos.md`
-
-**Critério de conclusão:**
-- [ ] teste de área definido;
-- [ ] teste de centroide definido;
-- [ ] teste dos coeficientes `a_k`, `b_k`, `c_k` definido;
-- [ ] testes das funções nodais definidos;
-- [ ] testes das funções de aresta definidos;
-- [ ] teste de orientação de aresta definido;
-- [ ] teste de continuidade tangencial definido;
-- [ ] tolerâncias sugeridas;
-- [ ] revisão por Claude concluída.
+- [x] Teste de dimensões dos blocos globais.
+- [ ] Teste de simetria em blocos que devem ser simétricos.
+- [x] Teste de montagem em malha de dois elementos.
+- [x] Teste de consistência entre sinais de aresta e contribuição global.
 
 ---
 
-## 8. Consolidar contrato para implementação C++ futura
+## Fase 7 — Autovalores e validação contra o artigo
 
-**Tipo:** ponte documentação-código  
-**Arquivo previsto:** `docs/17_contrato_para_implementacao_cpp.md`
+**Status:** iniciada; validação científica pendente.
 
-**Critério de conclusão:**
-- [ ] entidades matemáticas futuras listadas;
-- [ ] equações associadas a cada entidade;
-- [ ] entradas e saídas esperadas;
-- [ ] riscos de implementação;
-- [ ] testes mínimos obrigatórios;
-- [ ] critérios para abrir a Fase 3 definidos.
+**Tarefas**
+
+- [x] Implementar redução sem inversão explícita de `[K_zz]`: resolver sistemas lineares fatorados.
+- [x] Começar com solver denso Eigen para casos pequenos.
+- [ ] Avaliar Spectra, ARPACK-NG ou LAPACK apenas se os exemplos reais exigirem.
+- [ ] Criar casos Gmsh para as Figuras 3, 5 e 7.
+- [ ] Exportar resultados para CSV.
+- [ ] Criar scripts Python de plotagem e comparação.
+
+**Critério de conclusão**
+
+- [x] Autovalores pequenos reprodutíveis antes das curvas do artigo.
+- [ ] Figura 3 reproduzida com erro quantitativo documentado.
+- [ ] Figura 5 reproduzida com erro quantitativo documentado.
+- [ ] Figura 7 reproduzida com erro quantitativo documentado.
+
+---
+
+## Pendências científicas preservadas
+
+- [ ] **Sinais com fator `j`:** auditar a matriz `[B]`, principalmente termos com `j{N_x}`, `j{N_y}`, `{U}` e `{V}`.
+- [ ] **PEC/PMC:** definir quais graus de liberdade são anulados para cada escolha `phi=E` ou `phi=H`.
+- [x] **Inversão de `[K_zz]`:** implementar solução de sistemas lineares em vez de inversão explícita para o solver denso inicial.
+- [ ] **Tensores não diagonais:** manter fora do escopo inicial até que integrais derivadas e acoplamentos estejam validados.
+- [ ] **A11/A12:** testar numericamente como integrais complementares, mas não usar na montagem diagonal inicial do artigo.
+- [ ] **Direitos de imagem:** verificar licença das imagens dos autores em `docs/00_resumo.md`.
+- [ ] **Figura 1 anotada:** criar versão didática com ângulos `theta_4`, `theta_5`, `theta_6` se necessário.
+- [ ] **Validação científica:** não declarar reprodução das curvas concluída sem arquivos de entrada, saída, script e erro quantitativo.
+
+---
+
+## Reprodutibilidade esperada
+
+- [x] `cmake -S . -B build`
+- [x] `cmake --build build`
+- [x] `/usr/bin/ctest --test-dir build --output-on-failure`
+- [ ] Entradas versionadas em `data/input/`.
+- [ ] Saídas geradas em `data/output/` ou `out/`.
+- [ ] Scripts de execução em `scripts/run/`.
+- [ ] Scripts de plotagem em `scripts/plot/`.
+
+---
+
+## Critério geral de fechamento do projeto
+
+O projeto só deve ser considerado fechado quando:
+
+- todos os itens críticos e altos estiverem concluídos;
+- as curvas das Figuras 3, 5 e 7 tiverem reprodução quantitativa documentada;
+- os scripts gerarem os dados e gráficos por linha de comando;
+- o README estiver sincronizado com o estado real do repositório;
+- não houver `TODO` ou `FIXME` em código sem item correspondente neste arquivo.
