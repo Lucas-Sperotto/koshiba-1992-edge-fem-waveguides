@@ -1,5 +1,7 @@
 # Referências
 
+> **Navegação dos docs:** [Resumo](00_resumo.md) | [Introdução](01_introducao.md) | [Equações básicas](02_equacoes_basicas.md) | [Formulação FEM](03_formulacao_elementos_finitos.md) | [Exemplos numéricos](04_exemplos_numericos.md) | [Conclusão](05_conclusao.md) | [Apêndice](06_apendice.md) | [Referências](07_referencias.md) | [Notas editoriais](08_notas_editoriais_e_cientificas.md) | [Baseline Fase 1](09_notas_editoriais_e_cientificas.md)
+
 [1] A. Konrad, “High-order triangular finite elements for electromagnetic waves in anisotropic media,” *IEEE Transactions on Microwave Theory and Techniques*, vol. MTT-25, pp. 353–360, May 1977.
 
 [2] B. M. A. Rahman and J. B. Davies, “Finite-element analysis of optical and microwave waveguide problem,” *IEEE Transactions on Microwave Theory and Techniques*, vol. MTT-32, pp. 20–28, Jan. 1984.

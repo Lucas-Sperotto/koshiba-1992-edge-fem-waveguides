@@ -1,5 +1,7 @@
 # 1. Introdução
 
+> **Navegação dos docs:** [Resumo](00_resumo.md) | [Introdução](01_introducao.md) | [Equações básicas](02_equacoes_basicas.md) | [Formulação FEM](03_formulacao_elementos_finitos.md) | [Exemplos numéricos](04_exemplos_numericos.md) | [Conclusão](05_conclusao.md) | [Apêndice](06_apendice.md) | [Referências](07_referencias.md) | [Notas editoriais](08_notas_editoriais_e_cientificas.md) | [Baseline Fase 1](09_notas_editoriais_e_cientificas.md)
+
 Para avaliar rigorosamente as características de propagação de guias de onda de micro-ondas e ópticos com seções transversais de formato arbitrário, é necessária uma análise vetorial de ondas. Por essa razão, diferentes tipos de métodos dos elementos finitos vetoriais têm sido desenvolvidos.
 
 Entre as várias formulações existentes, o método dos elementos finitos que utiliza o campo vetorial magnético completo, isto é, o campo $\mathbf{H}$ completo, é bastante adequado para uma ampla variedade de problemas práticos e complexos [1]–[10].

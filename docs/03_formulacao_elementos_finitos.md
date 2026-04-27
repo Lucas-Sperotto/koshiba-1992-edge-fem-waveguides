@@ -1,5 +1,7 @@
 # 3. Formulação por elementos finitos
 
+> **Navegação dos docs:** [Resumo](00_resumo.md) | [Introdução](01_introducao.md) | [Equações básicas](02_equacoes_basicas.md) | [Formulação FEM](03_formulacao_elementos_finitos.md) | [Exemplos numéricos](04_exemplos_numericos.md) | [Conclusão](05_conclusao.md) | [Apêndice](06_apendice.md) | [Referências](07_referencias.md) | [Notas editoriais](08_notas_editoriais_e_cientificas.md) | [Baseline Fase 1](09_notas_editoriais_e_cientificas.md)
+
 Os campos eletromagnéticos devem ser tangencialmente contínuos através das interfaces entre materiais. Nos elementos de aresta [5], [8]–[10], [16]–[20], essa continuidade tangencial pode ser imposta de maneira direta.
 
 Hano [5] desenvolveu o método dos elementos finitos com elementos de aresta retangulares para resolver problemas de guiamento de ondas não homogêneos. Kikuchi [16], por outro lado, utilizou elementos de aresta triangulares para tratar guias de onda com geometrias arbitrárias. Entretanto, em [16], apenas guias de onda ocos homogêneos foram analisados.
@@ -169,7 +171,7 @@ $$
 com:
 
 $$
-0 \leq \theta_{k+3} = \tan^{-1} \left{ \frac{y_k - y_l}{x_k - x_l} \right} < \pi
+0 \leq \theta_{k+3} = \tan^{-1} \left( \frac{y_k - y_l}{x_k - x_l} \right) < \pi
 $$
 
 **Equação (20)**
@@ -243,6 +245,12 @@ $$
 [K_{tt}] & [K_{tz}] \\
 [K_{zt}] & [K_{zz}]
 \end{bmatrix}
+$$
+
+com a forma integral:
+
+$$
+[K] =
 \sum_e
 \iint_e
 [B]^*[p][B]^T
