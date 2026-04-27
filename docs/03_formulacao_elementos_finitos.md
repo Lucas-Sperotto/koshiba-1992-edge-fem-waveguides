@@ -169,11 +169,7 @@ $$
 com:
 
 $$
-0 \leq \theta_{k+3} =
-\tan^{-1}
-\left\{
-\frac{y_k - y_l}{x_k - x_l}
-\right\} < \pi
+0 \leq \theta_{k+3} = \tan^{-1} \left{ \frac{y_k - y_l}{x_k - x_l} \right} < \pi
 $$
 
 **Equação (20)**
