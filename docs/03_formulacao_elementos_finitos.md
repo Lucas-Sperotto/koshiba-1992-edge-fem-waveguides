@@ -181,16 +181,7 @@ $$
 e:
 
 $$
-\Delta =
-\sum_{k=1}^{3}
-\left(
-y_{k+3}\cos\theta_{k+3} -
-x_{k+3}\sin\theta_{k+3}
-\right)
-\left(
-\cos\theta_{l+3}\sin\theta_{m+3} -
-\cos\theta_{m+3}\sin\theta_{l+3}
-\right)
+\Delta = \sum_{k=1}^{3} \left(y_{k+3}\cos\theta_{k+3} - x_{k+3}\sin\theta_{k+3} \right) \left(\cos\theta_{l+3}\sin\theta_{m+3} - \cos\theta_{m+3}\sin\theta_{l+3} \right)
 $$
 
 **Equação (21)**
