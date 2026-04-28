@@ -99,6 +99,23 @@ bool get_bool(const std::map<std::string, std::string>& config,
     return found->second == "true" || found->second == "1" || found->second == "yes";
 }
 
+bool contains(const std::vector<int>& values, int value) {
+    for (int current : values) {
+        if (current == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void append_unique(std::vector<int>& target, const std::vector<int>& values) {
+    for (int value : values) {
+        if (!contains(target, value)) {
+            target.push_back(value);
+        }
+    }
+}
+
 void write_csv(const std::string& path, const koshiba::fem::BetaSolveResult& result) {
     const std::filesystem::path output_path(path);
     if (output_path.has_parent_path()) {
@@ -143,8 +160,28 @@ int main(int argc, char** argv) {
         koshiba::fem::BetaSolverOptions options;
         options.requested_modes = get_size(config, "modes", 4);
         options.constraints.edge_physical_tags = get_tags(config, "constrained_edge_tags");
+        options.constraints.node_physical_tags = get_tags(config, "constrained_node_tags");
         options.constraints.constrain_nodes_touching_edges =
             get_bool(config, "constrain_nodes_touching_edges", false);
+
+        std::vector<koshiba::fem::PhysicalBoundaryCondition> boundary_conditions;
+        const auto pec_tags = get_tags(config, "pec_tags");
+        if (!pec_tags.empty()) {
+            boundary_conditions.push_back(
+                {koshiba::fem::BoundaryConditionKind::PEC, pec_tags});
+        }
+        const auto pmc_tags = get_tags(config, "pmc_tags");
+        if (!pmc_tags.empty()) {
+            boundary_conditions.push_back(
+                {koshiba::fem::BoundaryConditionKind::PMC, pmc_tags});
+        }
+
+        const auto essential_constraints =
+            koshiba::fem::essential_boundary_constraints(field_kind, boundary_conditions);
+        append_unique(options.constraints.edge_physical_tags,
+                      essential_constraints.edge_physical_tags);
+        append_unique(options.constraints.node_physical_tags,
+                      essential_constraints.node_physical_tags);
 
         const auto result = koshiba::fem::solve_beta_modes(
             mesh, material, field_kind, get_double(config, "k0", 1.0), options);

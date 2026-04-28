@@ -20,8 +20,19 @@ struct BetaMatrices {
     Eigen::SparseMatrix<double> mtt_beta;
 };
 
+enum class BoundaryConditionKind {
+    PEC,
+    PMC,
+};
+
+struct PhysicalBoundaryCondition {
+    BoundaryConditionKind kind{BoundaryConditionKind::PEC};
+    std::vector<int> physical_tags{};
+};
+
 struct BoundaryDofConstraints {
     std::vector<int> edge_physical_tags{};
+    std::vector<int> node_physical_tags{};
     bool constrain_nodes_touching_edges{false};
 };
 
@@ -51,6 +62,10 @@ struct BetaSolveResult {
 BetaMatrices assemble_beta_matrices(const GlobalAssemblyBlocks& blocks,
                                     const physics::DiagonalCoefficients& coefficients,
                                     double k0);
+
+BoundaryDofConstraints essential_boundary_constraints(
+    physics::FieldKind field_kind,
+    const std::vector<PhysicalBoundaryCondition>& boundary_conditions);
 
 BetaSolveResult solve_beta_modes(const mesh::Mesh& mesh,
                                  const physics::DiagonalMaterial& material,

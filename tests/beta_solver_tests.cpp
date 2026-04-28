@@ -81,6 +81,63 @@ void test_boundary_constraints_remove_dofs() {
     assert(!result.modes.empty());
 }
 
+void test_electric_pec_constraints_edges_and_nodes() {
+    const auto mesh = koshiba::io::read_gmsh_msh41_ascii(
+        "tests/fixtures/two_triangles_msh41.msh");
+    const koshiba::physics::DiagonalMaterial material{2.25, 2.25, 2.25};
+
+    koshiba::fem::BetaSolverOptions options;
+    options.requested_modes = 1;
+    options.constraints = koshiba::fem::essential_boundary_constraints(
+        koshiba::physics::FieldKind::Electric,
+        {{koshiba::fem::BoundaryConditionKind::PEC, {11}}});
+
+    assert(options.constraints.edge_physical_tags.size() == 1);
+    assert(options.constraints.edge_physical_tags[0] == 11);
+    assert(options.constraints.node_physical_tags.size() == 1);
+    assert(options.constraints.node_physical_tags[0] == 11);
+
+    const auto result = koshiba::fem::solve_beta_modes(
+        mesh, material, koshiba::physics::FieldKind::Electric, 4.0, options);
+
+    assert(result.free_edge_dofs == 4);
+    assert(result.free_node_dofs == 2);
+    assert(!result.modes.empty());
+}
+
+void test_magnetic_pmc_constraints_edges_and_nodes() {
+    const auto mesh = koshiba::io::read_gmsh_msh41_ascii(
+        "tests/fixtures/two_triangles_msh41.msh");
+    const koshiba::physics::DiagonalMaterial material{2.25, 2.25, 2.25};
+
+    koshiba::fem::BetaSolverOptions options;
+    options.requested_modes = 1;
+    options.constraints = koshiba::fem::essential_boundary_constraints(
+        koshiba::physics::FieldKind::Magnetic,
+        {{koshiba::fem::BoundaryConditionKind::PMC, {12}}});
+
+    const auto result = koshiba::fem::solve_beta_modes(
+        mesh, material, koshiba::physics::FieldKind::Magnetic, 4.0, options);
+
+    assert(result.free_edge_dofs == 4);
+    assert(result.free_node_dofs == 2);
+    assert(!result.modes.empty());
+}
+
+void test_cross_boundary_pairs_are_not_essential_constraints() {
+    const auto electric_pmc = koshiba::fem::essential_boundary_constraints(
+        koshiba::physics::FieldKind::Electric,
+        {{koshiba::fem::BoundaryConditionKind::PMC, {11, 12}}});
+    assert(electric_pmc.edge_physical_tags.empty());
+    assert(electric_pmc.node_physical_tags.empty());
+
+    const auto magnetic_pec = koshiba::fem::essential_boundary_constraints(
+        koshiba::physics::FieldKind::Magnetic,
+        {{koshiba::fem::BoundaryConditionKind::PEC, {11, 12}}});
+    assert(magnetic_pec.edge_physical_tags.empty());
+    assert(magnetic_pec.node_physical_tags.empty());
+}
+
 }  // namespace
 
 int main() {
@@ -88,4 +145,7 @@ int main() {
     test_beta_matrix_dimensions();
     test_beta_solver_returns_finite_modes();
     test_boundary_constraints_remove_dofs();
+    test_electric_pec_constraints_edges_and_nodes();
+    test_magnetic_pmc_constraints_edges_and_nodes();
+    test_cross_boundary_pairs_are_not_essential_constraints();
 }

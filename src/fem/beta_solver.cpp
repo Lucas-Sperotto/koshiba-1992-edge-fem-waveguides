@@ -15,6 +15,14 @@ bool contains(const std::vector<int>& values, int value) {
     return std::find(values.begin(), values.end(), value) != values.end();
 }
 
+void append_unique(std::vector<int>& target, const std::vector<int>& values) {
+    for (int value : values) {
+        if (!contains(target, value)) {
+            target.push_back(value);
+        }
+    }
+}
+
 std::vector<Eigen::Index> free_edge_indices(const mesh::Mesh& mesh,
                                             const BoundaryDofConstraints& constraints) {
     std::vector<Eigen::Index> indices;
@@ -30,9 +38,14 @@ std::vector<Eigen::Index> free_edge_indices(const mesh::Mesh& mesh,
 std::vector<Eigen::Index> free_node_indices(const mesh::Mesh& mesh,
                                             const BoundaryDofConstraints& constraints) {
     std::set<std::size_t> constrained_node_ids;
-    if (constraints.constrain_nodes_touching_edges) {
+    if (!constraints.node_physical_tags.empty() || constraints.constrain_nodes_touching_edges) {
         for (const auto& edge : mesh.edges()) {
-            if (contains(constraints.edge_physical_tags, edge.physical_tag())) {
+            const bool node_tag_match =
+                contains(constraints.node_physical_tags, edge.physical_tag());
+            const bool legacy_edge_match =
+                constraints.constrain_nodes_touching_edges &&
+                contains(constraints.edge_physical_tags, edge.physical_tag());
+            if (node_tag_match || legacy_edge_match) {
                 constrained_node_ids.insert(edge.first_node_id());
                 constrained_node_ids.insert(edge.second_node_id());
             }
@@ -79,6 +92,27 @@ BetaMatrices assemble_beta_matrices(const GlobalAssemblyBlocks& blocks,
         coefficients.p_y * blocks.mtt_uu +
             coefficients.p_x * blocks.mtt_vv,
     };
+}
+
+BoundaryDofConstraints essential_boundary_constraints(
+    physics::FieldKind field_kind,
+    const std::vector<PhysicalBoundaryCondition>& boundary_conditions) {
+    BoundaryDofConstraints constraints;
+    for (const auto& condition : boundary_conditions) {
+        const bool constrains_solved_field =
+            (field_kind == physics::FieldKind::Electric &&
+             condition.kind == BoundaryConditionKind::PEC) ||
+            (field_kind == physics::FieldKind::Magnetic &&
+             condition.kind == BoundaryConditionKind::PMC);
+        if (!constrains_solved_field) {
+            continue;
+        }
+
+        append_unique(constraints.edge_physical_tags, condition.physical_tags);
+        append_unique(constraints.node_physical_tags, condition.physical_tags);
+    }
+
+    return constraints;
 }
 
 BetaSolveResult solve_beta_modes(const mesh::Mesh& mesh,

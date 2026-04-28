@@ -210,8 +210,9 @@ Fase documental fechada e núcleo C++17 em desenvolvimento.
 * [x] Implementar material diagonal genérico para `phi=E` e `phi=H`
 * [x] Implementar combinação beta mínima dos blocos das Equações (32)–(35)
 * [x] Criar mini caso reprodutível com entrada, CSV, runner e plot
+* [x] Definir política essencial inicial para PEC/PMC por `phi=E/H`
 * [ ] Validar sinais e acoplamentos contra caso físico de referência
-* [ ] Definir e aplicar PEC/PMC por caso de validação
+* [ ] Validar e aplicar PEC/PMC por caso de validação do artigo
 * [ ] Reproduzir os exemplos numéricos
 * [ ] Comparar resultados com as figuras do artigo
 

@@ -1,6 +1,6 @@
 # 17. Implementação da Fase 7 — solver beta mínimo
 
-> **Navegação:** [Índice](README.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md)
+> **Navegação:** [Índice](README.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md)
 
 Este documento registra a implementação mínima da Fase 7. Ele não altera a formulação matemática do artigo: apenas explicita como os blocos geométricos já montados no código são combinados para resolver a forma reduzida das Equações (32)–(35).
 
@@ -96,9 +96,9 @@ $$
 
 ## Condições de contorno
 
-O código possui um mecanismo genérico para restringir graus de liberdade de aresta por `physical tag` de fronteira e, opcionalmente, os nós que tocam essas arestas.
+O código possui um mecanismo genérico para restringir graus de liberdade por `physical tag` de fronteira. A política inicial está registrada em [18 — Política inicial para PEC/PMC](18_politica_pec_pmc.md).
 
-Isso ainda não fecha a interpretação física completa de PEC/PMC. A definição exata de quais graus de liberdade devem ser restringidos para cada escolha $\phi=E$ ou $\phi=H$ continua como pendência científica antes da reprodução das Figuras 3, 5 e 7.
+Em resumo, `PEC + phi=E` e `PMC + phi=H` eliminam os graus de liberdade de aresta da fronteira e os graus nodais axiais tocados por essas arestas. Os pares cruzados são tratados como condições naturais nesta camada e não eliminam DOFs diretamente.
 
 ---
 

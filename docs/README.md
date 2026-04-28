@@ -1,6 +1,6 @@
 # Índice da documentação
 
-> **Navegação dos docs:** [Índice](README.md) | [00](00_resumo.md) | [01](01_introducao.md) | [02](02_equacoes_basicas.md) | [03](03_formulacao_elementos_finitos.md) | [04](04_exemplos_numericos.md) | [05](05_conclusao.md) | [06](06_apendice.md) | [07](07_referencias.md) | [08](08_notas_editoriais_e_cientificas.md) | [09](09_maxwell_para_equacao_01.md) | [10](10_equacao_01_para_funcional_06.md) | [11](11_origem_do_fator_j_equacao_07.md) | [12](12_funcoes_de_forma_nodais_e_de_aresta.md) | [13](13_revisao_das_integrais_do_apendice.md) | [14](14_integrais_cruzadas_e_termos_ausentes.md) | [15](15_testes_matematicos_minimos.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md)
+> **Navegação dos docs:** [Índice](README.md) | [00](00_resumo.md) | [01](01_introducao.md) | [02](02_equacoes_basicas.md) | [03](03_formulacao_elementos_finitos.md) | [04](04_exemplos_numericos.md) | [05](05_conclusao.md) | [06](06_apendice.md) | [07](07_referencias.md) | [08](08_notas_editoriais_e_cientificas.md) | [09](09_maxwell_para_equacao_01.md) | [10](10_equacao_01_para_funcional_06.md) | [11](11_origem_do_fator_j_equacao_07.md) | [12](12_funcoes_de_forma_nodais_e_de_aresta.md) | [13](13_revisao_das_integrais_do_apendice.md) | [14](14_integrais_cruzadas_e_termos_ausentes.md) | [15](15_testes_matematicos_minimos.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md)
 
 Este diretório reúne a tradução técnica do artigo, notas editoriais, complementos matemáticos e o contrato que libera o início da implementação C++17.
 
@@ -30,7 +30,8 @@ Este diretório reúne a tradução técnica do artigo, notas editoriais, comple
 - [15 — Testes matemáticos mínimos](15_testes_matematicos_minimos.md)
 - [16 — Contrato para implementação C++17](16_contrato_para_implementacao_cpp.md)
 - [17 — Implementação da Fase 7 — solver beta mínimo](17_implementacao_fase7_solver_beta.md)
+- [18 — Política inicial para PEC/PMC](18_politica_pec_pmc.md)
 
 ## Status
 
-A fase documental está fechada como baseline científica e didática. As próximas mudanças devem priorizar a implementação incremental em C++17, começando por geometria triangular, orientação de arestas e testes matemáticos mínimos.
+A fase documental está fechada como baseline científica e didática. A implementação já chegou ao solver beta mínimo e à política essencial inicial de PEC/PMC; a validação quantitativa das Figuras 3, 5 e 7 segue pendente.

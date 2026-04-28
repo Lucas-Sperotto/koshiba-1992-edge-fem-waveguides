@@ -15,7 +15,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] **Fase 6 — Montagem global parcial:** blocos geométricos esparsos implementados e testados, incluindo simetria esperada.
 - [x] **Fase 7A — Solver físico mínimo:** combinação beta para material diagonal e `phi=E/H` implementada para casos pequenos.
 - [x] **Fase 7B — Reprodutibilidade mínima:** mini caso sintético com entrada, CSV, runner e plot.
-- [ ] **Fase 7C — Validação das figuras do artigo:** Figuras 3, 5 e 7 ainda pendentes.
+- [ ] **Fase 7C — Validação das figuras do artigo:** política essencial PEC/PMC implementada; Figuras 3, 5 e 7 ainda pendentes.
 
 ---
 
@@ -38,6 +38,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] Mini caso reprodutível criado em `data/input/mini_case.cfg`.
 - [x] CSV gerado em `data/output/mini_case_modes.csv` pelo runner/teste.
 - [x] Plot simples gerado em `out/mini_case_modes.svg`.
+- [x] Política essencial PEC/PMC registrada em `docs/18_politica_pec_pmc.md`.
 
 ---
 
@@ -61,6 +62,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - Testes matemáticos mínimos: `docs/15_testes_matematicos_minimos.md`.
 - Contrato para implementação C++17: `docs/16_contrato_para_implementacao_cpp.md`.
 - Nota de implementação da Fase 7: `docs/17_implementacao_fase7_solver_beta.md`.
+- Política inicial para PEC/PMC: `docs/18_politica_pec_pmc.md`.
 
 **Justificativa de limpeza**
 
@@ -132,9 +134,11 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 - [x] Teste de montagem em malha de dois elementos.
 - [x] Teste de consistência entre sinais de aresta e contribuição global.
 
-**Pendência preservada**
+**Evidência adicional**
 
-- [ ] Definir o mapeamento físico final PEC/PMC por escolha `phi=E` e `phi=H`.
+- [x] Política essencial PEC/PMC definida para o campo resolvido: `PEC + phi=E` e `PMC + phi=H`.
+- [x] Restrições nodais axiais separadas de restrições de aresta via `node_physical_tags`.
+- [ ] Validar a escolha de PEC/PMC por caso físico das Figuras 3, 5 e 7.
 
 ---
 
@@ -155,11 +159,13 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 - [x] Problema `Ktt_beta * phi_t = beta^2 * Mtt_hat * phi_t` resolvido com Eigen denso para casos pequenos.
 - [x] Retorno de `beta2`, `beta`, autovetores transversais e status de filtragem.
 - [x] Mecanismo genérico de restrição de DOFs de aresta por physical tag.
+- [x] Mecanismo explícito de restrição de DOFs nodais axiais por physical tag.
+- [x] Conversão de `PEC/PMC + phi=E/H` para restrições essenciais testada.
 
 **Pendências**
 
 - [ ] Validar o sinal físico dos termos acoplados contra os casos do artigo.
-- [ ] Definir política final para DOFs nodais associados a PEC/PMC.
+- [ ] Validar a política PEC/PMC nos exemplos reais antes de gerar curvas do artigo.
 - [ ] Avaliar Spectra, ARPACK-NG ou LAPACK apenas se os exemplos reais exigirem.
 
 ---
@@ -191,7 +197,8 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 - [ ] Definir casos Gmsh e materiais para a Figura 3.
 - [ ] Definir casos Gmsh e materiais para a Figura 5.
 - [ ] Definir casos Gmsh e materiais para a Figura 7.
-- [ ] Implementar mapeamento físico PEC/PMC validado por escolha `phi=E/H`.
+- [x] Implementar mapeamento essencial PEC/PMC por escolha `phi=E/H`.
+- [ ] Validar PEC/PMC por caso de referência do artigo.
 - [ ] Exportar curvas completas para CSV.
 - [ ] Criar scripts de plotagem comparáveis às figuras do artigo.
 - [ ] Documentar erro quantitativo e limitações para a Figura 3.
@@ -222,9 +229,10 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 **Critério de conclusão**
 
 - [x] Criar mecanismo genérico de restrição de DOFs por physical tag.
-- [ ] Definir quais DOFs são anulados para PEC com `phi=E`.
-- [ ] Definir quais DOFs são anulados para PMC com `phi=H`.
-- [ ] Cobrir o mapeamento físico final com teste e nota documental.
+- [x] Definir quais DOFs são anulados para PEC com `phi=E`.
+- [x] Definir quais DOFs são anulados para PMC com `phi=H`.
+- [x] Cobrir o mapeamento essencial com teste e nota documental.
+- [ ] Validar a escolha de PEC/PMC nas geometrias das Figuras 3, 5 e 7.
 
 ### Tensores não diagonais
 
@@ -282,18 +290,18 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 
 ## Próximo plano de resolução
 
-1. Fechar PEC/PMC:
-   - mapear DOFs para `phi=E` e `phi=H`;
-   - testar restrições em malhas pequenas;
-   - documentar a política física.
-2. Fechar sinais e acoplamentos:
+1. Fechar sinais e acoplamentos:
    - auditar o fator `j` e os sinais de `Ktz/Kzt`;
    - comparar contra um caso analítico ou referência controlada.
-3. Preparar validação do artigo:
+2. Preparar validação do artigo:
    - criar geometrias Gmsh das Figuras 3, 5 e 7;
    - versionar entradas;
    - gerar CSVs e plots reproduzíveis;
    - registrar erro quantitativo.
+3. Validar PEC/PMC nas figuras:
+   - escolher `phi=E` ou `phi=H` por caso;
+   - aplicar tags físicas de fronteira;
+   - registrar o efeito das fronteiras artificiais.
 4. Só então considerar solver esparso externo:
    - manter Eigen denso enquanto os casos forem pequenos;
    - avaliar Spectra/ARPACK-NG apenas se necessário para malhas reais.
@@ -306,6 +314,6 @@ O projeto só deve ser considerado fechado quando:
 
 - as curvas das Figuras 3, 5 e 7 tiverem reprodução quantitativa documentada;
 - scripts gerarem dados e gráficos por linha de comando;
-- PEC/PMC estiverem definidos para `phi=E` e `phi=H`;
+- PEC/PMC estiverem validados para `phi=E` e `phi=H` nos casos do artigo;
 - o README estiver sincronizado com o estado real;
 - não houver `TODO` ou `FIXME` em código sem item correspondente neste arquivo.
