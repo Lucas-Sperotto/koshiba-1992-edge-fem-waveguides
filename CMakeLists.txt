@@ -133,3 +133,7 @@ target_link_libraries(assembly_and_solver_tests
 )
 
 add_test(NAME assembly_and_solver_tests COMMAND assembly_and_solver_tests)
+
+set_tests_properties(assembly_and_solver_tests PROPERTIES
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)

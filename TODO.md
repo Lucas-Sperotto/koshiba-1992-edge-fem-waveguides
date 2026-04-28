@@ -12,8 +12,30 @@ Este arquivo é o roteiro mestre do projeto após o fechamento documental das Fa
 - [x] **Fase 3B — Geometria, malha e Gmsh:** núcleo implementado e testado.
 - [x] **Fase 4 — Funções de forma nodais e de aresta:** núcleo implementado e testado.
 - [x] **Fase 5 — Matrizes locais do Apêndice:** A1-A8 implementadas e testadas contra valores documentados.
-- [x] **Fase 6 — Montagem global parcial:** blocos geométricos esparsos implementados e testados.
-- [ ] **Fase 7 — Autovalores e validação contra exemplos do artigo:** redução densa mínima implementada; validação científica das figuras segue pendente.
+- [x] **Fase 6 — Montagem global parcial:** blocos geométricos esparsos implementados, regressão de build auditada e corrigida.
+- [ ] **Fase 7 — Autovalores e validação contra exemplos do artigo:** redução densa mínima implementada; montagem física completa e validação científica das figuras seguem pendentes.
+
+---
+
+## Auditoria de 2026-04-28
+
+**Problemas encontrados**
+
+- [x] `src/fem/global_assembly.cpp` usava APIs inexistentes (`mesh.get_triangles()`, `triangle.get_local_integrals()`, `get_edge_indices()`, `get_node_indices()` e `get_edge_signs()`), quebrando o build após reconfiguração limpa.
+- [x] `tests/assembly_and_solver_tests.cpp` foi cadastrado no CMake, mas dependia de GoogleTest e de APIs ainda inexistentes (`solver.hpp`, `Material`, `DenseEigenvalueSolver`, `parse_gmsh` e `two_triangles_tagged.msh`).
+- [x] `README.md` voltou a descrever o projeto como fase inicial e mencionava `app/main.cpp`, que não existe no repositório.
+
+**Correção aplicada**
+
+- [x] B0 — Restaurar build e CTest completo após reconfiguração limpa.
+- [x] Reescrever `assemble_geometric_blocks` usando a API real: `mesh.elements()`, `mesh.triangle(element_index)`, `mesh.element_edges()`, `mesh.node_index(...)` e `compute_local_integrals(...)`.
+- [x] Reescrever `assembly_and_solver_tests` no estilo assert-based já usado pelo repositório, sem GoogleTest e sem APIs futuras.
+- [x] Reaproveitar o fixture existente `tests/fixtures/two_triangles_msh41.msh`.
+- [x] Atualizar o README para refletir o estado real.
+
+**Pendência preservada**
+
+- [ ] A camada física completa ainda não existe: `Material`, `DenseEigenvalueSolver`, `solver.hpp`, combinação final das matrizes do artigo e aplicação PEC/PMC continuam como próximas etapas, não como regressão.
 
 ---
 
@@ -147,7 +169,7 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 
 ## Fase 6 — Montagem global parcial
 
-**Status:** núcleo parcial concluído.
+**Status:** núcleo parcial concluído e build restaurado após a auditoria de 2026-04-28.
 
 **Tarefas**
 
@@ -168,12 +190,13 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 
 ## Fase 7 — Autovalores e validação contra o artigo
 
-**Status:** iniciada; validação científica pendente.
+**Status:** iniciada; validação científica e solver físico completo pendentes.
 
 **Tarefas**
 
 - [x] Implementar redução sem inversão explícita de `[K_zz]`: resolver sistemas lineares fatorados.
 - [x] Começar com solver denso Eigen para casos pequenos.
+- [ ] Implementar a camada física completa (`Material`, composição de blocos do artigo e solver de autovalores de produção).
 - [ ] Avaliar Spectra, ARPACK-NG ou LAPACK apenas se os exemplos reais exigirem.
 - [ ] Criar casos Gmsh para as Figuras 3, 5 e 7.
 - [ ] Exportar resultados para CSV.

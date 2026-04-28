@@ -38,7 +38,8 @@ O artigo apresenta aplicações para:
 4. substratos isotrópicos e anisotrópicos;
 5. comparação com métodos clássicos da literatura.
 
-## Estrutura inicial do repositório
+## Estrutura atual do repositório
+
 ```text
 koshiba-1992-edge-fem-waveguides/
 ├── README.md
@@ -63,8 +64,6 @@ koshiba-1992-edge-fem-waveguides/
 │   ├── fem/
 │   ├── mesh/
 │   └── io/
-├── app/
-│   └── main.cpp
 ├── scripts/
 │   ├── run/
 │   └── plot/
@@ -75,7 +74,19 @@ koshiba-1992-edge-fem-waveguides/
 │   ├── fixtures/
 │   └── ... (arquivos de teste)
 └── out/
-````
+```
+
+## Compilação e testes
+
+O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global geométrica parcial e redução densa pequena sem inversão explícita de `K_zz`.
+
+```bash
+cmake -S . -B build
+cmake --build build
+/usr/bin/ctest --test-dir build --output-on-failure
+```
+
+Se o `ctest` do `PATH` apontar para um wrapper Python local sem o módulo `cmake`, use o binário do sistema diretamente.
 
 ## Etapas previstas
 
@@ -132,10 +143,11 @@ Dependências inicialmente previstas:
 
 Dependências futuras possíveis:
 
-* Gmsh;
 * LAPACK;
 * ARPACK-NG;
 * VTK ou ParaView para visualização dos campos.
+
+O leitor atual aceita arquivos Gmsh MSH 4.1 ASCII sem depender da biblioteca do Gmsh em tempo de compilação.
 
 ### 4. Casos de validação
 
@@ -171,15 +183,19 @@ A validação deverá comparar:
 
 ## Status do projeto
 
-Projeto em fase inicial.
+Fase documental fechada e núcleo C++17 em desenvolvimento.
 
-* [ ] Criar estrutura do repositório
-* [ ] Traduzir o artigo para Markdown
-* [ ] Documentar a formulação física
-* [ ] Documentar o elemento de aresta triangular
-* [ ] Implementar montagem local
-* [ ] Implementar montagem global
-* [ ] Resolver o problema de autovalores
+* [x] Criar estrutura documental do repositório
+* [x] Traduzir e organizar o artigo em Markdown
+* [x] Documentar a formulação física e matemática
+* [x] Documentar o elemento de aresta triangular
+* [x] Implementar `Node`, `Triangle`, `Edge`, `Mesh` e leitura Gmsh MSH 4.1 ASCII inicial
+* [x] Implementar funções de forma nodais e de aresta
+* [x] Implementar integrais locais A1-A8
+* [x] Implementar montagem global geométrica parcial
+* [x] Implementar redução densa mínima sem inversão explícita de `K_zz`
+* [ ] Implementar a combinação física completa dos blocos do artigo
+* [ ] Definir e aplicar PEC/PMC por caso de validação
 * [ ] Reproduzir os exemplos numéricos
 * [ ] Comparar resultados com as figuras do artigo
 

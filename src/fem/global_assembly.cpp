@@ -1,7 +1,6 @@
 #include "koshiba/fem/global_assembly.hpp"
 
 #include <vector>
-#include <map>
 
 #include "koshiba/fem/local_integrals.hpp"
 
@@ -10,81 +9,110 @@ namespace {
 
 using Triplet = Eigen::Triplet<double>;
 
+void add_edge_edge_terms(std::vector<Triplet>& triplets,
+                         const mesh::ElementEdgeConnectivity& connectivity,
+                         const Eigen::Matrix3d& local) {
+    for (Eigen::Index row = 0; row < 3; ++row) {
+        for (Eigen::Index col = 0; col < 3; ++col) {
+            const auto local_row = static_cast<std::size_t>(row);
+            const auto local_col = static_cast<std::size_t>(col);
+            const double sign =
+                static_cast<double>(connectivity.signs[local_row] * connectivity.signs[local_col]);
+            triplets.emplace_back(
+                static_cast<Eigen::Index>(connectivity.edge_ids[local_row]),
+                static_cast<Eigen::Index>(connectivity.edge_ids[local_col]),
+                sign * local(row, col));
+        }
+    }
+}
+
+void add_edge_node_terms(std::vector<Triplet>& triplets,
+                         const mesh::Mesh& mesh,
+                         const mesh::TriangleElement& element,
+                         const mesh::ElementEdgeConnectivity& connectivity,
+                         const Eigen::Matrix3d& local) {
+    for (Eigen::Index row = 0; row < 3; ++row) {
+        for (Eigen::Index col = 0; col < 3; ++col) {
+            const auto local_row = static_cast<std::size_t>(row);
+            const auto local_col = static_cast<std::size_t>(col);
+            const double sign = static_cast<double>(connectivity.signs[local_row]);
+            triplets.emplace_back(
+                static_cast<Eigen::Index>(connectivity.edge_ids[local_row]),
+                static_cast<Eigen::Index>(mesh.node_index(element.node_ids[local_col])),
+                sign * local(row, col));
+        }
+    }
+}
+
+void add_node_node_terms(std::vector<Triplet>& triplets,
+                         const mesh::Mesh& mesh,
+                         const mesh::TriangleElement& element,
+                         const Eigen::Matrix3d& local) {
+    for (Eigen::Index row = 0; row < 3; ++row) {
+        for (Eigen::Index col = 0; col < 3; ++col) {
+            const auto local_row = static_cast<std::size_t>(row);
+            const auto local_col = static_cast<std::size_t>(col);
+            triplets.emplace_back(
+                static_cast<Eigen::Index>(mesh.node_index(element.node_ids[local_row])),
+                static_cast<Eigen::Index>(mesh.node_index(element.node_ids[local_col])),
+                local(row, col));
+        }
+    }
+}
+
+Eigen::SparseMatrix<double> make_sparse(Eigen::Index rows,
+                                        Eigen::Index cols,
+                                        const std::vector<Triplet>& triplets) {
+    Eigen::SparseMatrix<double> matrix(rows, cols);
+    matrix.setFromTriplets(triplets.begin(), triplets.end());
+    return matrix;
+}
+
 }  // namespace
 
 GlobalAssemblyBlocks assemble_geometric_blocks(const mesh::Mesh& mesh) {
     const Eigen::Index edge_count = static_cast<Eigen::Index>(mesh.edges().size());
     const Eigen::Index node_count = static_cast<Eigen::Index>(mesh.nodes().size());
-    
-    std::vector<Triplet> ktt_curl_triplets;
-    std::vector<Triplet> ktz_u_nx_triplets;
-    std::vector<Triplet> ktz_v_ny_triplets;
-    std::vector<Triplet> kzz_nx_nx_triplets;
-    std::vector<Triplet> kzz_ny_ny_triplets;
-    std::vector<Triplet> mtt_uu_triplets;
-    std::vector<Triplet> mtt_vv_triplets;
-    std::vector<Triplet> mzz_nn_triplets;
-    
-    for (const auto& triangle : mesh.get_triangles()) {
-        const auto& local_integrals = triangle.get_local_integrals();
-        
-        // This loop assumes that the triangle has a counter-clockwise orientation
-        // (positive area). This is a precondition for the local integral
-        // formulas to be correct. The mesh::Mesh class is responsible for
-        // enforcing this by rejecting clockwise or degenerate triangles upon creation.
-        
-        const auto& edge_indices = triangle.get_edge_indices();
-        const auto& node_indices = triangle.get_node_indices();
-        const auto& signs = triangle.get_edge_signs();
-        
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 3; ++j) {
-                const int global_row = edge_indices[i];
-                const int global_col = edge_indices[j];
-                const double val = local_integrals.a3(i, j);
-                
-                // This block stores 4 * integral({U_y}{U_y}^T), which is positive.
-                // It corresponds to the expansion of the transverse curl-curl term:
-                // integral( (-{U_y}+{V_x}) * (-{U_y}+{V_x})^T ).
-                // In Eq. (29a), this term is added (multiplied by p_z).
-                // In Eq. (32a), this term is subtracted (multiplied by p_z).
-                ktt_curl_triplets.emplace_back(global_row, global_col, 4.0 * val * signs[i] * signs[j]);
-                mtt_uu_triplets.emplace_back(global_row, global_col, local_integrals.a1(i, j) * signs[i] * signs[j]);
-                mtt_vv_triplets.emplace_back(global_row, global_col, local_integrals.a2(i, j) * signs[i] * signs[j]);
-            }
-        }
-        
-        for (int i = 0; i < 3; ++i) { // edge
-            for (int j = 0; j < 3; ++j) { // node
-                const int global_row = edge_indices[i];
-                const int global_col = node_indices[j];
-                ktz_u_nx_triplets.emplace_back(global_row, global_col, local_integrals.a4(i, j) * signs[i]);
-                ktz_v_ny_triplets.emplace_back(global_row, global_col, local_integrals.a5(i, j) * signs[i]);
-            }
-        }
-        
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 3; ++j) {
-                const int global_row = node_indices[i];
-                const int global_col = node_indices[j];
-                kzz_nx_nx_triplets.emplace_back(global_row, global_col, local_integrals.a7(i, j));
-                kzz_ny_ny_triplets.emplace_back(global_row, global_col, local_integrals.a8(i, j));
-                mzz_nn_triplets.emplace_back(global_row, global_col, local_integrals.a6(i, j));
-            }
-        }
+
+    std::vector<Triplet> ktt_curl;
+    std::vector<Triplet> ktz_u_nx;
+    std::vector<Triplet> ktz_v_ny;
+    std::vector<Triplet> kzz_nx_nx;
+    std::vector<Triplet> kzz_ny_ny;
+    std::vector<Triplet> mtt_uu;
+    std::vector<Triplet> mtt_vv;
+    std::vector<Triplet> mzz_nn;
+
+    for (std::size_t element_index = 0; element_index < mesh.elements().size(); ++element_index) {
+        const auto triangle = mesh.triangle(element_index);
+        const auto local = compute_local_integrals(triangle);
+        const auto& element = mesh.elements()[element_index];
+        const auto& connectivity = mesh.element_edges()[element_index];
+
+        // This block stores 4 * integral({U_y}{U_y}^T), which is positive.
+        // It corresponds to the expansion of the transverse curl-curl term
+        // integral((-{U_y}+{V_x})(-{U_y}+{V_x})^T). Eq. (29a) and Eq. (32a)
+        // apply the physical signs when these geometric blocks are combined.
+        add_edge_edge_terms(ktt_curl, connectivity, 4.0 * local.a3_derivative);
+        add_edge_edge_terms(mtt_uu, connectivity, local.a1_uu);
+        add_edge_edge_terms(mtt_vv, connectivity, local.a2_vv);
+        add_edge_node_terms(ktz_u_nx, mesh, element, connectivity, local.a4_u_nx);
+        add_edge_node_terms(ktz_v_ny, mesh, element, connectivity, local.a5_v_ny);
+        add_node_node_terms(kzz_nx_nx, mesh, element, local.a7_nx_nx);
+        add_node_node_terms(kzz_ny_ny, mesh, element, local.a8_ny_ny);
+        add_node_node_terms(mzz_nn, mesh, element, local.a6_nn);
     }
 
-    GlobalAssemblyBlocks blocks;
-    blocks.ktt_curl.setFromTriplets(ktt_curl_triplets.begin(), ktt_curl_triplets.end());
-    blocks.ktz_u_nx.setFromTriplets(ktz_u_nx_triplets.begin(), ktz_u_nx_triplets.end());
-    blocks.ktz_v_ny.setFromTriplets(ktz_v_ny_triplets.begin(), ktz_v_ny_triplets.end());
-    blocks.kzz_nx_nx.setFromTriplets(kzz_nx_nx_triplets.begin(), kzz_nx_nx_triplets.end());
-    blocks.kzz_ny_ny.setFromTriplets(kzz_ny_ny_triplets.begin(), kzz_ny_ny_triplets.end());
-    blocks.mtt_uu.setFromTriplets(mtt_uu_triplets.begin(), mtt_uu_triplets.end());
-    blocks.mtt_vv.setFromTriplets(mtt_vv_triplets.begin(), mtt_vv_triplets.end());
-    blocks.mzz_nn.setFromTriplets(mzz_nn_triplets.begin(), mzz_nn_triplets.end());
-    
-    return blocks;
+    return {
+        make_sparse(edge_count, edge_count, ktt_curl),
+        make_sparse(edge_count, node_count, ktz_u_nx),
+        make_sparse(edge_count, node_count, ktz_v_ny),
+        make_sparse(node_count, node_count, kzz_nx_nx),
+        make_sparse(node_count, node_count, kzz_ny_ny),
+        make_sparse(edge_count, edge_count, mtt_uu),
+        make_sparse(edge_count, edge_count, mtt_vv),
+        make_sparse(node_count, node_count, mzz_nn),
+    };
 }
 
 }  // namespace koshiba::fem
