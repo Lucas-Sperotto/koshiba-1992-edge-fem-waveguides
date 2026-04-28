@@ -38,9 +38,42 @@ void test_dense_reduced_eigenproblem() {
     assert(std::abs(result.eigenvalues(1) - 3.0) < 1.0e-12);
 }
 
+void test_effective_mass_without_inverse() {
+    Eigen::MatrixXd mass = Eigen::MatrixXd::Identity(2, 2);
+
+    Eigen::MatrixXd ktz = Eigen::MatrixXd::Zero(2, 1);
+    ktz(0, 0) = 1.0;
+    ktz(1, 0) = 2.0;
+
+    Eigen::MatrixXd kzz = Eigen::MatrixXd::Constant(1, 1, 2.0);
+    const Eigen::MatrixXd effective_mass =
+        koshiba::algebra::effective_mass_without_inverse(mass, ktz, kzz, ktz.transpose());
+
+    assert(std::abs(effective_mass(0, 0) - 1.5) < 1.0e-12);
+    assert(std::abs(effective_mass(0, 1) - 1.0) < 1.0e-12);
+    assert(std::abs(effective_mass(1, 0) - 1.0) < 1.0e-12);
+    assert(std::abs(effective_mass(1, 1) - 3.0) < 1.0e-12);
+}
+
+void test_beta_squared_eigenproblem_uses_effective_mass() {
+    Eigen::MatrixXd ktt = Eigen::MatrixXd::Identity(1, 1) * 6.0;
+    Eigen::MatrixXd ktz = Eigen::MatrixXd::Identity(1, 1) * 2.0;
+    Eigen::MatrixXd kzz = Eigen::MatrixXd::Identity(1, 1) * 4.0;
+    Eigen::MatrixXd mass = Eigen::MatrixXd::Identity(1, 1) * 2.0;
+
+    const auto result =
+        koshiba::algebra::solve_beta_squared_self_adjoint(ktt, ktz, kzz, mass);
+
+    assert(result.beta2.size() == 1);
+    assert(std::abs(result.effective_mass(0, 0) - 3.0) < 1.0e-12);
+    assert(std::abs(result.beta2(0) - 2.0) < 1.0e-12);
+}
+
 }  // namespace
 
 int main() {
     test_schur_complement_without_inverse();
     test_dense_reduced_eigenproblem();
+    test_effective_mass_without_inverse();
+    test_beta_squared_eigenproblem_uses_effective_mass();
 }

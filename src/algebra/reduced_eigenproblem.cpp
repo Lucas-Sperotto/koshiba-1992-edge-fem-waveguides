@@ -46,4 +46,50 @@ ReducedEigenResult solve_reduced_generalized_self_adjoint(
     return {eigensolver.eigenvalues(), eigensolver.eigenvectors(), reduced};
 }
 
+Eigen::MatrixXd effective_mass_without_inverse(
+    const Eigen::MatrixXd& mass,
+    const Eigen::MatrixXd& ktz,
+    const Eigen::MatrixXd& kzz,
+    const Eigen::MatrixXd& kzt) {
+    if (kzz.rows() != kzz.cols()) {
+        throw std::invalid_argument("Kzz must be square");
+    }
+    if (ktz.cols() != kzz.rows() || kzt.rows() != kzz.cols()) {
+        throw std::invalid_argument("incompatible Ktz, Kzz, and Kzt dimensions");
+    }
+    if (mass.rows() != ktz.rows() || mass.cols() != kzt.cols()) {
+        throw std::invalid_argument("incompatible mass dimensions");
+    }
+
+    Eigen::CompleteOrthogonalDecomposition<Eigen::MatrixXd> solver(kzz);
+    if (solver.rank() == 0) {
+        throw std::runtime_error("Kzz has zero rank in beta squared eigenproblem");
+    }
+
+    return mass + ktz * solver.solve(kzt);
+}
+
+BetaSquaredEigenResult solve_beta_squared_self_adjoint(
+    const Eigen::MatrixXd& ktt,
+    const Eigen::MatrixXd& ktz,
+    const Eigen::MatrixXd& kzz,
+    const Eigen::MatrixXd& mass) {
+    if (ktt.rows() != ktt.cols()) {
+        throw std::invalid_argument("Ktt must be square");
+    }
+
+    const Eigen::MatrixXd effective_mass =
+        effective_mass_without_inverse(mass, ktz, kzz, ktz.transpose());
+    if (effective_mass.rows() != ktt.rows() || effective_mass.cols() != ktt.cols()) {
+        throw std::invalid_argument("effective mass dimensions do not match Ktt");
+    }
+
+    Eigen::GeneralizedSelfAdjointEigenSolver<Eigen::MatrixXd> eigensolver(ktt, effective_mass);
+    if (eigensolver.info() != Eigen::Success) {
+        throw std::runtime_error("beta squared generalized eigenproblem failed");
+    }
+
+    return {eigensolver.eigenvalues(), eigensolver.eigenvectors(), effective_mass};
+}
+
 }  // namespace koshiba::algebra

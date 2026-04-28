@@ -29,6 +29,15 @@ double sparse_sum(const Eigen::SparseMatrix<double>& matrix) {
     return sum;
 }
 
+bool is_symmetric(const Eigen::SparseMatrix<double>& matrix) {
+    if (matrix.rows() != matrix.cols()) {
+        return false;
+    }
+    const Eigen::SparseMatrix<double> transpose = matrix.transpose();
+    const Eigen::SparseMatrix<double> diff = matrix - transpose;
+    return diff.norm() < 1.0e-12;
+}
+
 void test_global_block_dimensions() {
     const auto mesh = two_triangle_mesh();
     const auto blocks = koshiba::fem::assemble_geometric_blocks(mesh);
@@ -57,10 +66,23 @@ void test_shared_edge_receives_two_contributions() {
                                  static_cast<Eigen::Index>(shared_edge)) > 0.0);
 }
 
+void test_expected_global_blocks_are_symmetric() {
+    const auto mesh = two_triangle_mesh();
+    const auto blocks = koshiba::fem::assemble_geometric_blocks(mesh);
+
+    assert(is_symmetric(blocks.ktt_curl));
+    assert(is_symmetric(blocks.mtt_uu));
+    assert(is_symmetric(blocks.mtt_vv));
+    assert(is_symmetric(blocks.kzz_nx_nx));
+    assert(is_symmetric(blocks.kzz_ny_ny));
+    assert(is_symmetric(blocks.mzz_nn));
+}
+
 }  // namespace
 
 int main() {
     test_global_block_dimensions();
     test_global_mass_sum();
     test_shared_edge_receives_two_contributions();
+    test_expected_global_blocks_are_symmetric();
 }

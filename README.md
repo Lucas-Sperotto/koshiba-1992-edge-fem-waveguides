@@ -51,19 +51,23 @@ koshiba-1992-edge-fem-waveguides/
 ├── docs/
 │   ├── README.md
 │   ├── 00_resumo.md
-│   ├── ... (documentos de 01 a 16)
+│   ├── ... (documentos de 01 a 17)
 │   └── img/
 ├── include/
 │   └── koshiba/
 │       ├── algebra/
 │       ├── fem/
 │       ├── mesh/
-│       └── io/
+│       ├── io/
+│       └── physics/
 ├── src/
 │   ├── algebra/
 │   ├── fem/
 │   ├── mesh/
-│   └── io/
+│   ├── io/
+│   └── physics/
+├── app/
+│   └── mini_case.cpp
 ├── scripts/
 │   ├── run/
 │   └── plot/
@@ -76,9 +80,9 @@ koshiba-1992-edge-fem-waveguides/
 └── out/
 ```
 
-## Compilação e testes
+## Compilação, testes e mini caso
 
-O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global geométrica parcial e redução densa pequena sem inversão explícita de `K_zz`.
+O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global geométrica parcial, redução densa sem inversão explícita de `K_zz` e o solver beta mínimo para material diagonal.
 
 ```bash
 cmake -S . -B build
@@ -87,6 +91,15 @@ cmake --build build
 ```
 
 Se o `ctest` do `PATH` apontar para um wrapper Python local sem o módulo `cmake`, use o binário do sistema diretamente.
+
+O mini caso sintético da Fase 7B não reproduz ainda uma figura do artigo; ele serve para manter a cadeia entrada → solver → CSV → gráfico executável por linha de comando.
+
+```bash
+scripts/run/run_mini_case.sh
+scripts/plot/plot_mini_case.py
+```
+
+Entradas versionadas ficam em `data/input/`. Saídas geradas ficam em `data/output/` e `out/`.
 
 ## Etapas previstas
 
@@ -137,12 +150,12 @@ Dependências inicialmente previstas:
 * C++17;
 * CMake;
 * Eigen;
-* Python para visualização;
-* Matplotlib;
-* Pandas.
+* Python para visualização simples.
 
 Dependências futuras possíveis:
 
+* Matplotlib;
+* Pandas;
 * LAPACK;
 * ARPACK-NG;
 * VTK ou ParaView para visualização dos campos.
@@ -194,7 +207,10 @@ Fase documental fechada e núcleo C++17 em desenvolvimento.
 * [x] Implementar integrais locais A1-A8
 * [x] Implementar montagem global geométrica parcial
 * [x] Implementar redução densa mínima sem inversão explícita de `K_zz`
-* [ ] Implementar a combinação física completa dos blocos do artigo
+* [x] Implementar material diagonal genérico para `phi=E` e `phi=H`
+* [x] Implementar combinação beta mínima dos blocos das Equações (32)–(35)
+* [x] Criar mini caso reprodutível com entrada, CSV, runner e plot
+* [ ] Validar sinais e acoplamentos contra caso físico de referência
 * [ ] Definir e aplicar PEC/PMC por caso de validação
 * [ ] Reproduzir os exemplos numéricos
 * [ ] Comparar resultados com as figuras do artigo

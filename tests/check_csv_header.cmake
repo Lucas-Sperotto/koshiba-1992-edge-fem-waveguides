@@ -1,0 +1,5 @@
+file(READ "${CSV}" CSV_CONTENT)
+string(REGEX MATCH "^[^\n\r]*" FIRST_LINE "${CSV_CONTENT}")
+if(NOT FIRST_LINE STREQUAL "mode,beta2,beta,k0,field_kind,status")
+    message(FATAL_ERROR "unexpected CSV header: ${FIRST_LINE}")
+endif()

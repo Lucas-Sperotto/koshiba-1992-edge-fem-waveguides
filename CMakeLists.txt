@@ -10,11 +10,13 @@ find_package(Eigen3 REQUIRED)
 
 add_library(koshiba_fem
     src/algebra/reduced_eigenproblem.cpp
+    src/fem/beta_solver.cpp
     src/fem/edge_shape.cpp
     src/fem/global_assembly.cpp
     src/fem/local_integrals.cpp
     src/io/gmsh.cpp
     src/mesh/mesh.cpp
+    src/physics/material.cpp
     src/mesh/triangle.cpp
 )
 
@@ -136,4 +138,51 @@ add_test(NAME assembly_and_solver_tests COMMAND assembly_and_solver_tests)
 
 set_tests_properties(assembly_and_solver_tests PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_executable(koshiba_mini_case
+    app/mini_case.cpp
+)
+
+target_link_libraries(koshiba_mini_case
+    PRIVATE
+        koshiba_fem
+)
+
+add_test(
+    NAME mini_case_smoke
+    COMMAND koshiba_mini_case --input data/input/mini_case.cfg
+)
+
+set_tests_properties(mini_case_smoke PROPERTIES
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_executable(koshiba_beta_solver_tests
+    tests/beta_solver_tests.cpp
+)
+
+target_link_libraries(koshiba_beta_solver_tests
+    PRIVATE
+        koshiba_fem
+)
+
+add_test(
+    NAME beta_solver
+    COMMAND koshiba_beta_solver_tests
+)
+
+set_tests_properties(beta_solver PROPERTIES
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_test(
+    NAME mini_case_csv_header
+    COMMAND ${CMAKE_COMMAND}
+        -DCSV=${CMAKE_CURRENT_SOURCE_DIR}/data/output/mini_case_modes.csv
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_csv_header.cmake
+)
+
+set_tests_properties(mini_case_csv_header PROPERTIES
+    DEPENDS mini_case_smoke
 )

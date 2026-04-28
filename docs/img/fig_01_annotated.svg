@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="360" viewBox="0 0 520 360">
+  <rect width="100%" height="100%" fill="white"/>
+  <polygon points="90,290 430,290 160,70" fill="#f7fbff" stroke="#1f2937" stroke-width="2"/>
+  <circle cx="90" cy="290" r="5" fill="#1f2937"/>
+  <circle cx="430" cy="290" r="5" fill="#1f2937"/>
+  <circle cx="160" cy="70" r="5" fill="#1f2937"/>
+  <text x="68" y="315" font-family="sans-serif" font-size="16">1</text>
+  <text x="438" y="315" font-family="sans-serif" font-size="16">2</text>
+  <text x="152" y="54" font-family="sans-serif" font-size="16">3</text>
+  <circle cx="260" cy="290" r="4" fill="#2563eb"/>
+  <circle cx="295" cy="180" r="4" fill="#2563eb"/>
+  <circle cx="125" cy="180" r="4" fill="#2563eb"/>
+  <text x="254" y="314" font-family="sans-serif" font-size="15">4</text>
+  <text x="305" y="176" font-family="sans-serif" font-size="15">5</text>
+  <text x="105" y="176" font-family="sans-serif" font-size="15">6</text>
+  <line x1="260" y1="290" x2="330" y2="290" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="295" y1="180" x2="250" y2="144" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="125" y1="180" x2="150" y2="120" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="335" y="286" font-family="sans-serif" font-size="15">theta_4</text>
+  <text x="252" y="126" font-family="sans-serif" font-size="15">theta_5</text>
+  <text x="86" y="126" font-family="sans-serif" font-size="15">theta_6</text>
+  <text x="260" y="26" text-anchor="middle" font-family="sans-serif" font-size="17">Elemento triangular com pontos laterais e angulos de aresta</text>
+  <text x="260" y="342" text-anchor="middle" font-family="sans-serif" font-size="12">Figura didatica original do projeto; nao e reproduzida do artigo IEEE.</text>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+</svg>
