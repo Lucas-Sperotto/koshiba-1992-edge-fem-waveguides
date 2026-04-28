@@ -122,3 +122,14 @@ add_test(
     NAME reduced_eigenproblem
     COMMAND koshiba_reduced_eigenproblem_tests
 )
+
+add_executable(assembly_and_solver_tests
+    tests/assembly_and_solver_tests.cpp
+)
+
+target_link_libraries(assembly_and_solver_tests
+    PRIVATE
+        koshiba_fem
+)
+
+add_test(NAME assembly_and_solver_tests COMMAND assembly_and_solver_tests)

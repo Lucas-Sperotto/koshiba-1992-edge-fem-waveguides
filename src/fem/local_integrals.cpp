@@ -5,6 +5,11 @@
 namespace koshiba::fem {
 
 LocalIntegrals compute_local_integrals(const mesh::Triangle& triangle) {
+    // Precondition for all calculations in this file:
+    // The associated triangle must have a counter-clockwise orientation, resulting
+    // in a positive area. The mesh::Mesh class is responsible for enforcing this
+    // by rejecting clockwise or degenerate triangles upon creation.
+
     const EdgeShape edge_shape(triangle);
     const auto& edge = edge_shape.coefficients();
     const auto nodal = triangle.nodal_coefficients();

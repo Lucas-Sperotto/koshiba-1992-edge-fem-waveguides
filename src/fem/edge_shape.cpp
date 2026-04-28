@@ -8,19 +8,15 @@
 namespace koshiba::fem {
 namespace {
 
-constexpr double pi = 3.141592653589793238462643383279502884;
-
+// Normalizes an angle to the range [0, pi). The special case atan2(0, -1) = pi
+// is mapped to 0 to handle horizontal edges aligned with the negative x-axis
+// consistently.
 double normalize_angle(double angle) {
-    while (angle < 0.0) {
-        angle += pi;
+    if (angle < 0.0) {
+        angle += M_PI;
     }
-    while (angle >= pi) {
-        angle -= pi;
-    }
-    if (std::abs(angle - pi) < 1.0e-14) {
-        return 0.0;
-    }
-    return angle;
+    // Map pi to 0, ensuring the interval is [0, pi)
+    return (angle >= M_PI) ? 0.0 : angle;
 }
 
 std::array<mesh::Point, 3> edge_midpoints(const mesh::Triangle& triangle) {
