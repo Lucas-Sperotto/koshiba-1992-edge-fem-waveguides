@@ -15,7 +15,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] **Fase 6 — Montagem global parcial:** blocos geométricos esparsos implementados e testados, incluindo simetria esperada.
 - [x] **Fase 7A — Solver físico mínimo:** combinação beta para material diagonal e `phi=E/H` implementada para casos pequenos.
 - [x] **Fase 7B — Reprodutibilidade mínima:** mini caso sintético com entrada, CSV, runner e plot.
-- [ ] **Fase 7C — Validação das figuras do artigo:** política essencial PEC/PMC e auditoria algébrica de sinais implementadas; Figuras 3, 5 e 7 ainda pendentes.
+- [ ] **Fase 7C — Validação das figuras do artigo:** dossiê dos casos criado; malhas, execução e validação quantitativa das Figuras 3, 5 e 7 ainda pendentes.
 
 ---
 
@@ -40,6 +40,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] Plot simples gerado em `out/mini_case_modes.svg`.
 - [x] Política essencial PEC/PMC registrada em `docs/18_politica_pec_pmc.md`.
 - [x] Auditoria algébrica dos sinais da redução registrada em `docs/19_auditoria_sinais_acoplamentos.md`.
+- [x] Dossiê dos casos de validação das Figuras 3, 5 e 7 registrado em `docs/20_dossie_casos_validacao_figuras.md`.
 
 ---
 
@@ -65,6 +66,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - Nota de implementação da Fase 7: `docs/17_implementacao_fase7_solver_beta.md`.
 - Política inicial para PEC/PMC: `docs/18_politica_pec_pmc.md`.
 - Auditoria de sinais e acoplamentos: `docs/19_auditoria_sinais_acoplamentos.md`.
+- Dossiê dos casos de validação das Figuras 3, 5 e 7: `docs/20_dossie_casos_validacao_figuras.md`.
 
 **Justificativa de limpeza**
 
@@ -198,9 +200,13 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 
 **Critérios de conclusão**
 
-- [ ] Definir casos Gmsh e materiais para a Figura 3.
-- [ ] Definir casos Gmsh e materiais para a Figura 5.
-- [ ] Definir casos Gmsh e materiais para a Figura 7.
+- [x] Criar dossiê documental dos casos das Figuras 3, 5 e 7.
+- [x] Registrar eixos, grades, parâmetros físicos e normalizações por subfigura.
+- [x] Registrar política `t_default=1.0`, override futuro e teste de invariância de escala.
+- [x] Registrar plano de comparação por inspeção visual e referências externas Marcatili/Goell.
+- [ ] Criar casos Gmsh e materiais versionados para a Figura 3.
+- [ ] Criar casos Gmsh e materiais versionados para a Figura 5.
+- [ ] Criar casos Gmsh e materiais versionados para a Figura 7.
 - [x] Implementar mapeamento essencial PEC/PMC por escolha `phi=E/H`.
 - [ ] Validar PEC/PMC por caso de referência do artigo.
 - [ ] Exportar curvas completas para CSV.
@@ -277,6 +283,7 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 **Origem:** Figuras 3, 5 e 7 do artigo  
 **Critério de conclusão**
 
+- [x] Documentar o contrato inicial dos casos de validação em `docs/20_dossie_casos_validacao_figuras.md`.
 - [ ] Não declarar reprodução das curvas sem arquivo de entrada, saída, script e erro quantitativo.
 - [ ] Separar claramente mini casos sintéticos de validação científica contra o artigo.
 
@@ -300,7 +307,7 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
    - auditar explicitamente a matriz `[B]` da Equação (28);
    - comparar contra um caso analítico ou referência controlada.
 2. Preparar validação do artigo:
-   - criar geometrias Gmsh das Figuras 3, 5 e 7;
+   - criar geometrias Gmsh das Figuras 3, 5 e 7 a partir do dossiê;
    - versionar entradas;
    - gerar CSVs e plots reproduzíveis;
    - registrar erro quantitativo.

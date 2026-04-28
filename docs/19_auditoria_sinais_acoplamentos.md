@@ -1,6 +1,6 @@
 # 19. Auditoria de sinais e acoplamentos
 
-> **Navegação:** [Índice](README.md) | [18](18_politica_pec_pmc.md) | [19](19_auditoria_sinais_acoplamentos.md)
+> **Navegação:** [Índice](README.md) | [18](18_politica_pec_pmc.md) | [19](19_auditoria_sinais_acoplamentos.md) | [20](20_dossie_casos_validacao_figuras.md)
 
 Este documento registra a primeira auditoria objetiva dos sinais dos blocos acoplados. Ele não substitui a validação física contra as Figuras 3, 5 e 7; seu papel é proteger a álgebra reduzida das Equações (31)–(35).
 

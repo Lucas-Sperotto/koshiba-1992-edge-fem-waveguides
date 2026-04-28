@@ -1,6 +1,6 @@
 # 17. Implementação da Fase 7 — solver beta mínimo
 
-> **Navegação:** [Índice](README.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md) | [19](19_auditoria_sinais_acoplamentos.md)
+> **Navegação:** [Índice](README.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md) | [19](19_auditoria_sinais_acoplamentos.md) | [20](20_dossie_casos_validacao_figuras.md)
 
 Este documento registra a implementação mínima da Fase 7. Ele não altera a formulação matemática do artigo: apenas explicita como os blocos geométricos já montados no código são combinados para resolver a forma reduzida das Equações (32)–(35).
 
