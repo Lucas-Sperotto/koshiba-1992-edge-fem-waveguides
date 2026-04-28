@@ -211,6 +211,7 @@ Fase documental fechada e núcleo C++17 em desenvolvimento.
 * [x] Implementar combinação beta mínima dos blocos das Equações (32)–(35)
 * [x] Criar mini caso reprodutível com entrada, CSV, runner e plot
 * [x] Definir política essencial inicial para PEC/PMC por `phi=E/H`
+* [x] Auditar algebraicamente a redução e a recuperação de `phi_z`
 * [ ] Validar sinais e acoplamentos contra caso físico de referência
 * [ ] Validar e aplicar PEC/PMC por caso de validação do artigo
 * [ ] Reproduzir os exemplos numéricos

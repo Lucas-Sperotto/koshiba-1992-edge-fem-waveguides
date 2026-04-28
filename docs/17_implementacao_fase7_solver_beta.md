@@ -1,6 +1,6 @@
 # 17. Implementação da Fase 7 — solver beta mínimo
 
-> **Navegação:** [Índice](README.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md)
+> **Navegação:** [Índice](README.md) | [16](16_contrato_para_implementacao_cpp.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md) | [19](19_auditoria_sinais_acoplamentos.md)
 
 Este documento registra a implementação mínima da Fase 7. Ele não altera a formulação matemática do artigo: apenas explicita como os blocos geométricos já montados no código são combinados para resolver a forma reduzida das Equações (32)–(35).
 
@@ -27,6 +27,11 @@ K_{tt}^{\beta}
 k_0^2(q_x M_{UU} + q_y M_{VV})
 -p_z K_{\mathrm{curl}},
 $$
+
+Aqui, \(K_{\mathrm{curl}}\) representa o bloco geométrico associado a
+\((V_x - U_y)(V_x - U_y)^T\). Para as funções de aresta usadas no artigo,
+esse termo equivale ao fator \(4\{U_y\}\{U_y\}^T\) que aparece na Equação (32a).
+
 
 $$
 K_{tz}^{\beta}
@@ -91,6 +96,18 @@ K_{tt}^{\beta}\phi_t
 =
 \beta^2 \hat{M}_{tt}\phi_t.
 $$
+
+Depois de obter $\phi_t$, a componente axial pode ser recuperada pela Equação (31b):
+
+$$
+\phi_z
+=
+\beta
+\left(K_{zz}^{\beta}\right)^{-1}
+K_{zt}^{\beta}\phi_t.
+$$
+
+O código resolve esse sistema linear sem formar a inversa. A coerência dos sinais dessa recuperação está auditada em [19 — Auditoria de sinais e acoplamentos](19_auditoria_sinais_acoplamentos.md).
 
 ---
 

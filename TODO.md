@@ -15,7 +15,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] **Fase 6 — Montagem global parcial:** blocos geométricos esparsos implementados e testados, incluindo simetria esperada.
 - [x] **Fase 7A — Solver físico mínimo:** combinação beta para material diagonal e `phi=E/H` implementada para casos pequenos.
 - [x] **Fase 7B — Reprodutibilidade mínima:** mini caso sintético com entrada, CSV, runner e plot.
-- [ ] **Fase 7C — Validação das figuras do artigo:** política essencial PEC/PMC implementada; Figuras 3, 5 e 7 ainda pendentes.
+- [ ] **Fase 7C — Validação das figuras do artigo:** política essencial PEC/PMC e auditoria algébrica de sinais implementadas; Figuras 3, 5 e 7 ainda pendentes.
 
 ---
 
@@ -39,6 +39,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] CSV gerado em `data/output/mini_case_modes.csv` pelo runner/teste.
 - [x] Plot simples gerado em `out/mini_case_modes.svg`.
 - [x] Política essencial PEC/PMC registrada em `docs/18_politica_pec_pmc.md`.
+- [x] Auditoria algébrica dos sinais da redução registrada em `docs/19_auditoria_sinais_acoplamentos.md`.
 
 ---
 
@@ -63,6 +64,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - Contrato para implementação C++17: `docs/16_contrato_para_implementacao_cpp.md`.
 - Nota de implementação da Fase 7: `docs/17_implementacao_fase7_solver_beta.md`.
 - Política inicial para PEC/PMC: `docs/18_politica_pec_pmc.md`.
+- Auditoria de sinais e acoplamentos: `docs/19_auditoria_sinais_acoplamentos.md`.
 
 **Justificativa de limpeza**
 
@@ -157,6 +159,8 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 - [x] `Mtt_beta = py*Mtt_UU + px*Mtt_VV`.
 - [x] `Mtt_hat = Mtt_beta + Ktz*Kzz^{-1}*Kzt` calculado por solve linear.
 - [x] Problema `Ktt_beta * phi_t = beta^2 * Mtt_hat * phi_t` resolvido com Eigen denso para casos pequenos.
+- [x] Recuperação axial `phi_z = beta*Kzz^{-1}*Kzt*phi_t` implementada por solve linear.
+- [x] Resíduos das Equações (31a) e (31b) verificados após a redução.
 - [x] Retorno de `beta2`, `beta`, autovetores transversais e status de filtragem.
 - [x] Mecanismo genérico de restrição de DOFs de aresta por physical tag.
 - [x] Mecanismo explícito de restrição de DOFs nodais axiais por physical tag.
@@ -217,6 +221,8 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 
 **Critério de conclusão**
 
+- [x] Auditar algebraicamente o sinal da redução das Equações (31)–(35).
+- [x] Testar recuperação de `phi_z` sem inversa explícita.
 - [ ] Auditar a matriz `[B]`, principalmente termos com `j{N_x}`, `j{N_y}`, `{U}` e `{V}`.
 - [ ] Comparar o sinal dos blocos acoplados contra pelo menos um caso físico reproduzível.
 
@@ -290,8 +296,8 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 
 ## Próximo plano de resolução
 
-1. Fechar sinais e acoplamentos:
-   - auditar o fator `j` e os sinais de `Ktz/Kzt`;
+1. Fechar sinais e acoplamentos contra caso físico:
+   - auditar explicitamente a matriz `[B]` da Equação (28);
    - comparar contra um caso analítico ou referência controlada.
 2. Preparar validação do artigo:
    - criar geometrias Gmsh das Figuras 3, 5 e 7;

@@ -34,6 +34,12 @@ Eigen::MatrixXd effective_mass_without_inverse(
     const Eigen::MatrixXd& kzz,
     const Eigen::MatrixXd& kzt);
 
+Eigen::VectorXd recover_axial_field_without_inverse(
+    double beta,
+    const Eigen::MatrixXd& ktz,
+    const Eigen::MatrixXd& kzz,
+    const Eigen::VectorXd& transverse_field);
+
 BetaSquaredEigenResult solve_beta_squared_self_adjoint(
     const Eigen::MatrixXd& ktt,
     const Eigen::MatrixXd& ktz,

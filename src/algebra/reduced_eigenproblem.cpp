@@ -69,6 +69,29 @@ Eigen::MatrixXd effective_mass_without_inverse(
     return mass + ktz * solver.solve(kzt);
 }
 
+Eigen::VectorXd recover_axial_field_without_inverse(
+    double beta,
+    const Eigen::MatrixXd& ktz,
+    const Eigen::MatrixXd& kzz,
+    const Eigen::VectorXd& transverse_field) {
+    if (kzz.rows() != kzz.cols()) {
+        throw std::invalid_argument("Kzz must be square");
+    }
+    if (ktz.cols() != kzz.rows()) {
+        throw std::invalid_argument("incompatible Ktz and Kzz dimensions");
+    }
+    if (ktz.rows() != transverse_field.size()) {
+        throw std::invalid_argument("transverse field dimensions do not match Ktz");
+    }
+
+    Eigen::CompleteOrthogonalDecomposition<Eigen::MatrixXd> solver(kzz);
+    if (solver.rank() == 0) {
+        throw std::runtime_error("Kzz has zero rank in axial field recovery");
+    }
+
+    return beta * solver.solve(ktz.transpose() * transverse_field);
+}
+
 BetaSquaredEigenResult solve_beta_squared_self_adjoint(
     const Eigen::MatrixXd& ktt,
     const Eigen::MatrixXd& ktz,

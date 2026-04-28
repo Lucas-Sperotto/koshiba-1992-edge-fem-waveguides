@@ -1,6 +1,6 @@
 # 18. Política inicial para PEC/PMC
 
-> **Navegação:** [Índice](README.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md)
+> **Navegação:** [Índice](README.md) | [17](17_implementacao_fase7_solver_beta.md) | [18](18_politica_pec_pmc.md) | [19](19_auditoria_sinais_acoplamentos.md)
 
 Este documento registra a política inicial de condições essenciais usada pelo solver beta. A intenção é transformar a pendência PEC/PMC em uma regra de implementação testável, sem declarar ainda validação das Figuras 3, 5 e 7.
 
