@@ -280,7 +280,7 @@ $$
 [B] =
 \begin{bmatrix}
 j\beta\{V\} & -j\beta\{U\} & -\{U_y\}+\{V_x\} \\
-j\{N_y\} & j\{N_x\} & \{0\}
+j\{N_y\} & -j\{N_x\} & \{0\}
 \end{bmatrix}
 $$
 
