@@ -1,6 +1,7 @@
 #include "koshiba/fem/beta_solver.hpp"
 
 #include "koshiba/algebra/reduced_eigenproblem.hpp"
+#include "koshiba/fem/local_integrals.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -10,6 +11,8 @@
 
 namespace koshiba::fem {
 namespace {
+
+using Triplet = Eigen::Triplet<double>;
 
 bool contains(const std::vector<int>& values, int value) {
     return std::find(values.begin(), values.end(), value) != values.end();
@@ -74,6 +77,66 @@ Eigen::MatrixXd dense_submatrix(const Eigen::SparseMatrix<double>& matrix,
     return dense;
 }
 
+void add_edge_edge_terms(std::vector<Triplet>& triplets,
+                         const mesh::ElementEdgeConnectivity& connectivity,
+                         const Eigen::Matrix3d& local) {
+    for (Eigen::Index row = 0; row < 3; ++row) {
+        for (Eigen::Index col = 0; col < 3; ++col) {
+            const auto local_row = static_cast<std::size_t>(row);
+            const auto local_col = static_cast<std::size_t>(col);
+            const double sign =
+                static_cast<double>(connectivity.signs[local_row] *
+                                    connectivity.signs[local_col]);
+            triplets.emplace_back(
+                static_cast<Eigen::Index>(connectivity.edge_ids[local_row]),
+                static_cast<Eigen::Index>(connectivity.edge_ids[local_col]),
+                sign * local(row, col));
+        }
+    }
+}
+
+void add_edge_node_terms(std::vector<Triplet>& triplets,
+                         const mesh::Mesh& mesh,
+                         const mesh::TriangleElement& element,
+                         const mesh::ElementEdgeConnectivity& connectivity,
+                         const Eigen::Matrix3d& local) {
+    for (Eigen::Index row = 0; row < 3; ++row) {
+        for (Eigen::Index col = 0; col < 3; ++col) {
+            const auto local_row = static_cast<std::size_t>(row);
+            const auto local_col = static_cast<std::size_t>(col);
+            const double sign = static_cast<double>(connectivity.signs[local_row]);
+            triplets.emplace_back(
+                static_cast<Eigen::Index>(connectivity.edge_ids[local_row]),
+                static_cast<Eigen::Index>(mesh.node_index(element.node_ids[local_col])),
+                sign * local(row, col));
+        }
+    }
+}
+
+void add_node_node_terms(std::vector<Triplet>& triplets,
+                         const mesh::Mesh& mesh,
+                         const mesh::TriangleElement& element,
+                         const Eigen::Matrix3d& local) {
+    for (Eigen::Index row = 0; row < 3; ++row) {
+        for (Eigen::Index col = 0; col < 3; ++col) {
+            const auto local_row = static_cast<std::size_t>(row);
+            const auto local_col = static_cast<std::size_t>(col);
+            triplets.emplace_back(
+                static_cast<Eigen::Index>(mesh.node_index(element.node_ids[local_row])),
+                static_cast<Eigen::Index>(mesh.node_index(element.node_ids[local_col])),
+                local(row, col));
+        }
+    }
+}
+
+Eigen::SparseMatrix<double> make_sparse(Eigen::Index rows,
+                                        Eigen::Index cols,
+                                        const std::vector<Triplet>& triplets) {
+    Eigen::SparseMatrix<double> matrix(rows, cols);
+    matrix.setFromTriplets(triplets.begin(), triplets.end());
+    return matrix;
+}
+
 }  // namespace
 
 BetaMatrices assemble_beta_matrices(const GlobalAssemblyBlocks& blocks,
@@ -91,6 +154,61 @@ BetaMatrices assemble_beta_matrices(const GlobalAssemblyBlocks& blocks,
             coefficients.p_x * blocks.kzz_ny_ny,
         coefficients.p_y * blocks.mtt_uu +
             coefficients.p_x * blocks.mtt_vv,
+    };
+}
+
+BetaMatrices assemble_beta_matrices(const mesh::Mesh& mesh,
+                                    const physics::MaterialMap& materials,
+                                    physics::FieldKind field_kind,
+                                    double k0) {
+    const Eigen::Index edge_count = static_cast<Eigen::Index>(mesh.edges().size());
+    const Eigen::Index node_count = static_cast<Eigen::Index>(mesh.nodes().size());
+    const double k0_squared = k0 * k0;
+
+    std::vector<Triplet> ktt_beta;
+    std::vector<Triplet> ktz_beta;
+    std::vector<Triplet> kzz_beta;
+    std::vector<Triplet> mtt_beta;
+
+    for (std::size_t element_index = 0; element_index < mesh.elements().size(); ++element_index) {
+        const auto& element = mesh.elements()[element_index];
+        const auto coefficients = materials.coefficients_for(element.physical_tag, field_kind);
+        const auto triangle = mesh.triangle(element_index);
+        const auto local = compute_local_integrals(triangle);
+        const auto& connectivity = mesh.element_edges()[element_index];
+
+        add_edge_edge_terms(
+            ktt_beta,
+            connectivity,
+            k0_squared * (coefficients.q_x * local.a1_uu +
+                          coefficients.q_y * local.a2_vv) -
+                coefficients.p_z * (4.0 * local.a3_derivative));
+        add_edge_node_terms(
+            ktz_beta,
+            mesh,
+            element,
+            connectivity,
+            coefficients.p_y * local.a4_u_nx +
+                coefficients.p_x * local.a5_v_ny);
+        add_node_node_terms(
+            kzz_beta,
+            mesh,
+            element,
+            k0_squared * coefficients.q_z * local.a6_nn -
+                coefficients.p_y * local.a7_nx_nx -
+                coefficients.p_x * local.a8_ny_ny);
+        add_edge_edge_terms(
+            mtt_beta,
+            connectivity,
+            coefficients.p_y * local.a1_uu +
+                coefficients.p_x * local.a2_vv);
+    }
+
+    return {
+        make_sparse(edge_count, edge_count, ktt_beta),
+        make_sparse(edge_count, node_count, ktz_beta),
+        make_sparse(node_count, node_count, kzz_beta),
+        make_sparse(edge_count, edge_count, mtt_beta),
     };
 }
 
@@ -120,13 +238,20 @@ BetaSolveResult solve_beta_modes(const mesh::Mesh& mesh,
                                  physics::FieldKind field_kind,
                                  double k0,
                                  const BetaSolverOptions& options) {
+    return solve_beta_modes(
+        mesh, physics::MaterialMap::homogeneous(material), field_kind, k0, options);
+}
+
+BetaSolveResult solve_beta_modes(const mesh::Mesh& mesh,
+                                 const physics::MaterialMap& materials,
+                                 physics::FieldKind field_kind,
+                                 double k0,
+                                 const BetaSolverOptions& options) {
     if (k0 <= 0.0) {
         throw std::invalid_argument("k0 must be positive");
     }
 
-    const auto coefficients = material.coefficients(field_kind);
-    const auto geometric_blocks = assemble_geometric_blocks(mesh);
-    const auto beta_matrices = assemble_beta_matrices(geometric_blocks, coefficients, k0);
+    const auto beta_matrices = assemble_beta_matrices(mesh, materials, field_kind, k0);
 
     const auto free_edges = free_edge_indices(mesh, options.constraints);
     const auto free_nodes = free_node_indices(mesh, options.constraints);

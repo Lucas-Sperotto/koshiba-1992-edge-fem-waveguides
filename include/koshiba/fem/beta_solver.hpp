@@ -63,12 +63,23 @@ BetaMatrices assemble_beta_matrices(const GlobalAssemblyBlocks& blocks,
                                     const physics::DiagonalCoefficients& coefficients,
                                     double k0);
 
+BetaMatrices assemble_beta_matrices(const mesh::Mesh& mesh,
+                                    const physics::MaterialMap& materials,
+                                    physics::FieldKind field_kind,
+                                    double k0);
+
 BoundaryDofConstraints essential_boundary_constraints(
     physics::FieldKind field_kind,
     const std::vector<PhysicalBoundaryCondition>& boundary_conditions);
 
 BetaSolveResult solve_beta_modes(const mesh::Mesh& mesh,
                                  const physics::DiagonalMaterial& material,
+                                 physics::FieldKind field_kind,
+                                 double k0,
+                                 const BetaSolverOptions& options = {});
+
+BetaSolveResult solve_beta_modes(const mesh::Mesh& mesh,
+                                 const physics::MaterialMap& materials,
                                  physics::FieldKind field_kind,
                                  double k0,
                                  const BetaSolverOptions& options = {});

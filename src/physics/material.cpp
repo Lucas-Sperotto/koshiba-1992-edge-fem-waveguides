@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace koshiba::physics {
 
@@ -15,6 +16,38 @@ DiagonalCoefficients DiagonalMaterial::coefficients(FieldKind field_kind) const 
     }
 
     return {1.0 / eps_rx, 1.0 / eps_ry, 1.0 / eps_rz, 1.0, 1.0, 1.0};
+}
+
+MaterialMap::MaterialMap(std::map<int, DiagonalMaterial> materials)
+    : materials_(std::move(materials)) {}
+
+MaterialMap MaterialMap::homogeneous(DiagonalMaterial material) {
+    return MaterialMap({{0, material}});
+}
+
+bool MaterialMap::contains(int physical_tag) const noexcept {
+    return materials_.find(physical_tag) != materials_.end() ||
+           materials_.find(0) != materials_.end();
+}
+
+const DiagonalMaterial& MaterialMap::material_for(int physical_tag) const {
+    const auto found = materials_.find(physical_tag);
+    if (found != materials_.end()) {
+        return found->second;
+    }
+
+    const auto fallback = materials_.find(0);
+    if (fallback != materials_.end()) {
+        return fallback->second;
+    }
+
+    throw std::invalid_argument(
+        "missing material for physical tag " + std::to_string(physical_tag));
+}
+
+DiagonalCoefficients MaterialMap::coefficients_for(int physical_tag,
+                                                   FieldKind field_kind) const {
+    return material_for(physical_tag).coefficients(field_kind);
 }
 
 FieldKind parse_field_kind(const char* value) {

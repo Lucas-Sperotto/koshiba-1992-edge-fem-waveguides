@@ -7,17 +7,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(Eigen3 REQUIRED)
+find_program(GMSH_EXECUTABLE gmsh)
+find_program(BASH_EXECUTABLE bash)
 
 add_library(koshiba_fem
+    src/algebra/mode_tracking.cpp
     src/algebra/reduced_eigenproblem.cpp
     src/fem/beta_solver.cpp
+    src/fem/direct_frequency_solver.cpp
     src/fem/edge_shape.cpp
     src/fem/global_assembly.cpp
     src/fem/local_integrals.cpp
     src/io/gmsh.cpp
     src/mesh/mesh.cpp
     src/physics/material.cpp
+    src/physics/normalization.cpp
     src/mesh/triangle.cpp
+    src/validation/validation_quantities.cpp
 )
 
 target_include_directories(koshiba_fem
@@ -149,6 +155,15 @@ target_link_libraries(koshiba_mini_case
         koshiba_fem
 )
 
+add_executable(koshiba_validation_case
+    app/validation_case.cpp
+)
+
+target_link_libraries(koshiba_validation_case
+    PRIVATE
+        koshiba_fem
+)
+
 add_test(
     NAME mini_case_smoke
     COMMAND koshiba_mini_case --input data/input/mini_case.cfg
@@ -176,6 +191,34 @@ set_tests_properties(beta_solver PROPERTIES
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+add_executable(koshiba_material_region_and_direct_solver_tests
+    tests/material_region_and_direct_solver_tests.cpp
+)
+
+target_link_libraries(koshiba_material_region_and_direct_solver_tests
+    PRIVATE
+        koshiba_fem
+)
+
+add_test(
+    NAME material_region_and_direct_solver
+    COMMAND koshiba_material_region_and_direct_solver_tests
+)
+
+add_executable(koshiba_validation_quantities_tests
+    tests/validation_quantities_tests.cpp
+)
+
+target_link_libraries(koshiba_validation_quantities_tests
+    PRIVATE
+        koshiba_fem
+)
+
+add_test(
+    NAME validation_quantities
+    COMMAND koshiba_validation_quantities_tests
+)
+
 add_test(
     NAME mini_case_csv_header
     COMMAND ${CMAKE_COMMAND}
@@ -186,3 +229,36 @@ add_test(
 set_tests_properties(mini_case_csv_header PROPERTIES
     DEPENDS mini_case_smoke
 )
+
+if(GMSH_EXECUTABLE AND BASH_EXECUTABLE)
+    add_test(
+        NAME validation_pipeline_smoke
+        COMMAND ${BASH_EXECUTABLE} scripts/run/run_all_validation.sh
+    )
+
+    set_tests_properties(validation_pipeline_smoke PROPERTIES
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+
+    add_test(
+        NAME validation_csv_headers
+        COMMAND ${CMAKE_COMMAND}
+            -DROOT=${CMAKE_CURRENT_SOURCE_DIR}
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_validation_csv_headers.cmake
+    )
+
+    set_tests_properties(validation_csv_headers PROPERTIES
+        DEPENDS validation_pipeline_smoke
+    )
+
+    add_test(
+        NAME validation_fig3_units
+        COMMAND ${CMAKE_COMMAND}
+            -DROOT=${CMAKE_CURRENT_SOURCE_DIR}
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_validation_fig3_units.cmake
+    )
+
+    set_tests_properties(validation_fig3_units PROPERTIES
+        DEPENDS validation_pipeline_smoke
+    )
+endif()
