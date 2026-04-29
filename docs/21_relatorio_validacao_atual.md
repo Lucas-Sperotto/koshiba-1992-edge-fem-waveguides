@@ -19,7 +19,8 @@ scripts/plot/compare_validation.py
 
 Resultado local:
 
-- `13/13` testes passaram;
+- a suíte atual passa com `/usr/bin/ctest --test-dir build --output-on-failure`;
+- `15/15` testes passaram;
 - Gmsh `4.12.1` gerou as três malhas de smoke;
 - sete CSVs foram gerados em `data/output/validation/`;
 - sete gráficos próprios foram gerados em `out/validation/`;
@@ -41,6 +42,9 @@ case_id,curve_id,x,y,x_quantity,y_quantity,mode_label,field_kind,status
 - As Figuras 5 e 7 usam o solver `k0 -> beta` e exportam $b(v)$ quando há modo com $\beta^2 > 0$.
 - Pontos com $b < 0$ ou $b > 1$ agora são classificados como `outside_guided_range` e não entram nos plots/comparações.
 - O comparador de validação reconhece a ausência de referência numérica versionada e não inventa erro.
+- Os gráficos gerados são próprios do projeto.
+- O PDF e os PNGs originais do artigo não são versionados por política de copyright.
+- Os SVGs em `docs/img/` são esquemas próprios do projeto.
 
 ---
 

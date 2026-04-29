@@ -51,7 +51,7 @@ koshiba-1992-edge-fem-waveguides/
 ├── docs/
 │   ├── README.md
 │   ├── 00_resumo.md
-│   ├── ... (documentos de 01 a 20)
+│   ├── ... (documentos de 01 a 21)
 │   └── img/
 ├── include/
 │   └── koshiba/
@@ -89,6 +89,8 @@ koshiba-1992-edge-fem-waveguides/
 
 O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global, materiais por região, redução densa sem inversão explícita de `K_zz`, solver em `beta`, solver direto `beta -> k0/f`, normalizações e rastreamento modal por overlap.
 
+A suíte atual possui 15 testes e passa com:
+
 ```bash
 cmake -S . -B build
 cmake --build build
@@ -105,6 +107,12 @@ scripts/plot/plot_mini_case.py
 ```
 
 Os casos de validação das Figuras 3, 5 e 7 estão em `examples/`. Eles geram CSVs e gráficos próprios, mas ainda não fecham reprodução científica quantitativa porque faltam dados de referência conferidos e ajuste modal/contorno por figura.
+
+O `status=no_reference` em `out/validation/validation_summary.csv` significa que ainda não há CSV de referência conferido em `data/input/reference/` para aquela curva; portanto, o comparador não calcula erro nem declara reprodução.
+
+Na Figura 3, o eixo de saída usa `beta_rad_per_mm`, conforme a figura do artigo. Como as geometrias do solver usam SI, os valores são convertidos internamente para `rad/m` antes da solução.
+
+Nas Figuras 5 e 7, $b$ é calculado pela definição do artigo e apenas pontos com $0 \le b \le 1$ são tratados como modos guiados físicos. Pontos fora dessa faixa recebem `status=outside_guided_range` e não entram nos gráficos ou comparações.
 
 ```bash
 scripts/run/generate_meshes.sh

@@ -71,6 +71,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] Relatório de validação atual registrado em `docs/21_relatorio_validacao_atual.md`.
 - [x] Unidade da Figura 3 corrigida para `beta_rad_per_mm` no CSV, com conversão interna para `rad/m`.
 - [x] Pontos com $b$ fora de $[0,1]$ classificados como `outside_guided_range`.
+- [x] Suíte atual com `15/15` testes CTest passando.
 
 **Limitações preservadas**
 
@@ -78,6 +79,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [ ] Os casos das Figuras 5 e 7 ainda precisam de seleção modal/PEC/PMC validada; resultados sem modo guiado físico ou com $b$ fora da faixa não devem ser tratados como reprodução.
 - [ ] A Figura 3 ainda precisa de referência quantitativa em GHz para confirmar a escala corrigida.
 - [ ] Nenhuma curva das Figuras 3, 5 ou 7 está declarada reproduzida.
+- [ ] `status=no_reference` permanece esperado enquanto não houver CSV de referência conferido em `data/input/reference/`.
 
 ---
 
