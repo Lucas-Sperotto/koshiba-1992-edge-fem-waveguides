@@ -15,7 +15,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] **Fase 6 — Montagem global parcial:** blocos geométricos esparsos implementados e testados, incluindo simetria esperada.
 - [x] **Fase 7A — Solver físico mínimo:** combinação beta para material diagonal e `phi=E/H` implementada para casos pequenos.
 - [x] **Fase 7B — Reprodutibilidade mínima:** mini caso sintético com entrada, CSV, runner e plot.
-- [ ] **Fase 7C — Validação das figuras do artigo:** dossiê dos casos criado; malhas, execução e validação quantitativa das Figuras 3, 5 e 7 ainda pendentes.
+- [ ] **Fase 7C — Validação das figuras do artigo:** dossiê, exemplos Gmsh, configs, scripts e CSVs de smoke criados; validação quantitativa das Figuras 3, 5 e 7 ainda pendente.
 
 ---
 
@@ -41,6 +41,43 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] Política essencial PEC/PMC registrada em `docs/18_politica_pec_pmc.md`.
 - [x] Auditoria algébrica dos sinais da redução registrada em `docs/19_auditoria_sinais_acoplamentos.md`.
 - [x] Dossiê dos casos de validação das Figuras 3, 5 e 7 registrado em `docs/20_dossie_casos_validacao_figuras.md`.
+
+---
+
+## Auditoria de 2026-04-29
+
+**Problemas encontrados e corrigidos**
+
+- [x] Marcador cru de correção manual removido de `docs/16_contrato_para_implementacao_cpp.md`.
+- [x] `CITATION.cff` criado com referência ao artigo original.
+- [x] PDF e PNGs do artigo removidos do versionamento local.
+- [x] Figuras geométricas substituídas por SVGs próprios em `docs/img/`.
+- [x] README e índice dos docs atualizados para refletir o estado real.
+
+**Nova evidência desta etapa**
+
+- [x] `MaterialMap` por `physical tag` implementado.
+- [x] Montagem heterogênea por elemento implementada para o solver em `beta`.
+- [x] Erro explícito quando falta material para uma tag de triângulo.
+- [x] Solver direto `beta -> k0/f` implementado para a Figura 3.
+- [x] Normalizações `v -> k0`, `k0 -> v`, `beta/k0 -> b` e `k0 -> GHz` implementadas.
+- [x] Rastreamento modal por overlap implementado como utilitário.
+- [x] Exemplos versionados em `examples/microstrip/`, `examples/rectangular_dielectric_waveguide/` e `examples/triangular_core_waveguide/`.
+- [x] `scripts/run/generate_meshes.sh` e `scripts/run/run_all_validation.sh` criados.
+- [x] `scripts/plot/plot_validation.py` e `scripts/plot/compare_validation.py` criados.
+- [x] CSVs de smoke gerados em `data/output/validation/`.
+- [x] Gráficos próprios gerados em `out/validation/`.
+- [x] `out/validation/validation_summary.csv` gerado com status `no_reference` enquanto não houver referência numérica versionada.
+- [x] Relatório de validação atual registrado em `docs/21_relatorio_validacao_atual.md`.
+- [x] Unidade da Figura 3 corrigida para `beta_rad_per_mm` no CSV, com conversão interna para `rad/m`.
+- [x] Pontos com $b$ fora de $[0,1]$ classificados como `outside_guided_range`.
+
+**Limitações preservadas**
+
+- [ ] As malhas atuais são grossas para caber no solver denso e não têm as contagens finais do artigo.
+- [ ] Os casos das Figuras 5 e 7 ainda precisam de seleção modal/PEC/PMC validada; resultados sem modo guiado físico ou com $b$ fora da faixa não devem ser tratados como reprodução.
+- [ ] A Figura 3 ainda precisa de referência quantitativa em GHz para confirmar a escala corrigida.
+- [ ] Nenhuma curva das Figuras 3, 5 ou 7 está declarada reproduzida.
 
 ---
 
@@ -204,13 +241,14 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 - [x] Registrar eixos, grades, parâmetros físicos e normalizações por subfigura.
 - [x] Registrar política `t_default=1.0`, override futuro e teste de invariância de escala.
 - [x] Registrar plano de comparação por inspeção visual e referências externas Marcatili/Goell.
-- [ ] Criar casos Gmsh e materiais versionados para a Figura 3.
-- [ ] Criar casos Gmsh e materiais versionados para a Figura 5.
-- [ ] Criar casos Gmsh e materiais versionados para a Figura 7.
+- [x] Criar casos Gmsh e materiais versionados para a Figura 3.
+- [x] Criar casos Gmsh e materiais versionados para a Figura 5.
+- [x] Criar casos Gmsh e materiais versionados para a Figura 7.
 - [x] Implementar mapeamento essencial PEC/PMC por escolha `phi=E/H`.
 - [ ] Validar PEC/PMC por caso de referência do artigo.
-- [ ] Exportar curvas completas para CSV.
-- [ ] Criar scripts de plotagem comparáveis às figuras do artigo.
+- [x] Exportar CSVs de smoke com o cabeçalho mínimo.
+- [x] Criar scripts de plotagem comparáveis às figuras do artigo.
+- [ ] Exportar curvas finais completas após seleção modal validada.
 - [ ] Documentar erro quantitativo e limitações para a Figura 3.
 - [ ] Documentar erro quantitativo e limitações para a Figura 5.
 - [ ] Documentar erro quantitativo e limitações para a Figura 7.

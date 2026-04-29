@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">Rectangular dielectric waveguide schematic</title>
+  <desc id="desc">Project-owned quarter-section schematic of the rectangular dielectric waveguide validation case.</desc>
+  <rect x="1" y="1" width="758" height="418" fill="#ffffff" stroke="#1f2937" stroke-width="2"/>
+  <rect x="140" y="70" width="500" height="280" fill="#eef5ff" stroke="#1f2937" stroke-width="2"/>
+  <rect x="140" y="238" width="120" height="112" fill="#cfe8d8" stroke="#1f2937" stroke-width="2"/>
+  <line x1="140" y1="70" x2="140" y2="350" stroke="#64748b" stroke-width="3" stroke-dasharray="10 8"/>
+  <line x1="140" y1="350" x2="640" y2="350" stroke="#64748b" stroke-width="3" stroke-dasharray="10 8"/>
+  <text x="450" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#1f2937">cladding n2</text>
+  <text x="200" y="306" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#1f2937">core n1</text>
+  <text x="94" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#334155">symmetry</text>
+  <text x="390" y="384" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#334155">symmetry</text>
+  <path d="M140 368 L640 368" stroke="#1f2937" stroke-width="2"/>
+  <path d="M140 361 L140 375 M640 361 L640 375" stroke="#1f2937" stroke-width="2"/>
+  <text x="390" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#1f2937">X/2</text>
+  <path d="M664 70 L664 350" stroke="#1f2937" stroke-width="2"/>
+  <path d="M657 70 L671 70 M657 350 L671 350" stroke="#1f2937" stroke-width="2"/>
+  <text x="702" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#1f2937">Y/2</text>
+</svg>

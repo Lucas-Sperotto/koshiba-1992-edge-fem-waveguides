@@ -750,7 +750,7 @@ Os testes matemáticos devem proteger a implementação contra erros silenciosos
 
 ## 6. Contrato específico para matrizes e nomes internos
 
-O artigo reutiliza símbolos como $[K_{tt}]$, $[K_{tz}]$ e $[K_{zz}]$ em contextos diferentes. Para evitar ambiguidade, a implementação futura deve adotar nomes conceituais distintos.
+O artigo reutiliza símbolos como $[K_{tt}]$, $[K_{tz}]$ e $[K_{zz}]$ em contextos diferentes. Para evitar ambiguidade, a implementação atual adota nomes conceituais distintos.
 
 | Bloco matemático | Origem | Nome conceitual recomendado |
 | --- | --- | --- |
@@ -865,7 +865,7 @@ A Fase 3 não deve começar pela reprodução das figuras. As figuras são conse
 
 ## 10. Pendências antes da implementação efetiva
 
-1. Verificar no PDF original o sinal exato do termo $j\{N_x\}$ na Equação (28). <<<ok, corrigido no arquivo>>>
+1. Verificar no PDF original o sinal exato do termo $j\{N_x\}$ na Equação (28). Verificação registrada: a segunda linha de $[B]$ usa $j\{N_y\}$ e $-j\{N_x\}$.
 2. Definir a política computacional definitiva para orientação global das arestas.
 3. Definir a aplicação de PEC/PMC para cada escolha $\phi=E$ e $\phi=H$.
 4. Confirmar se a primeira implementação resolverá inicialmente $\phi=E$, $\phi=H$ ou ambas.

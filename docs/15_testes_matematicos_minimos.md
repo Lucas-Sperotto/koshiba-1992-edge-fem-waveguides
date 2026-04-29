@@ -139,7 +139,7 @@ Para a primeira implementação, recomenda-se começar com tolerâncias rígidas
 | Funções de aresta em pontos de teste | $10^{-12}$ |
 | Continuidade tangencial entre elementos | $10^{-12}$ |
 
-> **Nota de verificação:** essas tolerâncias devem ser relaxadas se a implementação futura usar malhas muito distorcidas, coordenadas em escalas físicas muito pequenas/grandes ou quadratura numérica em vez de fórmulas fechadas.
+> **Nota de verificação:** essas tolerâncias devem ser relaxadas se os refinamentos futuros usarem malhas muito distorcidas, coordenadas em escalas físicas muito pequenas/grandes ou quadratura numérica em vez de fórmulas fechadas.
 
 ---
 
@@ -247,13 +247,12 @@ $$
 
 Equação (9) do artigo.
 
-### Observação para a implementação futura
+### Observação para a implementação
 
-A implementação deverá decidir uma das duas políticas:
+A implementação decidiu a política inicial abaixo:
 
 1. rejeitar triângulos com orientação negativa;
-2. reordenar automaticamente os vértices para orientação positiva;
-3. armazenar a orientação e usar sinais de aresta de modo consistente.
+2. manter sinais local-globais de aresta separados da orientação do elemento.
 
 Para a Fase 3 inicial, a opção mais segura é exigir triângulos locais anti-horários.
 
@@ -1112,7 +1111,7 @@ $$
 A_e=0.
 $$
 
-A implementação futura deve rejeitar o elemento antes de calcular:
+A implementação atual deve rejeitar o elemento antes de calcular:
 
 $$
 \frac{1}{2A_e},

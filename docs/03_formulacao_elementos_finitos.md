@@ -12,7 +12,7 @@ Nesta seção, aplica-se o elemento de aresta triangular [16], que é diferente 
 
 Os seis nós descritos no elemento de aresta triangular consistem nos três pontos de vértice e nos três pontos laterais, conforme mostrado na Figura 1.
 
-![Elemento de aresta triangular](img/fig_01.png)
+![Elemento de aresta triangular](img/fig_01_annotated.svg)
 
 **Figura 1 — Elemento de aresta triangular.**
 

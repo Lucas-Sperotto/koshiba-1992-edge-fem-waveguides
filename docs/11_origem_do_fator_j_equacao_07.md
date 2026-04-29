@@ -471,7 +471,7 @@ $$
 \phi_z = j\{N\}^T\{\phi_z\}_e.
 $$
 
-A implementação futura deverá decidir explicitamente onde esse fator será representado:
+A implementação atual deve manter explícito onde esse fator é representado:
 
 - na matriz de interpolação;
 - na matriz associada ao rotacional;

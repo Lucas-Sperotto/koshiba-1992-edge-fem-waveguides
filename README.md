@@ -51,7 +51,7 @@ koshiba-1992-edge-fem-waveguides/
 ├── docs/
 │   ├── README.md
 │   ├── 00_resumo.md
-│   ├── ... (documentos de 01 a 17)
+│   ├── ... (documentos de 01 a 20)
 │   └── img/
 ├── include/
 │   └── koshiba/
@@ -67,7 +67,12 @@ koshiba-1992-edge-fem-waveguides/
 │   ├── io/
 │   └── physics/
 ├── app/
-│   └── mini_case.cpp
+│   ├── mini_case.cpp
+│   └── validation_case.cpp
+├── examples/
+│   ├── microstrip/
+│   ├── rectangular_dielectric_waveguide/
+│   └── triangular_core_waveguide/
 ├── scripts/
 │   ├── run/
 │   └── plot/
@@ -80,9 +85,9 @@ koshiba-1992-edge-fem-waveguides/
 └── out/
 ```
 
-## Compilação, testes e mini caso
+## Compilação, testes e execução
 
-O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global geométrica parcial, redução densa sem inversão explícita de `K_zz` e o solver beta mínimo para material diagonal.
+O núcleo atual usa C++17, CMake e Eigen. A suíte de testes cobre geometria triangular, conectividade de malha, leitura Gmsh MSH 4.1 ASCII, funções de forma de aresta, integrais locais A1-A8, montagem global, materiais por região, redução densa sem inversão explícita de `K_zz`, solver em `beta`, solver direto `beta -> k0/f`, normalizações e rastreamento modal por overlap.
 
 ```bash
 cmake -S . -B build
@@ -99,84 +104,43 @@ scripts/run/run_mini_case.sh
 scripts/plot/plot_mini_case.py
 ```
 
-Entradas versionadas ficam em `data/input/`. Saídas geradas ficam em `data/output/` e `out/`.
+Os casos de validação das Figuras 3, 5 e 7 estão em `examples/`. Eles geram CSVs e gráficos próprios, mas ainda não fecham reprodução científica quantitativa porque faltam dados de referência conferidos e ajuste modal/contorno por figura.
 
-## Etapas previstas
-
-### 1. Tradução e documentação do artigo
-
-A primeira etapa consiste em traduzir o artigo para arquivos Markdown, preservando a estrutura original e acrescentando notas explicativas quando necessário.
-
-Arquivos sugeridos:
-
-```text
-docs/01_artigo_traduzido.md
-docs/02_contexto_fisico.md
-docs/03_equacoes_basicas.md
-docs/04_elemento_de_aresta_triangular.md
-docs/05_formulacao_fem.md
-docs/06_problema_de_autovalores.md
-docs/07_exemplos_numericos.md
+```bash
+scripts/run/generate_meshes.sh
+scripts/run/run_all_validation.sh
+scripts/plot/plot_validation.py
+scripts/plot/compare_validation.py
 ```
 
-### 2. Formulação matemática
+Entradas versionadas ficam em `data/input/`. Saídas geradas ficam em `data/output/` e `out/`.
 
-Nesta etapa serão detalhados:
+## Estado técnico atual
 
-* equações de Maxwell;
-* equação vetorial de onda;
-* tensores de permissividade;
-* campos elétrico e magnético;
-* dependência longitudinal `exp[j(ωt - βz)]`;
-* formulação variacional;
-* aproximação por elementos finitos;
-* montagem das matrizes;
-* problema generalizado de autovalores.
+Já implementado:
 
-### 3. Implementação computacional
+- documentação técnica em `docs/00` a `docs/20`;
+- estruturas de malha triangular, arestas orientadas e leitura Gmsh MSH 4.1 ASCII;
+- funções de forma nodais e de aresta;
+- integrais locais A1-A8;
+- montagem global para materiais diagonais por `physical tag`;
+- caminho homogêneo preservado por conveniência;
+- solver `k0 -> beta` para as Equações (32)–(35);
+- solver direto `beta -> k0/f` para varredura da Figura 3;
+- CSV mínimo para validação com cabeçalho `case_id,curve_id,x,y,x_quantity,y_quantity,mode_label,field_kind,status`;
+- scripts para geração de malhas, execução, plotagem e comparação.
 
-A implementação será feita em C++17, com separação entre:
+Ainda pendente:
 
-* leitura de parâmetros;
-* geração ou importação de malhas;
-* montagem local dos elementos;
-* montagem global das matrizes;
-* aplicação de condições de contorno;
-* solução do problema de autovalores;
-* exportação dos resultados.
+- validar sinais/acoplamentos contra referência física;
+- selecionar PEC/PMC e paridade modal finais para cada figura;
+- refinar malhas até contagens comparáveis às do artigo;
+- inserir CSVs de referência autorizados em `data/input/reference/`;
+- declarar reprodução apenas após erro quantitativo dentro da tolerância.
 
-Dependências inicialmente previstas:
+## Política de direitos autorais
 
-* C++17;
-* CMake;
-* Eigen;
-* Python para visualização simples.
-
-Dependências futuras possíveis:
-
-* Matplotlib;
-* Pandas;
-* LAPACK;
-* ARPACK-NG;
-* VTK ou ParaView para visualização dos campos.
-
-O leitor atual aceita arquivos Gmsh MSH 4.1 ASCII sem depender da biblioteca do Gmsh em tempo de compilação.
-
-### 4. Casos de validação
-
-Os exemplos numéricos do artigo serão usados como referência:
-
-* linha microstrip blindada;
-* guia retangular dielétrico;
-* guia com núcleo triangular equilátero.
-
-A validação deverá comparar:
-
-* constante de propagação;
-* frequência normalizada;
-* curvas de dispersão;
-* modos guiados;
-* ausência de soluções espúrias.
+O PDF e as imagens originais do artigo não são versionados. As figuras geométricas em `docs/img/` são esquemas próprios do projeto, e as curvas devem ser geradas pelos scripts a partir dos CSVs locais. A fonte externa usada para conferência do artigo é o DOI `10.1109/22.120111` e a cópia institucional da HUSCAP/Universidade de Hokkaido.
 
 ## Referência principal
 

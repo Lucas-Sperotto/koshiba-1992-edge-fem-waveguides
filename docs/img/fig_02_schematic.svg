@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">Shielded microstrip schematic</title>
+  <desc id="desc">Project-owned schematic of the half cross-section used for the microstrip validation case.</desc>
+  <rect x="1" y="1" width="758" height="418" fill="#ffffff" stroke="#1f2937" stroke-width="2"/>
+  <rect x="120" y="210" width="520" height="110" fill="#cfe8d8" stroke="#1f2937" stroke-width="2"/>
+  <rect x="120" y="80" width="520" height="130" fill="#eef5ff" stroke="#1f2937" stroke-width="2"/>
+  <line x1="120" y1="210" x2="248" y2="210" stroke="#b91c1c" stroke-width="9" stroke-linecap="butt"/>
+  <line x1="120" y1="320" x2="640" y2="320" stroke="#1f2937" stroke-width="7"/>
+  <line x1="120" y1="80" x2="120" y2="320" stroke="#64748b" stroke-width="3" stroke-dasharray="10 8"/>
+  <text x="375" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#1f2937">air</text>
+  <text x="375" y="272" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#1f2937">substrate</text>
+  <text x="184" y="194" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#7f1d1d">strip</text>
+  <text x="84" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#334155">symmetry</text>
+  <path d="M120 342 L248 342" stroke="#1f2937" stroke-width="2"/>
+  <path d="M120 335 L120 349 M248 335 L248 349" stroke="#1f2937" stroke-width="2"/>
+  <text x="184" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#1f2937">W/2</text>
+  <path d="M660 210 L660 320" stroke="#1f2937" stroke-width="2"/>
+  <path d="M653 210 L667 210 M653 320 L667 320" stroke="#1f2937" stroke-width="2"/>
+  <text x="692" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#1f2937">h</text>
+</svg>

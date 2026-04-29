@@ -2,7 +2,7 @@
 
 > **Navegação:** [Índice](README.md) | [19](19_auditoria_sinais_acoplamentos.md) | [20](20_dossie_casos_validacao_figuras.md)
 
-Este documento define o contrato documental dos casos de validação das Figuras 3, 5 e 7 do artigo. Ele prepara a próxima fase de implementação, mas não declara nenhuma curva como reproduzida.
+Este documento define o contrato documental dos casos de validação das Figuras 3, 5 e 7 do artigo. A infraestrutura inicial de malhas, configs, CSVs e gráficos existe, mas nenhuma curva é declarada como reproduzida enquanto não houver comparação quantitativa contra referência numérica conferida.
 
 ---
 
@@ -20,15 +20,39 @@ Este dossiê cobre:
 - Figura 7(a): guia com núcleo triangular equilátero, modo $E^y_{11}$;
 - Figura 7(b): guia com núcleo triangular equilátero, modo $E^y_{11}$.
 
-Não fazem parte deste documento:
+Não estão fechados por este documento:
 
-- geração final das malhas;
-- execução do solver;
 - extração de modos;
 - comparação quantitativa;
 - digitalização das imagens do artigo.
 
-### 1.2 Identificadores estáveis
+### 1.2 Infraestrutura versionada
+
+Os casos operacionais ficam em:
+
+- `examples/microstrip/fig3_microstrip.geo`;
+- `examples/microstrip/fig3a.cfg`;
+- `examples/microstrip/fig3b.cfg`;
+- `examples/rectangular_dielectric_waveguide/fig5_rectangular_dielectric.geo`;
+- `examples/rectangular_dielectric_waveguide/fig5a.cfg`;
+- `examples/rectangular_dielectric_waveguide/fig5b.cfg`;
+- `examples/rectangular_dielectric_waveguide/fig5c.cfg`;
+- `examples/triangular_core_waveguide/fig7_triangular_core.geo`;
+- `examples/triangular_core_waveguide/fig7a.cfg`;
+- `examples/triangular_core_waveguide/fig7b.cfg`.
+
+Scripts associados:
+
+- `scripts/run/generate_meshes.sh`;
+- `scripts/run/run_all_validation.sh`;
+- `scripts/plot/plot_validation.py`;
+- `scripts/plot/compare_validation.py`.
+
+As malhas geradas ficam em `out/meshes/`, os CSVs do solver em `data/output/validation/`, os gráficos próprios em `out/validation/` e o resumo de comparação em `out/validation/validation_summary.csv`.
+
+> **Nota de estado:** as malhas atuais são intencionalmente grossas para smoke test com Eigen denso. O refinamento até contagens próximas às do artigo deve ser feito depois da validação de sinais, condições PEC/PMC e seleção modal.
+
+### 1.3 Identificadores estáveis
 
 Os casos devem usar identificadores estáveis em entradas, saídas e scripts:
 
@@ -42,7 +66,7 @@ Os casos devem usar identificadores estáveis em entradas, saídas e scripts:
 | 7(a) | `fig7a_triangular_low_contrast` | Núcleo triangular, $n_1=1.5085$, $n_2=1.50$ |
 | 7(b) | `fig7b_triangular_high_contrast` | Núcleo triangular, $n_1=1.5$, $n_2=1.0$ |
 
-### 1.3 Política de escala `t`
+### 1.4 Política de escala `t`
 
 Para os casos normalizados das Figuras 5 e 7:
 
@@ -65,11 +89,11 @@ Como $v$ e $b$ são normalizados, alterar `t` deve reescalar a geometria e o nú
 
 | Figura | Eixo x | Grade x | Eixo y | Grade y |
 | --- | --- | --- | --- | --- |
-| 3(a,b) | $\beta$ de 0 a 2 rad/m | 0.1 rad/m | frequência de 0 a 50 GHz | 5 GHz |
+| 3(a,b) | $\beta$ de 0 a 2 rad/mm | 0.1 rad/mm | frequência de 0 a 50 GHz | 5 GHz |
 | 5(a,b,c) | $v$ de 0 a 1.5 | 0.1 | $b$ de 0 a 1 | 0.1 |
 | 7(a,b) | $v$ de 0 a 5 | 0.5 | $b$ de 0 a 1 | 0.1 |
 
-> **Nota de controle:** a unidade `rad/m` para o eixo $\beta$ da Figura 3 deve ser preservada conforme a especificação atual do projeto. Se a comparação física futura indicar incompatibilidade de escala, a correção deve ser registrada como nova auditoria, não ajustada silenciosamente.
+> **Nota de controle:** a Figura 3 usa $\beta$ em `rad/mm`. Como as geometrias operacionais do projeto usam SI, o valor de entrada deve ser convertido internamente por `1 rad/mm = 1000 rad/m` antes do solver, preservando `beta_rad_per_mm` no CSV.
 
 ---
 
@@ -105,9 +129,9 @@ Parâmetros extraídos de `docs/04_exemplos_numericos.md`:
 
 ### 3.3 Pendências da Figura 3
 
-- Definir a geometria operacional da metade da seção transversal.
-- Definir physical tags para fita condutora, plano de terra, simetria e fronteiras artificiais.
-- Definir se a varredura será feita em $\beta$ resolvendo frequência ou se o solver atual em $\beta^2$ deve receber uma camada alternativa.
+- Refinar a geometria operacional da metade da seção transversal.
+- Validar physical tags para fita condutora, plano de terra, simetria e fronteiras artificiais.
+- Validar o solver direto de frequência contra referência controlada.
 - Confirmar a escala prática do eixo $\beta$ antes da comparação quantitativa.
 - Criar malha Gmsh MSH 4.1 ASCII com contagens próximas às do artigo ou registrar desvio.
 
@@ -160,11 +184,11 @@ $$
 
 ### 4.3 Pendências da Figura 5
 
-- Definir tags de simetria que selecionem modos $E^x$ e $E^y$.
-- Definir fronteiras artificiais PEC/PMC sem restringir a componente dominante do campo.
-- Criar malha de um quarto da seção transversal.
-- Implementar conversão entre pontos de varredura em $v$ e valores físicos de $k_0$.
-- Implementar cálculo de $b$ a partir de $\beta$, $k_0$, $n_1$ e $n_2$.
+- Validar tags de simetria que selecionem modos $E^x$ e $E^y$.
+- Validar fronteiras artificiais PEC/PMC sem restringir a componente dominante do campo.
+- Refinar malha de um quarto da seção transversal.
+- Conferir a conversão entre pontos de varredura em $v$ e valores físicos de $k_0$ contra referência.
+- Conferir o cálculo de $b$ a partir de $\beta$, $k_0$, $n_1$ e $n_2$ em casos físicos guiados.
 - Executar teste de invariância de escala com `t=1` e `t=2`.
 
 ---
@@ -202,9 +226,9 @@ As mesmas definições normalizadas das Equações (36) e (37) devem ser usadas 
 
 ### 5.3 Pendências da Figura 7
 
-- Definir a orientação do triângulo equilátero dentro da janela $X \times Y$.
-- Definir malha de metade da seção transversal.
-- Definir tags de simetria para o modo $E^y_{11}$.
+- Validar a orientação do triângulo equilátero dentro da janela $X \times Y$.
+- Refinar malha de metade da seção transversal.
+- Validar tags de simetria para o modo $E^y_{11}$.
 - Validar que a formulação por elementos de aresta não introduz soluções espúrias na seleção modal.
 - Executar teste de invariância de escala com `t=1` e `t=2`.
 
@@ -220,7 +244,7 @@ case_id,curve_id,x,y,x_quantity,y_quantity,mode_label,field_kind,status
 
 Para a Figura 3:
 
-- `x_quantity=beta_rad_per_m`;
+- `x_quantity=beta_rad_per_mm`;
 - `y_quantity=frequency_ghz`.
 
 Para as Figuras 5 e 7:
@@ -277,9 +301,9 @@ Digitalizar as imagens do artigo não é parte desta etapa. A digitalização s�
 
 ---
 
-## 8. Critério de avanço para implementação
+## 8. Critério de avanço para reprodução quantitativa
 
-A próxima etapa de código só deve começar quando houver, para cada caso:
+O refinamento científico só deve avançar quando houver, para cada caso:
 
 - geometria operacional definida;
 - physical tags planejadas;
@@ -287,6 +311,7 @@ A próxima etapa de código só deve começar quando houver, para cada caso:
 - política PEC/PMC por tag;
 - conversão de varredura para `k0` ou $\beta$;
 - nome de CSV de saída;
-- modo ou curvas a extrair.
+- modo ou curvas a extrair;
+- referência numérica autorizada ou documentada.
 
-Este dossiê fecha apenas o contrato documental inicial. Malhas, scripts e validação quantitativa continuam pendentes.
+Este dossiê fecha o contrato documental e registra a infraestrutura inicial. A validação quantitativa continua pendente.

@@ -461,7 +461,7 @@ $$
 
 dependem da média de $x$ no triângulo, isto é, de $x_c$.
 
-Na implementação futura, $x_c$ deve ser calculado uma única vez por elemento e reutilizado nas integrais que dependem da média geométrica em $x$.
+Na implementação atual, $x_c$ é calculado uma única vez por elemento e reutilizado nas integrais que dependem da média geométrica em $x$.
 
 ---
 
@@ -487,7 +487,7 @@ $$
 
 dependem da média de $y$ no triângulo, isto é, de $y_c$.
 
-Na implementação futura, $y_c$ também deve ser calculado uma única vez por elemento e reaproveitado nas integrais de aresta que dependem de $y$.
+Na implementação atual, $y_c$ também é calculado uma única vez por elemento e reaproveitado nas integrais de aresta que dependem de $y$.
 
 ---
 
@@ -510,7 +510,7 @@ Na implementação futura, $y_c$ também deve ser calculado uma única vez por e
 
 ## 14. Como essas integrais orientarão a classe `LocalElementMatrices`
 
-A futura classe `LocalElementMatrices` deve ser orientada por blocos matemáticos, não apenas por nomes de matrizes globais. A razão é que o artigo reutiliza símbolos como $[K_{tt}]$, $[K_{tz}]$ e $[K_{zz}]$ em momentos diferentes da formulação.
+A implementação local deve ser orientada por blocos matemáticos, não apenas por nomes de matrizes globais. A razão é que o artigo reutiliza símbolos como $[K_{tt}]$, $[K_{tz}]$ e $[K_{zz}]$ em momentos diferentes da formulação.
 
 Uma organização segura deve separar, no mínimo, os seguintes objetos matemáticos locais:
 
@@ -590,4 +590,4 @@ O caminho seguro é montar primeiro esses blocos elementares puros e, somente de
 
 As Equações (A1) a (A10) formam a ponte entre a formulação matemática contínua e a implementação local por elemento triangular. Elas transformam produtos de funções de forma e derivadas em expressões fechadas dependentes apenas da geometria do elemento e dos coeficientes das funções nodais e de aresta.
 
-Para a implementação futura, o ponto central é não misturar responsabilidades: primeiro calcular corretamente as integrais geométricas locais; depois aplicar os coeficientes materiais e físicos; por fim, montar as matrizes globais respeitando a forma algébrica específica de cada equação do artigo.
+Na implementação atual e nos refinamentos futuros, o ponto central é não misturar responsabilidades: primeiro calcular corretamente as integrais geométricas locais; depois aplicar os coeficientes materiais e físicos; por fim, montar as matrizes globais respeitando a forma algébrica específica de cada equação do artigo.

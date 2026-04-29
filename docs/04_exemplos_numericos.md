@@ -24,7 +24,7 @@ $$
 Y = 12{,}7 \ \text{mm}
 $$
 
-![Linha de transmissão microstrip blindada](img/fig_02.png)
+![Linha de transmissão microstrip blindada](img/fig_02_schematic.svg)
 
 **Figura 2 — Linha de transmissão microstrip blindada.**
 
@@ -46,13 +46,11 @@ $$
 
 respectivamente.
 
-![Características de propagação de uma linha de transmissão microstrip](img/fig_03_a.png)
-
 **Figura 3(a)** — Características de propagação de uma linha de transmissão microstrip em substrato isotrópico.
 
-![Características de propagação de uma linha de transmissão microstrip](img/fig_03_b.png)
-
 **Figura 3(b)** — Características de propagação de uma linha de transmissão microstrip em substrato anisotrópico.
+
+> **Nota editorial:** as imagens originais das curvas não são versionadas neste repositório por política de direitos autorais. As reproduções próprias devem ser geradas por `scripts/run/run_all_validation.sh` e `scripts/plot/plot_validation.py`, com comparação quantitativa registrada por `scripts/plot/compare_validation.py`.
 
 Nesses cálculos, o número de elementos, o número de pontos de vértice e o número de pontos laterais foram:
 
@@ -72,7 +70,7 @@ Os resultados obtidos concordam bem com aqueles previamente relatados tanto para
 
 Em seguida, considera-se um guia de onda retangular dielétrico, mostrado na Figura 4, em que $n_1$ e $n_2$ são os índices de refração das regiões do núcleo e do revestimento, respectivamente.
 
-![Guia de onda retangular dielétrico](img/fig_04.png)
+![Guia de onda retangular dielétrico](img/fig_04_schematic.svg)
 
 **Figura 4 — Guia de onda retangular dielétrico.**
 
@@ -108,17 +106,13 @@ $$
 N_S = 506
 $$
 
-![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_a.png)
-
 **Figura 5(a)** — Características de propagação de um guia de onda retangular dielétrico. Modos $E^x_{11}$ e $E^x_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.
-
-![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_b.png)
 
 **Figura 5(b)** — Características de propagação de um guia de onda retangular dielétrico. Modos $E^y_{11}$ e $E^y_{21}$, com $n_1 = 1{,}05$ e $n_2 = 1{,}0$.
 
-![Características de propagação de um guia de onda retangular dielétrico](img/fig_05_c.png)
-
 **Figura 5(c)** — Características de propagação de um guia de onda retangular dielétrico. Modos $E^x_{11}$ e $E^y_{11}$, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
+
+> **Nota editorial:** as curvas próprias da Figura 5 são artefatos gerados em `out/validation/`. A reprodução científica só deve ser declarada quando houver CSV de referência e erro quantitativo dentro das tolerâncias registradas no dossiê.
 
 A frequência normalizada $v$ e a constante de propagação normalizada $b$ são definidas como:
 
@@ -148,7 +142,7 @@ Os resultados obtidos pelo método de Marcatili [26] desviam-se daqueles do mét
 
 Por fim, considera-se um guia de onda com núcleo triangular equilátero, mostrado na Figura 6, e subdivide-se metade da seção transversal do guia de onda em elementos de aresta.
 
-![Guia de onda com núcleo triangular equilátero](img/fig_06.png)
+![Guia de onda com núcleo triangular equilátero](img/fig_06_schematic.svg)
 
 **Figura 6 — Guia de onda com núcleo triangular equilátero.**
 
@@ -174,13 +168,11 @@ $$
 N_S = 567
 $$
 
-![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07_a.png)
-
 **Figura 7(a)** — Características de propagação do modo $E^y_{11}$ em um guia de onda com núcleo triangular equilátero, com $n_1 = 1{,}5085$ e $n_2 = 1{,}50$.
 
-![Características de propagação do modo Ey11 em um guia com núcleo triangular equilátero](img/fig_07_b.png)
-
 **Figura 7(b)** — Características de propagação do modo $E^y_{11}$ em um guia de onda com núcleo triangular equilátero, com $n_1 = 1{,}5$ e $n_2 = 1{,}0$.
+
+> **Nota editorial:** as curvas originais da Figura 7 não são versionadas. Os gráficos próprios gerados pelo projeto devem ser comparados numericamente antes de qualquer afirmação de reprodução.
 
 As soluções pelo método dos elementos finitos com formulação por elementos de aresta concordam bem com aquelas da formulação por campo axial, isto é, usando $E_z$ e $H_z$ [27], e também com aquelas da formulação vetorial completa em termos do campo $\mathbf{H}$, usando coeficiente de penalidade $s = 1$ [28].
 

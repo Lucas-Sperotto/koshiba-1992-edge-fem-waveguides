@@ -30,7 +30,7 @@ As submatrizes $[K_{tt}]$, $[K_{tz}]$ e $[K_{zz}]$ aparecem inicialmente nas Equ
 
 Posteriormente, nas Equações (32a)–(32c), os mesmos símbolos são reutilizados após uma reorganização algébrica do problema, agora voltada à formulação final do problema de autovalores em $\beta^2$.
 
-Essa reutilização de símbolos vem do artigo original. Entretanto, na implementação futura, recomenda-se evitar ambiguidade usando nomes internos distintos, por exemplo:
+Essa reutilização de símbolos vem do artigo original. Na implementação atual, a ambiguidade é evitada com nomes internos distintos, por exemplo:
 
 - `Ktt_direct` para a forma associada à Equação (29a);
 - `Ktz_direct` para a forma associada à Equação (29b);
@@ -210,13 +210,13 @@ Antes da implementação, será necessário definir como tratar numericamente es
 
 ---
 
-## Integrais do apêndice e implementação futura
+## Integrais do apêndice e implementação
 
-O Apêndice apresenta as integrais necessárias para construir as matrizes elementares. Essas expressões serão fundamentais para a implementação das matrizes locais.
+O Apêndice apresenta as integrais necessárias para construir as matrizes elementares. Essas expressões fundamentam a implementação de `compute_local_integrals(...)` em `src/fem/local_integrals.cpp`.
 
 Algumas identidades, como a Equação (A3), merecem explicação adicional, pois conectam diretamente as derivadas das funções de forma de aresta com termos que aparecem nas matrizes da formulação FEM.
 
-Além disso, algumas integrais cruzadas necessárias para a montagem de $[K_{tz}]$ devem ser verificadas cuidadosamente antes da implementação. Caso o artigo não apresente todas explicitamente, elas deverão ser derivadas e registradas como complemento didático, sempre separando o que vem do artigo original do que foi acrescentado pelo projeto.
+Além disso, algumas integrais cruzadas necessárias para a montagem de $[K_{tz}]$ devem continuar verificadas cuidadosamente. Caso uma extensão futura exija integrais não apresentadas explicitamente no artigo, elas deverão ser derivadas e registradas como complemento didático, sempre separando o que vem do artigo original do que foi acrescentado pelo projeto.
 
 ---
 

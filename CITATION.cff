@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this educational reproduction, cite the original Koshiba and Inoue paper and this repository."
+title: "koshiba-1992-edge-fem-waveguides"
+type: software
+authors:
+  - family-names: "Sperotto"
+    given-names: "Repository maintainer"
+repository-code: "https://github.com/sperotto/koshiba-1992-edge-fem-waveguides"
+license: MIT
+keywords:
+  - finite element method
+  - edge elements
+  - waveguides
+  - electromagnetics
+references:
+  - type: article
+    authors:
+      - family-names: "Koshiba"
+        given-names: "Masanori"
+      - family-names: "Inoue"
+        given-names: "Kazuhiro"
+    title: "Simple and Efficient Finite-Element Analysis of Microwave and Optical Waveguides"
+    journal: "IEEE Transactions on Microwave Theory and Techniques"
+    volume: "40"
+    issue: "2"
+    start: 371
+    end: 377
+    year: 1992
+    month: 2
+    doi: "10.1109/22.120111"

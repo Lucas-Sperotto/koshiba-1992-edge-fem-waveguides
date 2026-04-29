@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">Triangular-core waveguide schematic</title>
+  <desc id="desc">Project-owned half-section schematic of the triangular-core waveguide validation case.</desc>
+  <rect x="1" y="1" width="758" height="418" fill="#ffffff" stroke="#1f2937" stroke-width="2"/>
+  <rect x="130" y="60" width="500" height="300" fill="#eef5ff" stroke="#1f2937" stroke-width="2"/>
+  <polygon points="130,360 270,360 130,118" fill="#cfe8d8" stroke="#1f2937" stroke-width="2"/>
+  <line x1="130" y1="60" x2="130" y2="360" stroke="#64748b" stroke-width="3" stroke-dasharray="10 8"/>
+  <text x="430" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#1f2937">cladding n2</text>
+  <text x="170" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#1f2937">core n1</text>
+  <text x="84" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#334155">symmetry</text>
+  <path d="M130 378 L630 378" stroke="#1f2937" stroke-width="2"/>
+  <path d="M130 371 L130 385 M630 371 L630 385" stroke="#1f2937" stroke-width="2"/>
+  <text x="380" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#1f2937">X/2</text>
+  <path d="M654 60 L654 360" stroke="#1f2937" stroke-width="2"/>
+  <path d="M647 60 L661 60 M647 360 L661 360" stroke="#1f2937" stroke-width="2"/>
+  <text x="692" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#1f2937">Y</text>
+</svg>
