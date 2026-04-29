@@ -865,7 +865,7 @@ A Fase 3 não deve começar pela reprodução das figuras. As figuras são conse
 
 ## 10. Pendências antes da implementação efetiva
 
-1. Verificar no PDF original o sinal exato do termo $j\{N_x\}$ na Equação (28).
+1. Verificar no PDF original o sinal exato do termo $j\{N_x\}$ na Equação (28). <<<ok, corrigido no arquivo>>>
 2. Definir a política computacional definitiva para orientação global das arestas.
 3. Definir a aplicação de PEC/PMC para cada escolha $\phi=E$ e $\phi=H$.
 4. Confirmar se a primeira implementação resolverá inicialmente $\phi=E$, $\phi=H$ ou ambas.
