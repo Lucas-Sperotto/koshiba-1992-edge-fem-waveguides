@@ -21,7 +21,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 
 ## Auditoria de 2026-04-28
 
-**Problemas encontrados e corrigidos**
+### Problemas encontrados e corrigidos
 
 - [x] `src/fem/global_assembly.cpp` quebrava o build por usar APIs inexistentes; corrigido para a API real de `Mesh`, `Triangle` e `compute_local_integrals(...)`.
 - [x] Testes de montagem/solver foram mantidos no estilo assert-based do repositório, sem GoogleTest.
@@ -29,7 +29,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] O README foi realinhado com o estado do projeto após a regressão de build.
 - [x] B0 — build limpo e CTest completo restaurados após reconfiguração.
 
-**Nova evidência desta etapa**
+### Nova evidência desta etapa
 
 - [x] Material diagonal genérico criado em `include/koshiba/physics/material.hpp`.
 - [x] `FieldKind::Electric` e `FieldKind::Magnetic` convertem corretamente para coeficientes diagonais `[p]` e `[q]`.
@@ -46,7 +46,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 
 ## Auditoria de 2026-04-29
 
-**Problemas encontrados e corrigidos**
+### Problemas encontrados e corrigidos
 
 - [x] Marcador cru de correção manual removido de `docs/16_contrato_para_implementacao_cpp.md`.
 - [x] `CITATION.cff` criado com referência ao artigo original.
@@ -54,7 +54,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] Figuras geométricas substituídas por SVGs próprios em `docs/img/`.
 - [x] README e índice dos docs atualizados para refletir o estado real.
 
-**Nova evidência desta etapa**
+### Nova evidência desta etapa
 
 - [x] `MaterialMap` por `physical tag` implementado.
 - [x] Montagem heterogênea por elemento implementada para o solver em `beta`.
@@ -73,13 +73,19 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - [x] Pontos com $b$ fora de $[0,1]$ classificados como `outside_guided_range`.
 - [x] Suíte atual com `15/15` testes CTest passando.
 
-**Limitações preservadas**
+### Limitações preservadas
 
 - [ ] As malhas atuais são grossas para caber no solver denso e não têm as contagens finais do artigo.
 - [ ] Os casos das Figuras 5 e 7 ainda precisam de seleção modal/PEC/PMC validada; resultados sem modo guiado físico ou com $b$ fora da faixa não devem ser tratados como reprodução.
 - [ ] A Figura 3 ainda precisa de referência quantitativa em GHz para confirmar a escala corrigida.
 - [ ] Nenhuma curva das Figuras 3, 5 ou 7 está declarada reproduzida.
 - [ ] `status=no_reference` permanece esperado enquanto não houver CSV de referência conferido em `data/input/reference/`.
+
+### Diagnóstico dos primeiros CSVs de smoke
+
+- [ ] fig5 (todas as subfiguras): todos os pontos de smoke retornam `non_positive_beta2`; o solver não encontra nenhum modo guiado em v∈[0.3, 1.5]. Causa provável: paredes PEC do domínio truncado geram box modes que ocupam os primeiros autovalores; domínio de cladding pode ser insuficiente para baixo contraste (Δn ≈ 0.05 → comprimento evanescente elevado).
+- [ ] fig7 (todas as subfiguras): todos os pontos de smoke retornam `outside_guided_range` com b ≈ −31 a −2.6 (beta² > 0 mas beta/k0 < n_cladding). Mesma causa provável; contraste ainda menor (Δn ≈ 0.0085, domínio de cladding de 3t × 5t provavelmente insuficiente).
+- [ ] fig3a/fig3b: mode_0 não é monotônico — frequência recua de 16.73 para 16.72 GHz ao passar de beta=1.4 para 1.8 rad/mm. Possível crossing silencioso com mode_1 no solver denso.
 
 ---
 
@@ -107,7 +113,7 @@ Este arquivo é o mapa mestre de pendências do projeto depois do fechamento doc
 - Auditoria de sinais e acoplamentos: `docs/19_auditoria_sinais_acoplamentos.md`.
 - Dossiê dos casos de validação das Figuras 3, 5 e 7: `docs/20_dossie_casos_validacao_figuras.md`.
 
-**Justificativa de limpeza**
+### Justificativa de limpeza
 
 O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` foi removido porque apontava para nomes obsoletos. O conteúdo entregue está nos documentos `docs/09` a `docs/17`, e as dúvidas científicas preservadas continuam listadas abaixo.
 
@@ -254,6 +260,10 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 - [ ] Documentar erro quantitativo e limitações para a Figura 3.
 - [ ] Documentar erro quantitativo e limitações para a Figura 5.
 - [ ] Documentar erro quantitativo e limitações para a Figura 7.
+- [ ] Diagnosticar ausência de modo guiado nas Figuras 5 e 7 antes de qualquer refinamento de malha: verificar se o domínio de cladding é grande o suficiente para que o campo evanescente esteja atenuado nas paredes PEC.
+- [ ] Definir critério de tamanho do domínio externo: distância da fronteira do núcleo à parede PEC deve satisfazer d > 3/α, onde α = sqrt(n_cl²·k0² − β_target²); calcular para cada ponto representativo da varredura.
+- [ ] Integrar `match_modes_by_overlap` no loop de sweep do `koshiba_validation_case` ou em pós-processamento Python para evitar crossing silencioso de modos entre pontos de varredura.
+- [ ] Aumentar densidade da varredura de smoke para diagnóstico qualitativo: mínimo de 15–20 pontos por curva antes de comparar com referência.
 
 ---
 
@@ -326,6 +336,21 @@ O bloco antigo `TODO — Fase 2: Derivação matemática e contrato numérico` f
 - [x] Documentar o contrato inicial dos casos de validação em `docs/20_dossie_casos_validacao_figuras.md`.
 - [ ] Não declarar reprodução das curvas sem arquivo de entrada, saída, script e erro quantitativo.
 - [ ] Separar claramente mini casos sintéticos de validação científica contra o artigo.
+
+### Domínio truncado e modos espúrios em guias dielétricos abertos
+
+**Tipo:** física e numérica
+**Origem:** Figuras 5 e 7 do artigo — diagnóstico pós-smoke
+**Arquivos relacionados:** `examples/rectangular_dielectric_waveguide/`, `examples/triangular_core_waveguide/`
+
+**Contexto:** guias dielétricos são estruturas abertas — o campo decai exponencialmente no cladding. Com paredes PEC a distância finita, o domínio truncado suporta box modes com beta²< n_cl²·k0², que ocupam os primeiros autovalores e mascaram os modos guiados reais. Isso explica o diagnóstico smoke de fig5 (non_positive_beta2 em toda a varredura) e fig7 (outside_guided_range com b << 0 em toda a varredura).
+
+#### Critério de conclusão
+
+- [ ] Para cada ponto representativo da varredura, calcular o comprimento de decaimento evanescente 1/α usando a solução analítica de referência (Marcatili ou modo analítico da laje).
+- [ ] Verificar se a distância da interface do núcleo à parede PEC satisfaz d > 3/α; se não, aumentar o domínio nos arquivos `.geo` e recalibrar `lc`.
+- [ ] Se o domínio for suficiente, auditar a ordenação dos autovalores: o modo guiado pode não ser o primeiro retornado pelo solver denso; filtrar autovalores na faixa n_cl²·k0² < beta² < n_co²·k0².
+- [ ] Registrar o diagnóstico no dossiê (`docs/20`) antes de refinar malha ou ajustar PEC/PMC.
 
 ---
 
